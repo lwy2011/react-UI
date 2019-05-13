@@ -1,5 +1,5 @@
 {
-  "name": "rUI",
+  "name": "r-ui",
   "version": "1.0.0",
   "description": "react前端UI组件",
   "main": "index.js",
@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/liuwanyong2017/rUI/issues"
   },
-  "homepage": "https://github.com/liuwanyong2017/rUI#readme"
+  "homepage": "https://github.com/liuwanyong2017/rUI#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  }
 }
