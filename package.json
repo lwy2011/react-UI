@@ -1,0 +1,20 @@
+{
+  "name": "rUI",
+  "version": "1.0.0",
+  "description": "react前端UI组件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuwanyong2017/rUI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liuwanyong2017/rUI/issues"
+  },
+  "homepage": "https://github.com/liuwanyong2017/rUI#readme"
+}
