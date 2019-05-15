@@ -1,5 +1,5 @@
-console.log(6);
-console.log("hhaa");
+console.log(69);
+console.log("aa");
 
 function sum(a: number, b: number): number {
     console.log("test");
