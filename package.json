@@ -1,26 +1,26 @@
 {
-  "name": "r-ui",
-  "version": "1.0.0",
-  "description": "react前端UI组件",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/liuwanyong2017/rUI.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/liuwanyong2017/rUI/issues"
-  },
-  "homepage": "https://github.com/liuwanyong2017/rUI#readme",
-  "devDependencies": {
-    "awesome-typescript-loader": "^5.2.1",
-    "typescript": "^3.4.5",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2"
-  }
+    "name": "r-ui",
+    "version": "1.0.0",
+    "description": "react前端UI组件",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/liuwanyong2017/rUI.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/liuwanyong2017/rUI/issues"
+    },
+    "homepage": "https://github.com/liuwanyong2017/rUI#readme",
+    "devDependencies": {
+        "awesome-typescript-loader": "^5.2.1",
+        "typescript": "^3.4.5",
+        "webpack": "^4.31.0",
+        "webpack-cli": "^3.3.2"
+    }
 }
