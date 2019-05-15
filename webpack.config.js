@@ -1,16 +1,17 @@
 const path = require('path');
 module.exports = {
+    mode: 'production',
     entry: {
-        index: './lib/index.tsx',
+        index: './lib/index.tsx'
     },
     output: {
-        path: path.resolve('__dirname', 'dist/lib'),
+        path: path.resolve(__dirname, 'dist/lib'),
         library: 'reactUI',
         libraryTarget: "umd"
     },
     module: {
         rules: [
-            {test: /\.tsx?$/, loader: 'awesome-typescript-loader'},
+            {test: /\.tsx?$/, loader: 'awesome-typescript-loader'}
         ]
     }
 };
