@@ -1,10 +1,7 @@
 console.log(69);
 console.log("aa");
+const div = document.createElement("div");
 
-function sum(a: number, b: number): number {
-    console.log("test");
-    return a + b;
-}
-
-sum(3, 7);
+div.innerText = "刘万永";
+document.body.append(div);
 
