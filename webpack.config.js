@@ -10,6 +10,9 @@ module.exports = {
         library: '永reactUI',
         libraryTarget: "umd"
     },
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
     module: {
         rules: [
             {test: /\.tsx?$/, loader: 'awesome-typescript-loader'}
