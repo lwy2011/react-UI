@@ -12,8 +12,12 @@
         "type": "git",
         "url": "git+https://github.com/liuwanyong2017/rUI.git"
     },
-    "keywords": [],
-    "author": "",
+    "keywords": [
+        "react",
+        "UI",
+        "刘万永"
+    ],
+    "author": "刘万永",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/liuwanyong2017/rUI/issues"
