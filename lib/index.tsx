@@ -4,6 +4,6 @@ import Icon from "./icon";
 
 ReactDom.render(<div>
     <Icon name="zhifubao"/>
-    <Icon name="wechat"/>
+    <Icon name="weixin"/>
 </div>, document.getElementById("app"));
 
