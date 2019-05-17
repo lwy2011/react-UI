@@ -6,7 +6,8 @@ const iconClick: React.MouseEventHandler = (e) => {
     console.log(e.target);
 };
 ReactDom.render(<div>
-    <Icon name="alipay" onClick={iconClick} onMouseEnter={() => console.log("enter")}
+    <Icon name="alipay" onClick={iconClick}
+          onMouseEnter={() => console.log("enter")}
           onMouseLeave={() => console.log("leave")}/>
     <Icon name="QQ"/>
     <Icon name="weixin"/>
