@@ -1,7 +1,8 @@
-console.log(69);
 import React from "react";
 import ReactDom from "react-dom";
-import Button from "./button";
+import Icon from "./icon";
 
-ReactDom.render(<Button/>, document.getElementById("app"));
+ReactDom.render(<div>
+    <Icon name="zhifubao"/>
+</div>, document.getElementById("app"));
 
