@@ -3,7 +3,8 @@ import ReactDom from "react-dom";
 import Icon from "./icon";
 
 ReactDom.render(<div>
-    <Icon name="zhifubao"/>
+    <Icon name="alipay"/>
+    <Icon name="QQ"/>
     <Icon name="weixin"/>
 </div>, document.getElementById("app"));
 

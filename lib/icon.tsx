@@ -1,6 +1,8 @@
 import React from "react";
-import "../icons/weixin.svg";
-
+// import "../icons/weixin.svg";
+// import "../icons/alipay.svg";
+// import "../icons/QQ.svg";
+import "./importicons.js";
 
 interface IconProps {
     name: string;
