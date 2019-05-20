@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+//加入
+exports[`button 是个div 1`] = `
+<div>
+  button
+</div>
+`;

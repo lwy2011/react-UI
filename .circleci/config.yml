@@ -25,7 +25,7 @@ jobs:                   #要做的步骤
     <<: *defaults
     steps:
       - checkout          #迁出代码
-      - attach_workspace:      #把上面的node_moduse拿过来
+      - attach_workspace:      #把上面的node_modules拿过来
           at: .
       - run: yarn build
       - persist_to_workspace:
@@ -42,13 +42,13 @@ jobs:                   #要做的步骤
       - store_test_results:       #测试结果输出
           path: test-results
 
-workflows:
+workflows:          #流程
   version: 2
   build_accept_deploy:
     jobs:
       - prepare
       - build:
-          requires:
+          requires:    #各个流程间的依赖，决定了流程执行顺序
             - test
       - test:
           requires:
