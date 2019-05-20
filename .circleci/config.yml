@@ -36,7 +36,7 @@ jobs:                   #要做的步骤
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
+      - attach_workspace:       #把缓存的代码拿过来
           at: .
       - run: yarn ci            #添加ci script
       - store_test_results:       #测试结果输出

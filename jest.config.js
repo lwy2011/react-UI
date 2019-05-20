@@ -7,7 +7,7 @@ module.exports = {
     collectCoverageFrom: ["lib/**/*.{ts,tsx}", "!**/node_modules/**"],//测试的文件匹配
     coverageDirectory: 'coverage',//生成的报告放在哪
     coverageReporters: ['text', 'lcov'],//两个常用的报告
-    reporters: ["default"],
+    reporters: ["default", "jest-junit"],
     // reporters: ["default", "jest-junit"],
 
     // globals: {
