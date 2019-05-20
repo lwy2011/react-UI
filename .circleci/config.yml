@@ -1,16 +1,16 @@
 #https://github.com/revolunet/create-react-app-circleci/blob/master/.circleci/config.yml
-defaults: &defaults
+defaults: &defaults      //引用默认值
   docker:
-    - image: circleci/node:8
+      - image: circleci/node:8        //node8
 
-version: 2
-jobs:
-  prepare:
+version: 2              //circleci的版本
+jobs:                   //要做的步骤
+  prepare:              //第一步，为node依赖们做缓存快照，加速缓存，省时间。
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
-          keys:
+          keys:                                     //以package.json的MD5做对比
             - v2-dependencies-{{ checksum "package.json" }}
       - run: yarn install
       - save_cache:
@@ -24,8 +24,8 @@ jobs:
   build:
     <<: *defaults
     steps:
-      - checkout
-      - attach_workspace:
+      - checkout          //迁出代码
+      - attach_workspace:      //把上面的node_moduse拿过来
           at: .
       - run: yarn build
       - persist_to_workspace:
@@ -38,8 +38,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: yarn ci
-      - store_test_results:
+      - run: yarn ci            //添加ci script
+      - store_test_results:       //测试结果输出
           path: test-results
 
 workflows:
