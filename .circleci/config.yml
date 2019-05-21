@@ -69,6 +69,6 @@ workflows:          #流程
             - build
           filters:
             branches:
-              ignore:/.*/
+              ignore: /.*/
             tags:
               only: /^v[0-9]+(\.[0-9]+)*/
