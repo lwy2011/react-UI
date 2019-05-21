@@ -50,7 +50,8 @@ jobs:                   #要做的步骤
     steps:
       - attach_workspace:      #把上面的codes拿过来
           at: .
-      - run: yarn publish
+      - run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+      - run: npm publish
 
 workflows:          #流程
   version: 2
