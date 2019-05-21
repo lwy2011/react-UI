@@ -32,6 +32,9 @@ jobs:                   #要做的步骤
           root: .
           paths:
             - dist
+            - README.md
+            - package.json
+            - LICENSE
   test:
     <<: *defaults
     steps:
@@ -41,6 +44,13 @@ jobs:                   #要做的步骤
       - run: yarn ci            #添加ci script
       - store_test_results:       #测试结果输出
           path: test-results
+
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:      #把上面的codes拿过来
+          at: .
+      - run: yarn publish
 
 workflows:          #流程
   version: 2
@@ -53,3 +63,6 @@ workflows:          #流程
       - test:
           requires:
             - prepare
+      - publish:
+          requires:
+            - build
