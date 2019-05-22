@@ -1,14 +1,76 @@
 .page {
     width: 100%;$font: 14px;
     font-size: $font;
-    padding: 2em 1em;
+    @mixin padding {
+        padding: 1em;
+    };
+    $lineColor: RGBA(161, 161, 161, 1.00);
+    $activeColor: #fff4c2;
+
+    > header {
+        background: RGBA(36, 36, 36, 1.00);
+        @include padding();color: $activeColor;
+    }
 
     > div {
-        display: inline-flex;
+        display: flex;background: RGBA(244, 244, 244, 1.00);
+        justify-content: space-between;flex-wrap: wrap;
 
         > aside {
             max-width: 8em;
-            margin-right: 2em;
+            margin-right: 1em;
+            @include padding();
+            background: RGBA(138, 136, 110, 1.00);
+
+            a {
+                color: RGBA(252, 217, 214, 1.00);
+
+                &:hover {
+                    opacity: .6;
+                }
+
+                &.active {color: $activeColor;}
+            }
+
+            > ul {
+                > li {
+                    padding: .5em 0;
+
+                    > header {
+                        cursor: pointer;
+
+                        > svg {
+                            vertical-align: middle;fill: $lineColor;
+                        }
+
+                        > span {
+                            color: $lineColor;margin-left: 0.5em;
+                        }
+
+                        &.active {
+                            > span {color: $activeColor;}
+
+                            > svg {fill: $activeColor;}
+                        }
+
+                    }
+                }
+            }
+        }
+
+        > main {
+            @include padding();border-left: 1px solid $lineColor;
+            font-size: 1.2em;
+            min-width: 200px;
+            width: calc(100% - 9rem);
+
+            > h3 {
+                color: $lineColor;border-bottom: 1px solid $lineColor;
+            }
+
+            > h4 {
+                color: $lineColor;text-align: center;
+            }
         }
     }
 }
