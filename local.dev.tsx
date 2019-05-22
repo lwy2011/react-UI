@@ -1,14 +1,28 @@
 import React from "react";
 import ReactDom from "react-dom";
-import Icon from "./lib/icon/icon";
+import {HashRouter as Router, Route, Link} from "react-router-dom";
+import Icon from "./lib/icon/icon.example";
 
-const iconClick: React.MouseEventHandler = (e) => {
-    console.log(e.target);
-};
-ReactDom.render(<div>
-    <Icon name="alipay" onClick={iconClick}
-          onMouseEnter={() => console.log("enter")}
-          onMouseLeave={() => console.log("leave")}/>
-    <Icon name="QQ"/>
-    <Icon name="weixin"/>
-</div>, document.getElementById("app"));
+import "./local.dev.scss";
+
+//本地开发的页面所用，不涉及上传包，测试
+ReactDom.render(<div className="page">
+        <header>
+            <h3>React UI</h3>
+        </header>
+        <div>
+            <Router>
+                <aside>
+                    <ul>
+                        <li>
+                            <Link to="icon">svg图标</Link>
+                        </li>
+                    </ul>
+                </aside>
+                <main>
+                    <Route path="/icon" component={Icon}/>
+                </main>
+            </Router>
+        </div>
+    </div>
+    , document.getElementById("app"));

@@ -18,5 +18,17 @@ module.exports = Object.assign({}, base, {
             amd: 'react-dom',
             root: 'ReactDOM',
         },
+        'react-router-dom': {
+            commonjs: 'react-router-dom',
+            commonjs2: 'react-router-dom',
+            amd: 'react-router-dom',
+            root: 'ReactRouterDOM',
+        },
+        'react-router': {
+            commonjs: 'react-router',
+            commonjs2: 'react-router',
+            amd: 'react-router',
+            root: 'ReactRouter',
+        },
     }
 });

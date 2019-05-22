@@ -1,0 +1,26 @@
+.page {
+    width: 100%;$font: 14px;
+    font-size: $font;
+    padding: 2em 1em;
+
+    > div {
+        display: inline-flex;
+
+        > aside {
+            max-width: 8em;
+            margin-right: 2em;
+        }
+    }
+}
+
+* {
+    margin: 0;padding: 0;box-sizing: border-box;
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+}
