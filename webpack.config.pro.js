@@ -2,6 +2,9 @@ const base = require('./webpack.config.js');
 
 module.exports = Object.assign({}, base, {
     mode: 'production',
+    entry: {
+        index: './lib/index.tsx'
+    },
     externals: {
         react: {
             commonjs: 'react',

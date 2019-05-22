@@ -4,10 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = Object.assign({}, base, {
     mode: "development",
+    entry: {
+        index: './local.dev.tsx'
+    },
     plugins: [
         new HtmlWebpackPlugin({
             title: '永：react-UI',
-            template: "index.html"
+            template: "local.dev.html"
         })
     ]
 });
