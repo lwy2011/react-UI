@@ -3,11 +3,11 @@
 module.exports = {
     verbose: true,
     clearMocks: false,
-    collectCoverage: true,  //是否收集测试覆盖率
-    collectCoverageFrom: ["lib/**/*.{ts,tsx}", "!**/node_modules/**"],//测试的文件匹配
-    coverageDirectory: 'coverage',//生成的报告放在哪
-    coverageReporters: ['text', 'lcov'],//两个常用的报告
-    reporters: ["default", "jest-junit"],
+    collectCoverage: false,  //是否收集测试覆盖率
+    // collectCoverageFrom: ["lib/**/*.{ts,tsx}", "!**/node_modules/**"],//测试的文件匹配
+    // coverageDirectory: 'coverage',//生成的报告放在哪
+    // coverageReporters: ['text', 'lcov'],//两个常用的报告
+    reporters: ["default"],
     // reporters: ["default", "jest-junit"],
 
     // globals: {
@@ -28,3 +28,5 @@ module.exports = {
     },
     setupFilesAfterEnv: ["<rootDir>test/setupTests.js"]
 };
+
+//本地运行test单元测试的配置，独立出去ci的配置了
