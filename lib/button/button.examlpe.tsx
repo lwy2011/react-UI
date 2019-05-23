@@ -7,6 +7,8 @@ const Buttons: React.FunctionComponent = () => {
     return (
         <div className='buttons'>
             <Button message='ok'/>
+            <Button icon="left"/>
+            <Button icon="right"/>
             <Button message="向下" icon='down'/>
             <Button message="向下" icon='down' right={true}/>
             <Button message="下载" icon='loading' loading={loading} onClick={() => setLoading(!loading)}/>
