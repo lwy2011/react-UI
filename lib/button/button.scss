@@ -1,0 +1,14 @@
+.yr-button {
+    display: inline-flex;
+    padding: .2em .5em;
+    border: 1px solid RGBA(161, 161, 161, 1.00);
+    border-radius: 4px;
+
+    &:active {background: #7f7f7f;}
+
+    cursor: pointer;
+    background: #eeeeee; vertical-align: middle;
+
+    align-items: center;
+
+}

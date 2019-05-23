@@ -1,11 +1,12 @@
+@import "./lib/index";
+@import "./lib/_helper.scss";
 .page {
     width: 100%;$font: 14px;
     font-size: $font;
     @mixin padding {
         padding: 1em;
     };
-    $lineColor: RGBA(161, 161, 161, 1.00);
-    $activeColor: #fff4c2;
+
 
     > header {
         background: RGBA(36, 36, 36, 1.00);
@@ -60,7 +61,6 @@
 
         > main {
             @include padding();border-left: 1px solid $lineColor;
-            font-size: 1.2em;
             min-width: 200px;
             width: calc(100% - 9rem);
 
@@ -71,18 +71,21 @@
             > h4 {
                 color: $lineColor;text-align: center;
             }
+
+            > .buttons {
+                > .yr-button {
+                    margin: .5em;
+                }
+            }
+
+            > .dialogs {
+                display: inline-flex;justify-content: space-between;flex-wrap: wrap;
+
+                > .yr-button {
+                    margin: .5em 0;
+                }
+            }
         }
     }
 }
 
-* {
-    margin: 0;padding: 0;box-sizing: border-box;
-
-    li {
-        list-style: none;
-    }
-
-    a {
-        text-decoration: none;
-    }
-}
