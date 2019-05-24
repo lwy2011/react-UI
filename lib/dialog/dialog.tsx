@@ -1,9 +1,9 @@
 import * as React from "react";
 import ReactDom from "react-dom";
 import "./dialog.scss";
-import {Fragment, ReactElement} from "react";
-import Icon from "../icon/icon";
+import {Fragment, ReactElement, ReactNode} from "react";
 import {scopeClassName} from "../classes";
+import Button from "../button/button";
 
 
 interface props extends React.HTMLAttributes<HTMLElement> {
@@ -11,29 +11,31 @@ interface props extends React.HTMLAttributes<HTMLElement> {
     close: React.MouseEventHandler,
     maskClickToClose?: boolean,
     buttons?: Array<ReactElement>,
-    title?: string
+    title?: string,
+    maskNeed?: boolean
 }
 
 
 const sc = scopeClassName("yr-dialog");
 
-const Dialog: React.FunctionComponent<props> = ({visible, children, buttons, close, title, maskClickToClose}) => {
+const Dialog: React.FunctionComponent<props> = ({visible, children, buttons, close, title, maskClickToClose, maskNeed}) => {
     const x = visible && <Fragment>
-        <div className={sc("mask")} onClick={(e) => maskClickToClose && close(e)}/>
+        {maskNeed && <div className={sc("mask")} onClick={(e) => maskClickToClose && close(e)}/>}
         <div className="yr-dialog">
-            <div className={sc("close")} onClick={close}>
-                <Icon name="close"/>
-            </div>
+            <Button className={sc("close")} onClick={close} icon="close" padding='0'/>
+
             {title && <header className={sc("header")}>
                 <h3>{title}</h3>
             </header>}
             <main className={sc("main")}>{children}</main>
             {buttons && <footer className={sc("footer")}>
-                {buttons!.map(
-                    (value, index) => <Fragment key={index}>
-                        {value}
-                    </Fragment>
-                )}
+                {
+                    buttons && buttons[0] && buttons.map(
+                        (value, index) => <Fragment key={index}>
+                            {value}
+                        </Fragment>
+                    )
+                }
             </footer>}
         </div>
     </Fragment>;
@@ -43,22 +45,47 @@ const Dialog: React.FunctionComponent<props> = ({visible, children, buttons, clo
 };
 
 Dialog.defaultProps = {
-    maskClickToClose: false
+    maskClickToClose: false, maskNeed: true
 };
-const alert = (content: string) => {
-    const component = <Dialog visible={true} maskClickToClose={true} close={
-        () => {
-            ReactDom.render(React.cloneElement(component, {visible: false})
-                , div);
-            ReactDom.unmountComponentAtNode(div);
-            div.remove();
-        }
-    }>
-        {content}
-    </Dialog>;
+
+const modal = (content: ReactNode, buttons?: Array<ReactElement>) => {
     const div = document.createElement("div");
     document.body.append(div);
+    const closeFn = () => {
+        ReactDom.render(React.cloneElement(component, {visible: false})
+            , div);
+        ReactDom.unmountComponentAtNode(div);
+        div.remove();
+    };
+    const component =
+        <Dialog visible={true}
+                maskClickToClose={true}
+                buttons={buttons}
+                close={closeFn}>
+            {content}
+        </Dialog>;
+
     ReactDom.render(component, div);
+    return closeFn;
 };
-export {alert};
+const alert = (content: ReactNode) => {
+    const buttons = [<Button message="ok" onClick={() => alert()}/>];
+    const alert = modal(content, buttons);
+};
+const confirm = (content: ReactNode, yes?: () => void, no?: () => void) => {
+    const buttons = [
+        <Button message="yes" onClick={() => {
+            closeFn();
+            yes && yes();
+        }}/>,
+        <Button message="no" onClick={() => {
+            closeFn();
+            no && no();
+        }}/>
+    ];
+    const closeFn = modal(content, buttons);
+};
+
+
+export {alert, confirm, modal};
 export default Dialog;

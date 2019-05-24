@@ -1,4 +1,5 @@
 .yr-button {
+    $warningColor: RGBA(255, 77, 79, 1.00);
     display: inline-flex;
     padding: .2em .5em;
     border: 1px solid RGBA(161, 161, 161, 1.00);
@@ -6,9 +7,31 @@
 
     &:active {background: #7f7f7f;}
 
+    vertical-align: middle;
     cursor: pointer;
-    background: #eeeeee; vertical-align: middle;
-
+    background: #eeeeee;
+    justify-content: center;
     align-items: center;
+    color: #888888;
 
+    &:hover {opacity: .7;}
+
+    > svg {
+        width: 1em;height: 1em;
+    }
+
+    > span {
+        line-height: 1em;display: table;vertical-align: middle;
+    }
+
+    &.disabled {background: #666;cursor: none;}
+
+    &.warning {
+        color: $warningColor;
+
+        &:hover {
+            color: #fff;
+            background: $warningColor;
+        }
+    }
 }

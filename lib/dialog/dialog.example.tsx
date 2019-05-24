@@ -1,4 +1,4 @@
-import Dialog, {alert} from "./dialog";
+import Dialog, {alert, confirm, modal} from "./dialog";
 import * as React from "react";
 import {useState} from "react";
 import Button from "../button/button";
@@ -17,7 +17,9 @@ const Dialogs: React.FunctionComponent = () => {
 
         console.log(type, index);
     };
-
+    const openModal = () => {
+        const modalClose = modal(<h3>"你好！"<Button message="close" onClick={() => modalClose()}/></h3>);
+    };
     return (
         <div className="dialogs">
             <Button message="dialog1" onClick={() => setShow(!show)}/>
@@ -25,6 +27,12 @@ const Dialogs: React.FunctionComponent = () => {
             <Button message="dialog3" onClick={() => setShow2(!show2)}/>
             <Button message="dialog4" onClick={() => setShow3(!show3)}/>
             <Button message="alert" onClick={() => alert("alert")}/>
+            <Button message="modal"
+                    onClick={openModal}/>
+            <Button message="confirm"
+                    onClick={
+                        () =>
+                            confirm("confirm", () => {setShow(!show);}, () => {console.log("no");})}/>
 
             <Dialog visible={show}
                     title="提示"

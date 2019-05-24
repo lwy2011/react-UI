@@ -32,10 +32,10 @@
 
     &-close {
         position: absolute;font-size: 14px;
-        bottom: 100%;width: 1.2em;height: 1.2em;
+        bottom: 100%;width: 1em;height: 1em;
         left: 100%;border-radius: 50%;background: RGBA(254, 97, 88, 1.00);
         transform: translate(-50%, 50%);
-        display: flex;justify-content: center;align-items: center;
+        border: none;
         cursor: pointer;
 
         > svg {
