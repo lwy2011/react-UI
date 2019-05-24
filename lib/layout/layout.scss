@@ -1,0 +1,10 @@
+@import "../_helper.scss";
+
+.yr-layout {
+    border: 1px solid royalblue;
+    display: flex;flex-direction: column;
+
+    &-content {
+        flex-grow: 1;border: 1px solid $blue;
+    }
+}

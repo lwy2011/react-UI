@@ -6,6 +6,7 @@ import Icon from "./lib/icon/icon";
 import "./local.dev.scss";
 import Buttons from "./lib/button/button.examlpe";
 import Dialogs from "./lib/dialog/dialog.example";
+import LayoutExample from "./lib/layout/example";
 
 
 interface componentNames {
@@ -16,7 +17,8 @@ const firstTabs: string[] = ["入门", "组件"];
 const names: componentNames = {
     icon: "svg图标",
     button: "按钮",
-    dialog: "对话框"
+    dialog: "对话框",
+    layout: "布局"
 };
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
@@ -66,6 +68,7 @@ const RouterView: React.FunctionComponent = () => {
                 <Route path="/icon" component={Icons}/>
                 <Route path="/button" component={Buttons}/>
                 <Route path="/dialog" component={Dialogs}/>
+                <Route path="/layout" component={LayoutExample}/>
 
             </main>
         </Router>
