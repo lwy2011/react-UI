@@ -1,8 +1,8 @@
+@import "../_helper.scss";
 .yr-button {
-    $warningColor: RGBA(255, 77, 79, 1.00);
     display: inline-flex;
     padding: .2em .5em;
-    border: 1px solid RGBA(161, 161, 161, 1.00);
+    border: 1px solid $lineColor;
     border-radius: 4px;
 
     &:active {background: #7f7f7f;}

@@ -10,21 +10,18 @@ interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     icon?: string,
     right?: Boolean,
     loading?: Boolean,
-    padding?: string,
     iconMargin?: string,
     disabled?: boolean,
 }
 
 const Button: React.FunctionComponent<ButtonProps> =
-    ({message, icon, right, loading, className, padding, iconMargin, disabled, onClick, ...rest}) => {
+    ({message, icon, right, loading, className, iconMargin, disabled, onClick, ...rest}) => {
         const cases: string = loading ? "loading" : icon ? icon : "";
 
         return (
             <div className={classes("yr-button", className, disabled ? "disabled" : "")}
                  {...rest}
-                 style={padding ? {"padding": padding} : {}}
-                 onClick={(e) => !disabled && onClick && onClick(e)}
-            >
+                 onClick={(e) => !disabled && onClick && onClick(e)}>
                 {
                     cases &&
                     <Icon name={cases}
@@ -35,11 +32,12 @@ const Button: React.FunctionComponent<ButtonProps> =
                 {
                     message &&
                     <span style={right ? {"order": 1} : icon ? {"order": 2, "marginLeft": (iconMargin || ".5em")} : {}}>
-                    {message}
-                </span>
+                        {message}
+                    </span>
                 }
             </div>
         );
     };
+
 
 export default Button;
