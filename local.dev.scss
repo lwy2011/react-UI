@@ -1,5 +1,6 @@
 @import "./lib/index";
 @import "./lib/_helper.scss";
+
 .page {
     width: 100%;
     font-size: $font;
@@ -70,6 +71,7 @@
 
             > h4 {
                 color: $lineColor;text-align: center;
+                margin: 1em 0;
             }
 
             > .buttons {
@@ -81,16 +83,44 @@
             > .dialogs {
                 display: inline-flex;justify-content: space-between;flex-wrap: wrap;
                 width: 100%;
+
                 > .yr-button {
                     margin: .5em 0;
                 }
             }
 
             > .yr-layoutExample {
-                height: 90%;
+                padding: 1em 0;
+                color: #fff;
+                background: #EBE5AB;
+
+                h3 {color: $lineColor;margin: 2em 0; text-align: center;}
 
                 > .yr-layout {
-                    margin: 3em 0;
+                    margin: 3em 0;max-width: 500px;
+                    background: $lineColor;
+                    border-bottom: 1px solid $lineColor;
+                }
+
+                font-weight: 700;
+
+                .yr-layout-header {
+                    background: #8994F1;
+                    margin: 5px;line-height: 3em;
+                }
+
+                .yr-layout-content {
+                    background: lighten(#8994F1, 10%); margin: 5px;
+
+                }
+
+                .yr-layout-footer {
+                    background: #8994F1; margin: 5px;line-height: 3em;
+
+                }
+
+                .yr-layout-aside {
+                    background: #58725F;margin: 5px;min-width: 4em;width: 40%;
                 }
             }
         }

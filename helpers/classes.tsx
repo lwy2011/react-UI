@@ -7,9 +7,10 @@ interface classToggles {
     [k: string]: boolean
 }
 
-function scopeClassName(fix: string) {
-    return function (name?: string | classToggles, extra?: string | undefined) {
-        const nameArr = typeof name === "string" ? [name] :
+const scopeClassName = (fix: string) => {
+    return (name?: string | classToggles, extra?: string) => {
+        const nameArr = typeof name === "string" ?
+            [name] :
             name && Object.entries(name).filter(val => val[1]).map(val => val[0]);
 
         const val = nameArr ?
@@ -17,8 +18,8 @@ function scopeClassName(fix: string) {
                 (a, b) => a + (a ? " " : "") + [fix, b].filter(Boolean).join("-"), ""
             ) : fix;
 
-        return extra ? [val, extra].filter(Boolean).join(" ") : val;
+        return extra ? val + " " + extra : val;
     };
-}
+};
 
 export {scopeClassName};

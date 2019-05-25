@@ -9,7 +9,7 @@ import Aside from "./aside";
 const LayoutExample: React.FunctionComponent = () => {
     return (
         <div className='yr-layoutExample'>
-            <h3>—— "架子" ——</h3>
+            <h3>—— 架子 ——</h3>
             <Layout className="hh" style={{"height": "300px"}}>
                 <Header>
                     header
@@ -21,7 +21,7 @@ const LayoutExample: React.FunctionComponent = () => {
                     footer
                 </Footer>
             </Layout>
-            <h3>—— "演变1" ——</h3>
+            <h3>—— 演变1 ——</h3>
             <Layout className="hh" style={{"height": "300px"}}>
                 <Header>
                     header
@@ -34,7 +34,7 @@ const LayoutExample: React.FunctionComponent = () => {
                     footer
                 </Footer>
             </Layout>
-            <h3>—— "演变2" ——</h3>
+            <h3>—— 演变2 ——</h3>
             <Layout className="hh" style={{"height": "300px"}}>
                 <Header>
                     header
@@ -47,7 +47,7 @@ const LayoutExample: React.FunctionComponent = () => {
                     footer
                 </Footer>
             </Layout>
-            <h3>—— "演变3" ——</h3>
+            <h3>—— 演变3 ——</h3>
             <Layout className="hh" style={{"height": "300px"}}>
                 <Aside>aside</Aside>
                 <Layout>
@@ -60,9 +60,6 @@ const LayoutExample: React.FunctionComponent = () => {
                     </Footer>
                 </Layout>
 
-            </Layout>
-            <Layout>
-                <h1>1</h1>
             </Layout>
         </div>
     );

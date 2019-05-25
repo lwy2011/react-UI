@@ -10,7 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 const Footer: React.FunctionComponent<Props> = ({className, ...rest}) => {
     return (
         <div className={sc("footer", className)}{...rest}>
-            footer
+            {rest.children}
         </div>
     );
 };
