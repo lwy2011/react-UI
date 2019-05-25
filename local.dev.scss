@@ -1,7 +1,7 @@
 @import "./lib/index";
 @import "./lib/_helper.scss";
 .page {
-    width: 100%;$font: 14px;
+    width: 100%;
     font-size: $font;
     @mixin padding {
         padding: 1em;
@@ -18,7 +18,7 @@
         justify-content: space-between;flex-wrap: wrap;
 
         > aside {
-            max-width: 8em;
+            max-width: 8em;min-height: 700px;
             margin-right: 1em;
             @include padding();
             background: RGBA(138, 136, 110, 1.00);
@@ -83,6 +83,14 @@
                 width: 100%;
                 > .yr-button {
                     margin: .5em 0;
+                }
+            }
+
+            > .yr-layoutExample {
+                height: 90%;
+
+                > .yr-layout {
+                    margin: 3em 0;
                 }
             }
         }

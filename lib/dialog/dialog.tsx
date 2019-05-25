@@ -2,8 +2,8 @@ import * as React from "react";
 import ReactDom from "react-dom";
 import "./dialog.scss";
 import {Fragment, ReactElement, ReactNode} from "react";
-import {scopeClassName} from "../classes";
 import Button from "../button/button";
+import {scopeClassName} from "../../helpers/classes";
 
 
 interface props extends React.HTMLAttributes<HTMLElement> {

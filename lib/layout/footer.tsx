@@ -1,5 +1,5 @@
 import * as React from "react";
-import {scopeClassName} from "../classes";
+import {scopeClassName} from "../../helpers/classes";
 
 const sc = scopeClassName("yr-layout");
 

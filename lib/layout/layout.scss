@@ -1,10 +1,22 @@
 @import "../_helper.scss";
 
 .yr-layout {
-    border: 1px solid royalblue;
+    border: 1px solid $warningColor;
     display: flex;flex-direction: column;
 
-    &-content {
+    &-content, & & {
         flex-grow: 1;border: 1px solid $blue;
+    }
+
+    & & {
+        flex-direction: row;
+    }
+
+    &-hasAside {
+        flex-direction: row;display: flex;flex-grow: 1;
+
+        .yr-layout {
+            flex-direction: column;
+        }
     }
 }
