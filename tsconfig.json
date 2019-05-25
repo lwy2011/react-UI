@@ -31,6 +31,9 @@
     "include": [
         "lib/**/*"
     ],
+    "files": [
+        "lib/types/custom.d.ts"
+    ],
     "exclude": [
         "node_modules",
         "build",

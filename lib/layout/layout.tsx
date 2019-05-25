@@ -3,6 +3,9 @@ import "./layout.scss";
 import {ReactElement} from "react";
 import Aside from "./aside";
 import {scopeClassName} from "../../helpers/classes";
+import Header from "./header";
+import Content from "./content";
+import Footer from "./footer";
 
 const sc = scopeClassName("yr-layout");
 
@@ -11,7 +14,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Layout: React.FunctionComponent<Props> = ({className, children, ...rest}) => {
-    console.log(children,);
+    // console.log(children,);
     const childrenArr = children as Array<ReactElement>;
     const hasAside = !!(childrenArr.length > 0 &&
         childrenArr.reduce(
@@ -25,3 +28,4 @@ const Layout: React.FunctionComponent<Props> = ({className, children, ...rest}) 
 };
 
 export default Layout;
+export {Header, Layout, Content, Footer, Aside};

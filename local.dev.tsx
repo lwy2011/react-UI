@@ -7,11 +7,12 @@ import "./local.dev.scss";
 import Buttons from "./lib/button/button.examlpe";
 import Dialogs from "./lib/dialog/dialog.example";
 import LayoutExample from "./lib/layout/example";
-import Layout from "./lib/layout/layout";
-import Header from "./lib/layout/header";
-import Aside from "./lib/layout/aside";
-import Content from "./lib/layout/content";
-import Footer from "./lib/layout/footer";
+import {Layout, Header, Content, Footer, Aside} from "./lib/layout/layout";
+
+// import Logo from './imgs/yr_ui.png'
+// import title from './imgs/title.jpg'
+const Logo = require("./imgs/yr_ui.png");
+const Title = require("./imgs/title.jpg");
 
 
 interface componentNames {
@@ -86,11 +87,40 @@ const App: FunctionComponent = () => {
 
     return <Layout className="page">
         <Header>
-            <h3>React UI</h3>
+            <img src={Logo} alt="img"/>
+            <img src={Title} alt="img"/>
         </Header>
         <RouterView/>
         <Footer>
-            footer
+            <Layout>
+                <Aside>
+                    <a href="https://github.com/liuwanyong2017/rUI-test">
+                        <Icon name="github"/>
+                    </a>
+                </Aside>
+                <Content>
+                    <h4>
+                        <span> {"yongr-ui"}</span>
+                        <Icon name="copyright"/>
+                        <span>{"刘万永"}</span>
+                    </h4>
+                    <a href="mailto:2674706698@qq.com">
+                        <Icon name="email"/>
+                        <span>{"2674706698@qq.com"}</span>
+                    </a>
+                    <p>
+                        <Icon name="phone"/>
+                        <span>{"17620338522"}</span>
+                    </p>
+                </Content>
+                <Aside>
+                    <a href="http://www.zhihu.com/people/liu-zhao-wan-tiao-yong-yuan-de-he?utm_source=qq&utm_medium=social&utm_oi=884709808798846976">
+                        <Icon name="zhihu"/>
+                    </a>
+                </Aside>
+            </Layout>
+
+
         </Footer>
     </Layout>;
 };

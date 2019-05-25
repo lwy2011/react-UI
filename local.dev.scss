@@ -7,11 +7,29 @@
     @mixin padding {
         padding: 1em;
     };
-
+    background: #FFFBE5;
 
     > .yr-layout-header {
-        background: RGBA(36, 36, 36, 1.00);
-        @include padding();color: $activeColor;
+        background: #656565;
+        color: $activeColor;
+        height: 5em;
+        position: relative;
+
+        > img {
+            height: 100%;
+        }
+
+
+    }
+
+    > .yr-layout-footer {
+        background: lighten(#857516, 60%);
+        padding: 1em;
+        text-align: center; color: lighten(#000, 40%);
+
+        svg, span {
+            vertical-align: middle;margin: 0 .3em;
+        }
     }
 
     > .yr-layout {
@@ -19,7 +37,7 @@
         flex-wrap: wrap;
 
         > .yr-layout-aside {
-            max-width: 8em;min-height: 700px;
+            max-width: 8em;min-height: 100%;
             margin-right: 1em;
             @include padding();
             background: RGBA(138, 136, 110, 1.00);
@@ -62,7 +80,7 @@
 
         > .yr-layout-content {
             @include padding();border-left: 1px solid $lineColor;
-            min-width: 200px;
+            min-width: 150px;
             width: calc(100% - 9rem);
 
             > h3 {

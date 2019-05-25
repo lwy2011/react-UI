@@ -1,4 +1,4 @@
-[class^=yr-] {
+[class^=yr-], * {
     box-sizing: border-box;
 
     &:after, &:before {box-sizing: border-box;}
@@ -12,6 +12,6 @@
     }
 
     a {
-        text-decoration: none;
+        text-decoration: none; color: currentColor;
     }
 }
