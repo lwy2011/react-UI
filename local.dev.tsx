@@ -7,6 +7,11 @@ import "./local.dev.scss";
 import Buttons from "./lib/button/button.examlpe";
 import Dialogs from "./lib/dialog/dialog.example";
 import LayoutExample from "./lib/layout/example";
+import Layout from "./lib/layout/layout";
+import Header from "./lib/layout/header";
+import Aside from "./lib/layout/aside";
+import Content from "./lib/layout/content";
+import Footer from "./lib/layout/footer";
 
 
 interface componentNames {
@@ -30,61 +35,64 @@ const RouterView: React.FunctionComponent = () => {
     });
     return (
         <Router>
-            <aside>
-                {
-                    firstTabs.map(
-                        val => <ul key={val}>
-                            <li>
-                                <header onClick={() => {
-                                    setFirTab(val);
-                                    setFirShow(!firShow);
-                                }}
-                                        className={
-                                            firTab === val ? "active" : ""
-                                        }>
-                                    <Icon name={firTab === val && firShow ? "up" : "down"}/>
-                                    <span>{val}</span>
-                                </header>
-                            </li>
-                            {
-                                firTab === "组件" && val === "组件" && firShow &&
-                                Object.keys(names).map(
-                                    key => <li key={key} onClick={() => setTab(key)}>
-                                        <Link to={`/${key}`}
-                                              className={tab === key ? "active" : ""}>
-                                            {names[key]}
-                                        </Link>
-                                    </li>
-                                )
-                            }
+            <Layout>
+                <Aside>
+                    {
+                        firstTabs.map(
+                            val => <ul key={val}>
+                                <li>
+                                    <header onClick={() => {
+                                        setFirTab(val);
+                                        setFirShow(!firShow);
+                                    }}
+                                            className={
+                                                firTab === val ? "active" : ""
+                                            }>
+                                        <Icon name={firTab === val && firShow ? "up" : "down"}/>
+                                        <span>{val}</span>
+                                    </header>
+                                </li>
+                                {
+                                    firTab === "组件" && val === "组件" && firShow &&
+                                    Object.keys(names).map(
+                                        key => <li key={key} onClick={() => setTab(key)}>
+                                            <Link to={`/${key}`}
+                                                  className={tab === key ? "active" : ""}>
+                                                {names[key]}
+                                            </Link>
+                                        </li>
+                                    )
+                                }
 
-                        </ul>
-                    )
-                }
-            </aside>
-            <main>
-                <h3>{firTab}</h3>
-                <h4>{tab}</h4>
-                <Route path="/icon" component={Icons}/>
-                <Route path="/button" component={Buttons}/>
-                <Route path="/dialog" component={Dialogs}/>
-                <Route path="/layout" component={LayoutExample}/>
+                            </ul>
+                        )
+                    }
+                </Aside>
+                <Content>
+                    <h3>{firTab}</h3>
+                    <h4>{tab}</h4>
+                    <Route path="/icon" component={Icons}/>
+                    <Route path="/button" component={Buttons}/>
+                    <Route path="/dialog" component={Dialogs}/>
+                    <Route path="/layout" component={LayoutExample}/>
+                </Content>
+            </Layout>
 
-            </main>
         </Router>
     );
 };
 const App: FunctionComponent = () => {
 
 
-    return <div className="page">
-        <header>
+    return <Layout className="page">
+        <Header>
             <h3>React UI</h3>
-        </header>
-        <div>
-            <RouterView/>
-        </div>
-    </div>;
+        </Header>
+        <RouterView/>
+        <Footer>
+            footer
+        </Footer>
+    </Layout>;
 };
 //本地开发的页面所用，不涉及上传包，测试
 ReactDom.render(<App/>

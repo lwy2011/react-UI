@@ -9,16 +9,16 @@
     };
 
 
-    > header {
+    > .yr-layout-header {
         background: RGBA(36, 36, 36, 1.00);
         @include padding();color: $activeColor;
     }
 
-    > div {
-        display: flex;background: RGBA(244, 244, 244, 1.00);
-        justify-content: space-between;flex-wrap: wrap;
+    > .yr-layout {
+        background: RGBA(244, 244, 244, 1.00);
+        flex-wrap: wrap;
 
-        > aside {
+        > .yr-layout-aside {
             max-width: 8em;min-height: 700px;
             margin-right: 1em;
             @include padding();
@@ -60,7 +60,7 @@
             }
         }
 
-        > main {
+        > .yr-layout-content {
             @include padding();border-left: 1px solid $lineColor;
             min-width: 200px;
             width: calc(100% - 9rem);
@@ -120,7 +120,7 @@
                 }
 
                 .yr-layout-aside {
-                    background: #58725F;margin: 5px;min-width: 4em;width: 40%;
+                    background: #58725F;margin: 5px;width: 40%;
                 }
             }
         }
