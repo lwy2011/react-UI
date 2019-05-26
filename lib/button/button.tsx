@@ -2,7 +2,7 @@ import React from "react";
 import Icon from "../icon/icon";
 
 import "./button.scss";
-import classes from "../../helpers/classes";
+import {scopeClassName} from "../../helpers/classes";
 
 interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     onClick?: React.MouseEventHandler
@@ -14,12 +14,13 @@ interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     disabled?: boolean,
 }
 
+const sc = scopeClassName("yr-button");
 const Button: React.FunctionComponent<ButtonProps> =
     ({message, icon, right, loading, className, iconMargin, disabled, onClick, ...rest}) => {
         const cases: string = loading ? "loading" : icon ? icon : "";
-
+        const cases1 = disabled !== undefined ? {"": true, disabled} : "";
         return (
-            <div className={classes("yr-button", className, disabled ? "disabled" : "")}
+            <div className={sc(cases1, className)}
                  {...rest}
                  onClick={(e) => !disabled && onClick && onClick(e)}>
                 {

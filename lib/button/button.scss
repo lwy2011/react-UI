@@ -24,7 +24,7 @@
         line-height: 1em;display: table;vertical-align: middle;
     }
 
-    &.disabled {background: #666;cursor: none;}
+    &-disabled {background: #666;cursor: none;}
 
     &.warning {
         color: $warningColor;
@@ -33,5 +33,10 @@
             color: #fff;
             background: $warningColor;
         }
+    }
+
+    &.close {
+        background: RGBA(254, 97, 88, 1.00);padding: 0;border-radius: 50%;
+        border: none;color: #fff;
     }
 }
