@@ -8,9 +8,7 @@ module.exports = Object.assign({}, base, {
         example: './local.dev.tsx'
     },
     output: {
-        path: path.resolve(__dirname, 'dist/lib/example'),
-        library: '永reactUI',
-        libraryTarget: "umd"
+        path: path.resolve(__dirname, 'doc/')
     },
     plugins: [
         new HtmlWebpackPlugin({
