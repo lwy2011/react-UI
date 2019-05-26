@@ -6,8 +6,8 @@ import classes from "../../helpers/classes";
 
 interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     onClick?: React.MouseEventHandler
-    message?: string,
-    icon?: string,
+    message?: string | false,
+    icon?: string | false,
     right?: Boolean,
     loading?: Boolean,
     iconMargin?: string,

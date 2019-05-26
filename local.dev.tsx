@@ -1,13 +1,13 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
 import ReactDom from "react-dom";
-import {HashRouter as Router, Route, Link} from "react-router-dom";
-import Icons from "./lib/icon/icon.example";
+import {HashRouter as Router, Route, NavLink} from "react-router-dom";
 import Icon from "./lib/icon/icon";
 import "./local.dev.scss";
 import Buttons from "./lib/button/button.examlpe";
 import Dialogs from "./lib/dialog/dialog.example";
 import LayoutExample from "./lib/layout/example";
 import {Layout, Header, Content, Footer, Aside} from "./lib/layout/layout";
+import IconDemo from "./lib/icon/icon.demo";
 
 // import Logo from './imgs/yr_ui.png'
 // import title from './imgs/title.jpg'
@@ -57,10 +57,10 @@ const RouterView: React.FunctionComponent = () => {
                                     firTab === "组件" && val === "组件" && firShow &&
                                     Object.keys(names).map(
                                         key => <li key={key} onClick={() => setTab(key)}>
-                                            <Link to={`/${key}`}
-                                                  className={tab === key ? "active" : ""}>
+                                            <NavLink to={`/${key}`}
+                                                     className={tab === key ? "active" : ""}>
                                                 {names[key]}
-                                            </Link>
+                                            </NavLink>
                                         </li>
                                     )
                                 }
@@ -72,7 +72,7 @@ const RouterView: React.FunctionComponent = () => {
                 <Content>
                     <h3>{firTab}</h3>
                     <h4>{tab}</h4>
-                    <Route path="/icon" component={Icons}/>
+                    <Route path="/icon" component={IconDemo}/>
                     <Route path="/button" component={Buttons}/>
                     <Route path="/dialog" component={Dialogs}/>
                     <Route path="/layout" component={LayoutExample}/>
