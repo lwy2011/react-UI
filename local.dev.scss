@@ -115,7 +115,8 @@
 
             pre {
                 font-family: 'Fira Code Medium', Consolas, monospace;
-                margin: 2em 0;
+                margin: 2em 0;overflow-x: scroll;
+                padding: 2em;
             }
             > .yr-layoutExample {
                 padding: 1em 0;
