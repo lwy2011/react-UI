@@ -94,9 +94,15 @@
                 margin: 1em 0;
             }
 
-            > .buttons {
-                > .yr-button {
-                    margin: .5em;
+            .buttonDemo {
+                > .buttons {
+                    > .yr-button {
+                        margin: .5em;
+                    }
+                }
+
+                > h4 {
+                    border-bottom: 1px solid $lineColor;
                 }
             }
 
@@ -113,7 +119,7 @@
                 }
             }
 
-            pre {
+            pre { //代码展示区
                 font-family: 'Fira Code Medium', Consolas, monospace;
                 margin: 2em 0;overflow-x: scroll;
                 padding: 2em;

@@ -31,7 +31,9 @@ const CodeView: React.FunctionComponent<Props> = props => {
                     )}
                 </Highlight>
             }
-            <Button message={!show && "查看代码"} onClick={() => setShow(!show)} icon={show && "hidden"}/>
+            <h4>
+                <Button message={!show && "查看代码"} onClick={() => setShow(!show)} icon={show && "hidden"}/>
+            </h4>
         </React.Fragment>
     );
 };
