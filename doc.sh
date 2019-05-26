@@ -2,7 +2,7 @@
 
 yarn doc
 git checkout gh-pages
-mv -f doc/* ./       #强制替换
+mv -f doc/* ./       #强制导出
 git add .
 git commit -m 'update'
 git push
