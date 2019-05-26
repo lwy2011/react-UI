@@ -5,7 +5,8 @@ const path = require('path');
 module.exports = Object.assign({}, base, {
     mode: 'production',
     entry: {
-        example: './local.dev.tsx'
+        example: './local.dev.tsx',
+        filename: 'index.js'
     },
     output: {
         path: path.resolve(__dirname, 'doc/')
@@ -14,7 +15,7 @@ module.exports = Object.assign({}, base, {
         new HtmlWebpackPlugin({
             title: '永：react-UI',
             template: "local.dev.html",
-            filename: "example.html"
+            filename: "index.html"
         })
     ]
 
