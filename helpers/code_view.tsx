@@ -11,9 +11,12 @@ interface Props {
 
 const CodeView: React.FunctionComponent<Props> = props => {
     const code = require("!!raw-loader!../lib/" + props.path).default;
-    const startStr = code.match(/<div.+/);
-    const lastStr = code.match(/<\/div>/);
-    const codeVal = code.slice(startStr.index - 1, lastStr.index).replace(startStr[0], "");
+    // const startStr = code.match(/<div.+/);
+    const startStr = code.match(/=>/);
+    // const lastStr = code.match(/<\/div>/);
+    const lastStr = code.match(/export/);
+    const codeVal = startStr.index ?
+        code.slice(startStr.index - 1, lastStr.index - 1).replace(startStr[0], "") : code;
 
     // console.log(codeVal, startStr[0], startStr.index, code.match(/<\/div>/),);
 

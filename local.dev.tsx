@@ -8,6 +8,7 @@ import LayoutExample from "./lib/layout/example";
 import {Layout, Header, Content, Footer, Aside} from "./lib/layout/layout";
 import IconDemo from "./lib/icon/icon.demo";
 import ButtonDemo from "./lib/button/button.demo";
+import FormDemo from "./lib/form/form.medo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -24,7 +25,8 @@ const names: componentNames = {
     icon: "svg图标",
     button: "按钮",
     dialog: "对话框",
-    layout: "布局"
+    layout: "布局",
+    form: "表单"
 };
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
@@ -76,6 +78,8 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/button" component={ButtonDemo}/>
                     <Route path="/dialog" component={Dialogs}/>
                     <Route path="/layout" component={LayoutExample}/>
+                    <Route path="/form" component={FormDemo}/>
+
                 </Content>
             </Layout>
 
