@@ -11,13 +11,19 @@ interface Props {
 
 const CodeView: React.FunctionComponent<Props> = props => {
     const code = require("!!raw-loader!../lib/" + props.path).default;
+    const startStr = code.match(/<div.+/);
+    const lastStr = code.match(/<\/div>/);
+    const codeVal = code.slice(startStr.index - 1, lastStr.index).replace(startStr[0], "");
+
+    // console.log(codeVal, startStr[0], startStr.index, code.match(/<\/div>/),);
+
     const [show, setShow] = useState(false);
     return (
         <React.Fragment>
             {props.children}
             {
                 show &&
-                <Highlight {...defaultProps} code={code} language="jsx">
+                <Highlight {...defaultProps} code={codeVal} language="jsx">
                     {({className, style, tokens, getLineProps, getTokenProps}) => (
                         <pre className={className} style={style}>
                         {tokens.map((line, i) => (
