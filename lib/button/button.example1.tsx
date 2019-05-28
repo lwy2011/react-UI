@@ -8,8 +8,8 @@ const Buttons1: React.FunctionComponent = () => {
             <Button message='ok'/>
             <Button icon="left" style={{"padding": ".5em"}}/>
             <Button icon="right" style={{"padding": ".2em"}}/>
-            <Button icon="close" className="close"/>
-            <Button icon="close" className="warning"/>
+            <Button icon="close" state={{close: true}}/>
+            <Button icon="close" state={{warning: true}}/>
 
         </div>
     );

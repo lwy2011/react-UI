@@ -1,6 +1,9 @@
-$lineColor: RGBA(161, 161, 161, 1.00);
+$lineColor: #A1A1A1;
 $activeColor: #fff4c2;
-$warningColor: RGBA(255, 77, 79, 1.00);
-$font: 14px;
-$blue: RGBA(102, 56, 240, 1.00);
+$warningColor: #FF4D4F;
+$font: 16px;
+$blue: #6B82E9;
 $mainColor: #728BE7;
+$inputLineHeight: 1.375em;
+$inputPadding: .25em .5em;
+$buttonPadding: calc(.25em - 1px); //button ， input的高度基本一致了

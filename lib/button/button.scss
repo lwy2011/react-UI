@@ -1,7 +1,8 @@
 @import "../_helper.scss";
+
 .yr-button {
     display: inline-flex;
-    padding: .2em .5em;
+    padding: $buttonPadding;
     border: 1px solid $lineColor;
     border-radius: 4px;
 
@@ -9,12 +10,13 @@
 
     vertical-align: middle;
     cursor: pointer;
-    background: #eeeeee;
+    background: #fff;
     justify-content: center;
     align-items: center;
-    color: #888888;
+    color: #999;
+    transition: all 550ms;
 
-    &:hover {opacity: .7;}
+    &:hover {opacity: .7;border: 1px solid $blue;}
 
     > svg {
         width: 1em;height: 1em;
@@ -26,7 +28,7 @@
 
     &-disabled {background: #666;cursor: none;}
 
-    &.warning {
+    &-warning {
         color: $warningColor;
 
         &:hover {
@@ -35,8 +37,16 @@
         }
     }
 
-    &.close {
+    &-important {
+        background: lighten($mainColor, 10%);color: #fff;
+    }
+
+    &-close {
         background: RGBA(254, 97, 88, 1.00);padding: 0;border-radius: 50%;
-        border: none;color: #fff;
+        border: none;
+
+        &:hover {
+            border: none;color: #fff;
+        }
     }
 }

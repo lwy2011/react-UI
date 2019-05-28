@@ -2,6 +2,8 @@ import * as React from "react";
 
 import "./form.scss";
 import {Fragment, ReactNode, useEffect, useState} from "react";
+import Input from "../input/input";
+import {scopeClassName} from "../../helpers/classes";
 
 export interface newFormData {
     [k: string]: any
@@ -24,10 +26,11 @@ interface Props {
     buttons: ReactNode[],
     onChange: (value: newFormData) => void,
     rules?: FormRules,
-    warning?: { [k: string]: string },
+    // warning?: { [k: string]: string },
     // errors?: errors,
     test?: boolean,
-    testResult?: (data: errors) => void
+    testResult?: (data: errors) => void,
+    warningStyle?: { [k: string]: string }
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
@@ -57,49 +60,75 @@ const Form: React.FunctionComponent<Props> = (props) => {
             props.rules && props.test && setErrors(validator(props.value, props.rules));
         }, [props.test]
     );
+    const sc = scopeClassName("yr-form");
+    const style = props.warningStyle ? props.warningStyle : {};
     return (
         <form className="yr-form">
-            <ul>
+            <table>
+                <tbody>
                 {
                     props.fields.map(
                         (data, index) => {
                             const {name, input} = data;
                             return (
-                                <li key={index}>
-                                    <span>{data.label}</span>
-                                    <input type={input.type}
-                                           value={props.value[name]}
-                                           onChange={
-                                               (e: React.ChangeEvent<HTMLInputElement>) =>
-                                                   inputText(e.target.value, name)}/>
+                                <Fragment key={index}>
+                                    <tr className={sc("tr")}>
+                                        <td className={sc("td")}>
+                                            <span>{data.label}</span>
+                                        </td>
+                                        <td className={sc("td")}>
+                                            <Input type={input.type}
+                                                   value={props.value[name]}
+                                                   onChange={
+                                                       (e) =>
+                                                           inputText(e.target.value, name)}/>
+
+                                        </td>
+                                    </tr>
                                     {
                                         errors[name] &&
-                                        <ul>
-                                            {
-                                                errors[name].map(
-                                                    (val: string) =>
-                                                        <li key={val}>
-                                                            {val}
-                                                        </li>
-                                                )
-                                            }
-                                        </ul>
+                                        <tr className={sc("tr")}>
+                                            <td/>
+                                            <td className={sc("td")}>
+                                                {
+                                                    errors[name].map(
+                                                        (val: string) =>
+                                                            <p key={val}
+                                                               style={
+                                                                   {
+                                                                       "color": "#FF4D4F",
+                                                                       "fontSize": "12px",
+                                                                       ...style
+                                                                   }
+                                                               }>
+                                                                {val}
+                                                            </p>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
                                     }
-                                </li>
+                                </Fragment>
                             );
                         }
                     )
                 }
-            </ul>
-            <footer>
-                {
-                    props.buttons.map(
-                        (button, index) => <Fragment key={index}>
-                            {button}
-                        </Fragment>
-                    )
-                }
-            </footer>
+                <tr className={sc("tr")}>
+                    <td className={sc("td")}/>
+                    <td className={sc("td")}>
+                        {
+                            props.buttons.map(
+                                (button, index) =>
+                                    <Fragment key={index}>
+                                        {button}
+                                    </Fragment>
+                            )
+                        }
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
         </form>
     );
 };

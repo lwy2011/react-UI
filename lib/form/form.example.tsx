@@ -2,7 +2,7 @@ import Form, {errors, newFormData} from "./form";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Button from "../button/button";
-import Validator from "./validator";
+// import Validator from "./validator";
 
 
 const FormExample: React.FunctionComponent = () => {
@@ -14,6 +14,8 @@ const FormExample: React.FunctionComponent = () => {
     const [fields] = useState([
         {name: "username", label: "用户名", input: {type: "text",}},
         {name: "password", label: "密码", input: {type: "password"}},
+        {name: "password", label: "再次输入密码", input: {type: "password"}},
+
     ]);
     const [test, setTest] = useState(false);
     const rules = [
@@ -65,16 +67,19 @@ const FormExample: React.FunctionComponent = () => {
                   onChange={(newData: newFormData) => {
                       setFormData(newData);
                   }}
-                  warning={Validator(formData, rules)}
                   test={test}
                   rules={rules}
                   testResult={testResult}
+                  warningStyle={{"marginLeft": "1em"}}
                   buttons={
                       [
                           <Button message="提交"
                                   onClick={() => setTest(true)}
                                   loading={loading}
-                                  disabled={loading || test}/>,
+                                  state={{
+                                      disabled: Boolean(loading || test),
+                                      important: !Boolean(loading || test)
+                                  }}/>,
                           <Button message="返回"
                                   onClick={() => setLoading(!loading)}/>
                       ]

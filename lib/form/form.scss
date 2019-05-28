@@ -1,0 +1,25 @@
+@import "../_helper.scss";
+
+.yr-form {
+    padding: 1em .5em;background: darken(#fff, 1%);
+    box-shadow: 0 0 2px 2px lighten($lineColor, 30%);
+    border-radius: 4px;display: inline-block;flex-wrap: wrap;
+
+    &-td {
+        padding-bottom: 1em;
+    }
+
+
+    &-tr:last-child &-td {
+        padding-bottom: 0;
+    }
+
+    &-td + &-td {
+        padding-left: 1em;
+
+        > .yr-button:not(:first-child) {
+            margin-left: 1em;
+        }
+    }
+
+}

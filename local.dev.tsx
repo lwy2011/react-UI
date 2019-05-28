@@ -9,6 +9,7 @@ import {Layout, Header, Content, Footer, Aside} from "./lib/layout/layout";
 import IconDemo from "./lib/icon/icon.demo";
 import ButtonDemo from "./lib/button/button.demo";
 import FormDemo from "./lib/form/form.medo";
+import InputDemo from "./lib/input/input.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -24,6 +25,7 @@ const firstTabs: string[] = ["入门", "组件"];
 const names: componentNames = {
     icon: "svg图标",
     button: "按钮",
+    input: "输入框",
     dialog: "对话框",
     layout: "布局",
     form: "表单"
@@ -79,6 +81,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/dialog" component={Dialogs}/>
                     <Route path="/layout" component={LayoutExample}/>
                     <Route path="/form" component={FormDemo}/>
+                    <Route path="/input" component={InputDemo}/>
 
                 </Content>
             </Layout>

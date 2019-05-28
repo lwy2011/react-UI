@@ -22,7 +22,7 @@ const Dialog: React.FunctionComponent<props> = ({visible, children, buttons, clo
     const x = visible && <Fragment>
         {maskNeed && <div className={sc("mask")} onClick={(e) => maskClickToClose && close(e)}/>}
         <div className="yr-dialog">
-            <Button className={sc("close", "close")} onClick={close} icon="close" style={{"padding": 0}}/>
+            <Button className={sc("close", "yr-button-close")} onClick={close} icon="close"/>
 
             {title && <header className={sc("header")}>
                 <h3>{title}</h3>

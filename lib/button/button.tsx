@@ -5,24 +5,26 @@ import "./button.scss";
 import {scopeClassName} from "../../helpers/classes";
 
 interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
-    onClick?: React.MouseEventHandler
+    // onClick?: React.MouseEventHandler
     message?: string | false,
     icon?: string | false,
     right?: Boolean,
     loading?: Boolean,
     iconMargin?: string,
-    disabled?: boolean,
+    state?: {
+        [k: string]: boolean
+    },
 }
 
 const sc = scopeClassName("yr-button");
 const Button: React.FunctionComponent<ButtonProps> =
-    ({message, icon, right, loading, className, iconMargin, disabled, onClick, ...rest}) => {
+    ({message, icon, right, loading, className, iconMargin, onClick, state, ...rest}) => {
         const cases: string = loading ? "loading" : icon ? icon : "";
-        const cases1 = disabled !== undefined ? {"": true, disabled} : "";
+        const cases1 = state ? {"": true, ...state} : "";
         return (
             <div className={sc(cases1, className)}
                  {...rest}
-                 onClick={(e) => !disabled && onClick && onClick(e)}>
+                 onClick={(e) => !(state && state.disabled) && onClick && onClick(e)}>
                 {
                     cases &&
                     <Icon name={cases}

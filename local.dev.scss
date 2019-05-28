@@ -61,6 +61,7 @@
                     > header {
                         cursor: pointer;
                         @include padding();
+
                         > svg {
                             vertical-align: middle;fill: $lineColor;
                         }
@@ -110,6 +111,21 @@
                 margin: 1em 0;
             }
 
+            > .inputDemo {
+                > div {
+                    > .yr-input {
+                        margin: 1em;
+
+                    }
+
+                    > div {margin: 1em;}
+
+                    > .yr-iconInput {
+                        margin: 1em;
+                    }
+                }
+            }
+
             > .dialogs {
                 display: inline-flex;justify-content: space-between;flex-wrap: wrap;
                 width: 100%;
@@ -124,6 +140,7 @@
                 margin: 2em 0;overflow-x: scroll;
                 padding: 2em;
             }
+
             > .yr-layoutExample {
                 padding: 1em 0;
                 color: #fff;

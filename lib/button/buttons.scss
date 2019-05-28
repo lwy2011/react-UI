@@ -19,8 +19,9 @@
             }
         }
 
+        transition: all 0ms;
         &:hover {
-            border: 1px solid RGBA(102, 56, 240, 1.00);
+            border: 1px solid $mainColor;
             z-index: 5;
 
             &:not(:first-child) {
