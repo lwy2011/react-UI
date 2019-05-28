@@ -4,6 +4,7 @@ import "./form.scss";
 import {Fragment, ReactNode, useEffect, useState} from "react";
 import Input from "../input/input";
 import {scopeClassName} from "../../helpers/classes";
+import Icon from "../icon/icon";
 
 export interface newFormData {
     [k: string]: any
@@ -54,17 +55,24 @@ const Form: React.FunctionComponent<Props> = (props) => {
         };
 
     const [errors, setErrors] = useState<errors>({});
-
+    const [errorsView, setErrorsView] = useState<number[]>([]);
     useEffect(
         () => {
             props.rules && props.test && setErrors(validator(props.value, props.rules));
         }, [props.test]
     );
     const sc = scopeClassName("yr-form");
-    const style = props.warningStyle ? props.warningStyle : {};
+    const errorStyle = props.warningStyle ? props.warningStyle : {};
+    const errorShow = (index: number) => {
+        const ind = errorsView.indexOf(index);
+        return ind >= 0 ? errorsView.filter(
+            (val, index) => index !== ind
+        ) : [...errorsView, index];
+    };
+
     return (
         <form className="yr-form">
-            <table>
+            <table className="yr-form-table">
                 <tbody>
                 {
                     props.fields.map(
@@ -86,24 +94,34 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                         </td>
                                     </tr>
                                     {
-                                        errors[name] &&
                                         <tr className={sc("tr")}>
-                                            <td/>
-                                            <td className={sc("td")}>
+                                            <td className={sc("td")}/>
+                                            <td className={sc({"td": true, errors: true})}>
                                                 {
-                                                    errors[name].map(
-                                                        (val: string) =>
-                                                            <p key={val}
-                                                               style={
-                                                                   {
-                                                                       "color": "#FF4D4F",
-                                                                       "fontSize": "12px",
-                                                                       ...style
-                                                                   }
-                                                               }>
-                                                                {val}
-                                                            </p>
-                                                    )
+                                                    errors[name] ?
+                                                        errors[name].map(
+                                                            (val: string, ind) =>
+                                                                (errorsView.indexOf(index) >= 0 ? true : ind === 0) &&
+                                                                <p key={ind}
+                                                                   style={
+                                                                       {
+                                                                           // "color": "#FF4D4F",
+                                                                           // "fontSize": "12px",
+                                                                           ...errorStyle
+                                                                       }
+                                                                   }>
+                                                                    {
+                                                                        ind === 0 &&
+                                                                        <Icon
+                                                                            name={errorsView.indexOf(index) >= 0 ? "up" : "down"}
+                                                                            onClick={() => setErrorsView(
+                                                                                errorShow(index)
+                                                                            )}/>
+                                                                    }
+                                                                    {val}
+                                                                </p>
+                                                        ) :
+                                                        <p style={{"fontSize": "12px"}}>&nbsp;</p>
                                                 }
                                             </td>
                                         </tr>

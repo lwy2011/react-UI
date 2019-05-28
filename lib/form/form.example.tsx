@@ -70,7 +70,6 @@ const FormExample: React.FunctionComponent = () => {
                   test={test}
                   rules={rules}
                   testResult={testResult}
-                  warningStyle={{"marginLeft": "1em"}}
                   buttons={
                       [
                           <Button message="提交"

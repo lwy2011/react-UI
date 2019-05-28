@@ -38,11 +38,11 @@
     }
 
     &-important {
-        background: lighten($mainColor, 10%);color: #fff;
+        background: lighten($blue, 5%);color: #fff;border: 1px solid $blue;
     }
 
     &-close {
-        background: RGBA(254, 97, 88, 1.00);padding: 0;border-radius: 50%;
+        background: $warningColor;padding: 0;border-radius: 50%;
         border: none;
 
         &:hover {
