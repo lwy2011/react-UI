@@ -103,6 +103,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                                             (val: string, ind) =>
                                                                 (errorsView.indexOf(index) >= 0 ? true : ind === 0) &&
                                                                 <p key={ind}
+                                                                   className={errors[name].length === 1 ? "noIcon" : ""}
                                                                    style={
                                                                        {
                                                                            // "color": "#FF4D4F",
@@ -111,7 +112,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                                                        }
                                                                    }>
                                                                     {
-                                                                        ind === 0 &&
+                                                                        ind === 0 && errors[name].length > 1 &&
                                                                         <Icon
                                                                             name={errorsView.indexOf(index) >= 0 ? "up" : "down"}
                                                                             onClick={() => setErrorsView(
