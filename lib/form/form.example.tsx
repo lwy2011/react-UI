@@ -54,7 +54,7 @@ const FormExample: React.FunctionComponent = () => {
                             const num = 3;
                             console.log(data, "开始验证用户名！", num);
                             num < 4 ? resolve(true) :
-                                num > 7 ? reject(false) :
+                                num > 7 ? resolve(false) :
                                     reject("用户名验证未完成！");
                         }, 4000
                     );
@@ -73,7 +73,7 @@ const FormExample: React.FunctionComponent = () => {
                             const num = 5;
                             console.log(data, "开始验证用户名1", num);
                             num < 4 ? resolve(true) :
-                                num > 7 ? reject(false) :
+                                num > 7 ? resolve(false) :
                                     reject("用户名验证未完成！");
                         }, 2000
                     );
@@ -120,7 +120,7 @@ const FormExample: React.FunctionComponent = () => {
             id: 3,
             key: "passwordTwice",
             testFn: (data: string) => Boolean(data.trim()),
-            warning: "密码必填!",
+            warning: "请再次输入密码!",
             async: false
         },
         {

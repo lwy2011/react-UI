@@ -8,7 +8,7 @@ const IconExample: FunctionComponent = () => <div>
         <Icon name="weixin" style={{"color": "#Feac45"}}/>
         <Icon name="loading" className="yr-icon-loading"/>
         <Icon name="search" className="yr-icon-move"/>
-
+        <Icon name=""/>
 </div>;
 
 export default IconExample;

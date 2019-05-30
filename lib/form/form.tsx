@@ -20,7 +20,6 @@ export interface FormRule {
 
 type FormRules = Array<FormRule>
 
-// extends React.FormHTMLAttributes<React.FormEvent>
 export interface errors {[k: string]: string[]}
 
 interface Props {
@@ -56,10 +55,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     rule => !rule.async &&
                         !rule.testFn(data[rule.key]) && arrTest(warning, rule.key, rule.warning)
                 );
-                // const normals =  rules.filter(rule => !rule.async);
-                // const normalArr:string[] = normals.length === 0 ? []:
-                //     normals.map(rule => !rule.testFn(data[rule.key]) && [rule.key, rule.id+'',rule.warning] )
-                //         .filter(val => val && val.length === 3 );
+
 
                 const asyncArr = rules.filter(
                     rule => rule.async
@@ -73,7 +69,10 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                     (err: string) => arrTest(warning, rule.key, err)
                                 )
                     ) : false;
-
+                // const normals =  rules.filter(rule => !rule.async);
+                // const normalArr:string[] = normals.length === 0 ? []:
+                //     normals.map(rule => !rule.testFn(data[rule.key]) && [rule.key, rule.id+'',rule.warning] )
+                //         .filter(val => val && val.length === 3 );
                 // const testFnArr1 = asyncArr.length > 0 ?
                 //     asyncArr.map(
                 //         rule =>
@@ -97,14 +96,16 @@ const Form: React.FunctionComponent<Props> = (props) => {
                 //             filter.sort((a:Array<string>,b:Array<string>)=>Number(b[1]) - Number(a[1])): filter;
                 //
                 //         console.log(res, normalArr, "hhhh", filter,maxArr);
-                //         props.testResult && props.testResult( maxArr )  //验证信息回流给父组件
+                //         // props.testResult && props.testResult( maxArr )  //验证信息回流给父组件
                 //     }
                 // );
                 asyncArr.length === 0 ?
                     props.testResult && props.testResult(warning) :  //验证信息回流给父组件
-                    Promise.all(testFnArr as Array<Promise<{}>>).finally(    //强制断言,这里也是先确定有异步才可以断言
+                    Promise.all(testFnArr as Array<Promise<{}>>).then(    //强制断言,这里也是先确定有异步才可以断言
                         () =>
-                            props.testResult && props.testResult(warning)  //验证信息回流给父组件
+                            props.testResult && props.testResult(warning), //验证信息回流给父组件
+                        () =>
+                            props.testResult && props.testResult(warning)
                     );
             };
 
@@ -125,11 +126,8 @@ const Form: React.FunctionComponent<Props> = (props) => {
             ) : [...errorsView, index];
             const nodes = document.querySelectorAll(".yr-form-errorsUl");
             console.log(index, nodes, nodes[index]);
-            // const add = ind > 0 ? "fadeOut" : "absolute";
-            // const remove = ind > 0 ? "absolute" : "fadeOut";
-            nodes[index].classList.add("yr-form-fadeOut");
-            // nodes[index].classList.remove("yr-form-"+remove);
 
+            nodes[index].classList.add("yr-form-fadeOut");
             ind < 0 ? setErrorsView(val) :
                 setTimeout(() => setErrorsView && setErrorsView(val), 1000);
 
