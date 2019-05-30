@@ -1,8 +1,8 @@
 import * as React from "react";
-import classes from "../../helpers/classes";
+import classes, {scopeClassName} from "../../helpers/classes";
 import "./input.scss";
 import Icon from "../icon/icon";
-import {Fragment} from "react";
+import {Fragment, ReactElement} from "react";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
@@ -17,20 +17,39 @@ const Input: React.FunctionComponent<Props> = ({className, ...rest}) => {
 export default Input;
 
 interface IconProps extends Props {
-    icon: Array<{ name: string, left: boolean }>,
+    icon?: Array<{ name: string, left: boolean, style?: { [k: string]: string } }>,
+    button?: ReactElement,
+    iconClick?: (e: React.MouseEvent, name: string) => any,
     // onChange:React.ChangeEventHandler<HTMLInputElement>
 }
 
-const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChange, ...rest}) =>
+const isc = scopeClassName("yr-iconInput-icon");
+const psc = scopeClassName("yr-iconInput-input");
+
+const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChange, button, iconClick, ...rest}) =>
     <div className={classes("yr-iconInput", className)}>
         {
             icon && icon.map((val, index) =>
                 <Fragment key={index}>
-                    <Icon name={val.name} className={val.left ? "left" : "right"}/>
+                    <Icon name={val.name}
+                          style={val.style ? val.style : {}}
+                          className={isc({left: val.left, right: !val.left, click: Boolean(iconClick)})}
+                          onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              return iconClick && iconClick(e, val.name);
+                          }}/>
                 </Fragment>
             )
         }
-        <Input {...rest} onChange={onChange}/>
+        <Input {...rest} onChange={onChange} className={psc(
+            {
+                left: Boolean(icon && icon.filter(val => val.left).length > 0),
+                right: Boolean(icon && icon.filter(val => !val.left).length > 0),
+            }
+        )}/>
+        {
+            button && button
+        }
     </div>;
 
 

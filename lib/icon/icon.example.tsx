@@ -2,10 +2,13 @@ import React, {FunctionComponent} from "react";
 
 import Icon from "./icon";
 
-const Iconexample: FunctionComponent = () => <div>
+const IconExample: FunctionComponent = () => <div>
         <Icon name="alipay"/>
         <Icon name="QQ"/>
         <Icon name="weixin" style={{"color": "#Feac45"}}/>
+        <Icon name="loading" className="yr-icon-loading"/>
+        <Icon name="search" className="yr-icon-move"/>
+
 </div>;
 
-export default Iconexample;
+export default IconExample;

@@ -1,3 +1,4 @@
+@import "../_helper.scss";
 .yr-icon {
     width: 1em;
     height: 1em;
@@ -6,6 +7,30 @@
         100% {transform: rotate(360deg);}
     }
     fill: currentColor;
+    @keyframes scrolling {
+        0% {transform: rotateZ(0deg);}
+        100% {transform: rotateZ(360deg);}
+    }
+    @keyframes moving {
+        0% {transform: translate(0, 0);}
+        8% {transform: translate(0.07em, .25em);}
+        16% {transform: translate(.43em, 0.43em);}
+        25% {transform: translate(.5em, .5em);}
+        33% {transform: translate(.57em, 0.43em);}
+        41% {transform: translate(.93em, .07em)}
+        50% {transform: translate(1em, 0)}
+        58% {transform: translate(.93em, -.07em)}
+        66% {transform: translate(.57em, -0.43em);}
+        75% {transform: translate(.5em, -.5em);}
+        83% {transform: translate(.43em, -0.43em);}
+        92% {transform: translate(0.07em, -.25em);}
+        100% {transform: translate(0, 0);}
+    }
 
-    &.loading {animation: loading infinite 1s linear;}
+    &-loading {animation: loading infinite 1.5s linear;color: $mainColor;}
+
+    &-scrollZ {animation: scrolling infinite 1s linear;}
+
+    &-move {animation: moving infinite 1s linear;}
+
 }

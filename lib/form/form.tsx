@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import "./form.scss";
-import {Fragment, ReactNode, useEffect, useState} from "react";
+import {Fragment, ReactNode, useState} from "react";
 import Input from "../input/input";
 import {scopeClassName} from "../../helpers/classes";
 import Icon from "../icon/icon";
@@ -11,9 +11,11 @@ export interface newFormData {
 }
 
 export interface FormRule {
+    id: number,
     key: string,
     warning: string,
-    testFn: (data: any) => boolean | undefined | null,
+    testFn: (data: any, errors?: errors) => boolean | string | Promise<{}> | undefined | null,
+    async: boolean,
 }
 
 type FormRules = Array<FormRule>
@@ -27,128 +29,221 @@ interface Props {
     buttons: ReactNode[],
     onChange: (value: newFormData) => void,
     rules?: FormRules,
-    // warning?: { [k: string]: string },
-    // errors?: errors,
+    errors?: errors,
     test?: boolean,
     testResult?: (data: errors) => void,
-    warningStyle?: { [k: string]: string }
+    warningStyle?: { [k: string]: string },
+    justifyStyle?: boolean,
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
-    console.log(props.value);
-    const inputText = (value: string | number, name: string) => {
-        const newFormDate = {...props.value, [name]: value};
-        props.onChange(newFormDate);
-    };
-    const validator =
-        (data: newFormData, rules: FormRules): newFormData => {
-            const warning: any = {};
-            rules.map(
-                rule =>
-                    !rule.testFn(data[rule.key]) ? (
-                        Array.isArray(warning[rule.key]) ?
-                            warning[rule.key].push(rule.warning) : warning[rule.key] = [rule.warning]
-                    ) : warning
-            );
-            props.testResult && props.testResult(warning);
-            return warning;
+        const {errors, test, justifyStyle, warningStyle, value} = props;
+
+        const inputText = (Value: string | number, name: string) => {   //onChange
+            const newFormDate = {...value, [name]: Value};
+            props.onChange(newFormDate);
         };
 
-    const [errors, setErrors] = useState<errors>({});
-    const [errorsView, setErrorsView] = useState<number[]>([]);
-    useEffect(
-        () => {
-            props.rules && props.test && setErrors(validator(props.value, props.rules));
-        }, [props.test]
-    );
-    const sc = scopeClassName("yr-form");
-    const errorStyle = props.warningStyle ? props.warningStyle : {};
-    const errorShow = (index: number) => {
-        const ind = errorsView.indexOf(index);
-        return ind >= 0 ? errorsView.filter(
-            (val, index) => index !== ind
-        ) : [...errorsView, index];
-    };
+        const arrTest = (obj: { [k: string]: string[] }, key: string, res: string) =>
+            Array.isArray(obj[key]) ? obj[key].push(res) : obj[key] = [res];
 
-    return (
-        <form className="yr-form">
-            <table className="yr-form-table">
-                <tbody>
-                {
-                    props.fields.map(
-                        (data, index) => {
-                            const {name, input} = data;
-                            return (
-                                <Fragment key={index}>
-                                    <tr className={sc("tr")}>
-                                        <td className={sc("td")}>
-                                            <span>{data.label}</span>
-                                        </td>
-                                        <td className={sc("td")}>
-                                            <Input type={input.type}
-                                                   value={props.value[name]}
-                                                   onChange={
-                                                       (e) =>
-                                                           inputText(e.target.value, name)}/>
 
-                                        </td>
-                                    </tr>
-                                    {
+        const validator =
+            (data: newFormData, rules: FormRules): void => {
+                const warning: any = {};
+                //同步的验证
+                rules.map(
+                    rule => !rule.async &&
+                        !rule.testFn(data[rule.key]) && arrTest(warning, rule.key, rule.warning)
+                );
+                // const normals =  rules.filter(rule => !rule.async);
+                // const normalArr:string[] = normals.length === 0 ? []:
+                //     normals.map(rule => !rule.testFn(data[rule.key]) && [rule.key, rule.id+'',rule.warning] )
+                //         .filter(val => val && val.length === 3 );
+
+                const asyncArr = rules.filter(
+                    rule => rule.async
+                );
+                const testFnArr = asyncArr.length > 0 ?
+                    asyncArr.map(
+                        rule =>
+                            (rule.testFn(data[rule.key]) as Promise<{}>)  //强制断言，筛选出异步的，才可以断言
+                                .then(
+                                    (res: boolean) => !res && arrTest(warning, rule.key, rule.warning),
+                                    (err: string) => arrTest(warning, rule.key, err)
+                                )
+                    ) : false;
+
+                // const testFnArr1 = asyncArr.length > 0 ?
+                //     asyncArr.map(
+                //         rule =>
+                //             (rule.testFn(data[rule.key]) as Promise<{}>)  //强制断言，筛选出异步的，才可以断言
+                //                 .then(
+                //                     (res: boolean) => !res && [rule.key,rule.id+'', rule.warning],
+                //                     (err: string) => [rule.key,rule.id+'', err]
+                //                 )
+                //     ) : false;
+
+                // asyncArr.length === 0 ?
+                //     props.testResult && props.testResult(normalArr) :
+                //
+                // Promise.all(testFnArr1 as Array<Promise<{}>>).then(
+                //     (res: Array<string[]|false>) => {
+                //         // @ts-ignore //这里用filter给筛选了false的占位们了。
+                //         const filter:Array<string[]> = normalArr.concat(
+                //             res.filter(val => Boolean(val))
+                //         );
+                //         const maxArr:Array<string[]> = filter.length > 1 ?
+                //             filter.sort((a:Array<string>,b:Array<string>)=>Number(b[1]) - Number(a[1])): filter;
+                //
+                //         console.log(res, normalArr, "hhhh", filter,maxArr);
+                //         props.testResult && props.testResult( maxArr )  //验证信息回流给父组件
+                //     }
+                // );
+                asyncArr.length === 0 ?
+                    props.testResult && props.testResult(warning) :  //验证信息回流给父组件
+                    Promise.all(testFnArr as Array<Promise<{}>>).finally(    //强制断言,这里也是先确定有异步才可以断言
+                        () =>
+                            props.testResult && props.testResult(warning)  //验证信息回流给父组件
+                    );
+            };
+
+        props.rules && props.test && validator(value, props.rules);  //触发验证并返回验证信息给父组件
+
+
+        const sc = scopeClassName("yr-form");
+
+        const [errorsView, setErrorsView] = useState<number[]>([]);  //控制验证信息展示的数量
+
+        const [tested, setTested] = useState(false);
+        !tested && props.test && setTested(true);      //首测过没,测试过之后的标识
+
+        const viewIconClick = (index: number) => {
+            const ind = errorsView.indexOf(index);
+            const val = ind >= 0 ? errorsView.filter(
+                (val, index) => index !== ind
+            ) : [...errorsView, index];
+            const nodes = document.querySelectorAll(".yr-form-errorsUl");
+            console.log(index, nodes, nodes[index]);
+            // const add = ind > 0 ? "fadeOut" : "absolute";
+            // const remove = ind > 0 ? "absolute" : "fadeOut";
+            nodes[index].classList.add("yr-form-fadeOut");
+            // nodes[index].classList.remove("yr-form-"+remove);
+
+            ind < 0 ? setErrorsView(val) :
+                setTimeout(() => setErrorsView && setErrorsView(val), 1000);
+
+        };
+
+        return (
+            <form className="yr-form">
+                <table className="yr-form-table">
+                    <tbody>
+                    {
+                        props.fields.map(
+                            (data, index) => {
+                                const {name, input} = data;
+                                const viewTest = errorsView.indexOf(index) >= 0;
+                                const viewIcon =
+                                    <Icon name={viewTest ? "up" : "down"}
+                                          className={sc({iconUp: viewTest, iconDown: !viewTest})}
+                                          onClick={() => viewIconClick(index)}/>;
+
+                                const errorsShow = errors && errors[name] &&
+                                    <ul className={sc({
+                                        errorsUl: true,
+                                        absolute: viewTest,
+                                        fadeOut: !viewTest
+                                    })}>
+                                        {
+                                            errors[name].map(
+                                                (val: string, ind) =>
+                                                    <li key={ind}
+                                                        className="noIcon"
+                                                        style={warningStyle || {}}>
+                                                        {val}
+                                                    </li>
+                                            )
+                                        }
+                                        <li>{viewIcon} </li>
+                                    </ul>;
+
+                                const errorsHidden = errors && errors[name] &&
+                                    <ul className={sc({errorsUl: true})}>
+                                        {
+                                            errors[name].map(
+                                                (val: string, ind) => ind === 0 &&
+                                                    <li key={ind}
+                                                        style={warningStyle || {}}>
+                                                        {
+                                                            ind === 0 && !viewTest &&
+                                                            errors[name].length > 1 && viewIcon
+                                                        }
+                                                        {val}
+                                                    </li>
+                                            )
+                                        }
+                                    </ul>;
+
+                                return (
+                                    <Fragment key={index}>
                                         <tr className={sc("tr")}>
-                                            <td className={sc("td")}/>
-                                            <td className={sc({"td": true, errors: true})}>
+                                            <td className={sc({td: true, label: true, justify: Boolean(justifyStyle)})}>
+                                                <p>
+                                                    {data.label.split("").map((val, index) => <span
+                                                        key={index}>{val}</span>)}
+                                                </p>
+                                            </td>
+                                            <td className={sc("td")}>
                                                 {
-                                                    errors[name] ?
-                                                        errors[name].map(
-                                                            (val: string, ind) =>
-                                                                (errorsView.indexOf(index) >= 0 ? true : ind === 0) &&
-                                                                <p key={ind}
-                                                                   className={errors[name].length === 1 ? "noIcon" : ""}
-                                                                   style={
-                                                                       {
-                                                                           // "color": "#FF4D4F",
-                                                                           // "fontSize": "12px",
-                                                                           ...errorStyle
-                                                                       }
-                                                                   }>
-                                                                    {
-                                                                        ind === 0 && errors[name].length > 1 &&
-                                                                        <Icon
-                                                                            name={errorsView.indexOf(index) >= 0 ? "up" : "down"}
-                                                                            onClick={() => setErrorsView(
-                                                                                errorShow(index)
-                                                                            )}/>
-                                                                    }
-                                                                    {val}
-                                                                </p>
-                                                        ) :
-                                                        <p style={{"fontSize": "12px"}}>&nbsp;</p>
+                                                    test && <Icon name='search' className="yr-icon-move"/>
                                                 }
+                                                <Input type={input.type}
+                                                       value={props.value[name]}
+                                                       onChange={
+                                                           (e) =>
+                                                               inputText(e.target.value, name)}/>
+
                                             </td>
                                         </tr>
-                                    }
-                                </Fragment>
-                            );
-                        }
-                    )
-                }
-                <tr className={sc("tr")}>
-                    <td className={sc("td")}/>
-                    <td className={sc("td")}>
-                        {
-                            props.buttons.map(
-                                (button, index) =>
-                                    <Fragment key={index}>
-                                        {button}
+                                        {
+                                            <tr className={sc("tr")}>
+                                                <td className={sc("td")}/>
+                                                <td className={sc({"td": true, errors: true})}>
+                                                    {
+                                                        errors && errors[name] ?
+                                                            <Fragment>
+                                                                {viewTest ? errorsShow : errorsHidden}
+                                                                {viewTest && <p>&nbsp;</p>}
+                                                            </Fragment> :
+                                                            (tested && !props.test ? <Icon name="testok"/> : <p>&nbsp;</p>)
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
                                     </Fragment>
-                            )
-                        }
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                                );
+                            }
+                        )
+                    }
+                    <tr className={sc("tr")}>
+                        <td className={sc("td")}/>
+                        <td className={sc("td")}>
+                            {
+                                props.buttons.map(
+                                    (button, index) =>
+                                        <Fragment key={index}>
+                                            {button}
+                                        </Fragment>
+                                )
+                            }
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
 
-        </form>
-    );
-};
+            </form>
+        );
+    }
+;
 export default Form;

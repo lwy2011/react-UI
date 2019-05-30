@@ -29,7 +29,7 @@ const Button: React.FunctionComponent<ButtonProps> =
                     cases &&
                     <Icon name={cases}
                           style={right ? {"order": 2, "marginLeft": (iconMargin || ".5em")} : {"order": 1}}
-                          className={loading ? "loading" : ""}/>
+                          className={loading ? "yr-icon-loading" : ""}/>
                 }
 
                 {

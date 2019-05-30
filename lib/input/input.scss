@@ -20,17 +20,36 @@
     > .yr-icon {
         position: absolute;
         top: 50%;transform: translate(-50%, -50%);
+    }
 
-        &.left {
+    &-icon {
+        &-left {
             left: .8em;
         }
 
-        &.right {
+        &-right {
             right: 0;
+        }
+
+        &-click {
+            cursor: pointer;
+
+            &:hover {opacity: .7;}
         }
     }
 
-    > .yr-input {
-        padding: 4px 1.8em;
+    .yr-input {
+        padding-top: .25em;padding-bottom: .25em;
     }
+
+    &-input {
+        &-left {
+            padding-left: 1.8em;
+        }
+
+        &-right {
+            padding-right: 1.8em;
+        }
+    }
+
 }

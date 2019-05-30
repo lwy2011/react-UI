@@ -6,13 +6,19 @@ import {useState} from "react";
 const InputExample: React.FunctionComponent = () => {
     const [data, setData] =
         useState<{ [k: string]: any }>({user: "yong", password: ""});
-
-
+    const [message, setMsg] = useState("");
+    const iconClick = (e: React.MouseEvent, name: string) => {
+        console.log(e.target, name);
+        name === "close" && setMsg("");
+    };
     return (
         <div>
             <Input/>
             <div>
                 {JSON.stringify(data)}
+            </div>
+            <div>
+                message : {message}
             </div>
             <IconInput type="text"
                        onChange={e => setData({...data, user: e.target.value})}
@@ -29,6 +35,16 @@ const InputExample: React.FunctionComponent = () => {
                            [
                                {name: "password", left: true},
                                {name: "key", left: false}
+                           ]
+                       }/>
+            <IconInput type="text"
+                       value={message}
+                       onChange={e => setMsg(e.target.value)}
+                       iconClick={iconClick}
+                       onBlur={() => setMsg(message + "输入完毕!可以检验！")}
+                       icon={
+                           [
+                               {name: "close", left: false, style: {"color": "#FF4D4F"}}
                            ]
                        }/>
         </div>

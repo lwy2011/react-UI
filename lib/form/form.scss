@@ -6,7 +6,11 @@
     border-radius: 4px;display: inline-block;flex-wrap: wrap;
 
     &-td {
-        padding-bottom: 6px;
+        padding-bottom: 3px;
+
+        .yr-icon-move {
+            position: absolute;
+        }
     }
 
 
@@ -22,22 +26,70 @@
         }
     }
 
-    &-td + &-errors {
-        color: $warningColor;font-size: 12px;padding-left: 1rem;
-
-        > p:first-child {
+    &-errorsUl {
+        li:first-child {
             padding-left: 1.3em;position: relative;
-
-            &.noIcon {padding-left: 0;}
 
             .yr-icon {
                 cursor: pointer;color: $blue;margin-right: .5em;
                 position: absolute;
                 top: 50%; transform: translate(-50%, -50%);left: .5em;
             }
+
+            &.noIcon {padding-left: 0;}
+        }
+    }
+
+    &-iconUp {
+        color: $blue;cursor: pointer;
+    }
+
+    @keyframes showformerror {
+        0% {
+            transform: rotateZ(0deg);opacity: 0;background: $blue;
         }
 
+        100% {
+            transform: rotateZ(360deg);opacity: .7;background: #000;
+            border-radius: 50%;
+        }
+    }
 
+    &-absolute, &-fadeOut {
+        position: absolute;padding: 1em;z-index: 10;border-radius: 4px;
+        opacity: .7;background: #000;
+    }
+
+    &-absolute {
+        animation: showformerror 700ms linear;
+    }
+
+    @keyframes formErrorFadeOut {
+        0% {
+            transform: rotateY(0deg);opacity: 1;background: #000;
+        }
+
+        100% {
+            transform: rotateY(720deg);opacity: 0;background: $blue;
+        }
+    }
+
+    &-fadeOut {
+        animation: formErrorFadeOut 1s linear;
+    }
+    &-td + &-errors {
+        position: relative;
+        color: $warningColor;font-size: 12px;padding-left: 1rem;
+    }
+
+    &-justify {
+        > p {
+            display: inline-flex;width: 100%;justify-content: space-between;
+        }
+    }
+
+    &-label {
+        font-size: .8em;color: $lineColor;
     }
 
 }
