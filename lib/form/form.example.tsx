@@ -25,7 +25,7 @@ const FormExample: React.FunctionComponent = () => {
     const rules = [
         {                                           //id 从1.0开始是第一种类，同种有优先级，越小的优先级越高
             id: 1,
-            key: "username",
+            key: "username",                        //id可以有另外一种功能，就算把warning，给动态替换掉，多语言的锚点,瞎想的。
             testFn: (data: string) => Boolean(data.trim()),
             warning: "用户名必填!",
             async: false

@@ -1,0 +1,60 @@
+@import '../_helper.scss';
+
+.iconGame {
+    margin: 2em 1em;
+
+}
+
+.yr-layout {
+    @keyframes moveX {
+        0% {transform: translate(0, 0);}
+        100% {transform: translate(2em, 0);}
+    }
+    @keyframes started {
+        0% {
+            width: 80vw;height: 80vw;opacity: 1;
+            transform: rotate3d(0, 0, 0, 20deg);
+            color: $mainColor;position: absolute;
+        }
+        50% {
+            width: 0;height: 0;opacity: 0;
+            transform: rotate3d(30, 36, -30, 360deg);
+            color: $warningColor;position: absolute;
+        }
+        100% {
+            width: 20em;height: 20em;opacity: .5;
+            transform: rotate(360deg);position: absolute;
+            color: $activeColor;
+        }
+    }
+
+    .yr-icon {
+        &-start {
+            color: $activeColor;
+            animation: started 3s linear;
+        }
+    }
+
+    &-header {
+        padding: 1em 0;
+
+        .top {
+            position: relative;
+            line-height: 2em;display: flex;
+
+            > svg {
+                position: absolute;z-index: 2;font-size: 2em;
+                color: $mainColor;top: 50%;left: 0;transform: translate(-50%, -50%);
+            }
+
+            > p {
+                overflow: hidden;width: 100%;
+
+                > svg {
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+}
