@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./formItem.scss";
+import "./form.scss";
 import {Fragment, ReactElement} from "react";
 import {scopeClassName} from "../../helpers/classes";
 
@@ -8,7 +8,7 @@ interface Props extends React.HTMLAttributes<ReactElement> {
 }
 
 const sc = scopeClassName("yr-form");
-const FormItem: React.FunctionComponent<Props> = ({classes, children, ...rest}) => {
+const FormItem: React.FunctionComponent<Props> = ({classes, children}) => {
     const classNames = classes || {};
     return (
         <Fragment>
@@ -19,4 +19,20 @@ const FormItem: React.FunctionComponent<Props> = ({classes, children, ...rest}) 
     );
 };
 
-export default FormItem;
+const FormHeader: React.FunctionComponent<Props> = ({classes, children}) => {
+    const classNames = classes || {};
+    return (
+        <div className={sc({header: true, ...classNames})}>
+            {children}
+        </div>
+    );
+};
+const FormFooter: React.FunctionComponent<Props> = ({classes, children}) => {
+    const classNames = classes || {};
+    return (
+        <div className={sc({footer: true, ...classNames})}>
+            {children}
+        </div>
+    );
+};
+export {FormItem, FormFooter, FormHeader};

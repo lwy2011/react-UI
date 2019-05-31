@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import "./form.scss";
-import {Fragment, ReactNode, useState} from "react";
+import {Fragment, ReactElement, ReactNode, useState} from "react";
 import Input from "../input/input";
 import {scopeClassName} from "../../helpers/classes";
 import Icon from "../icon/icon";
@@ -33,10 +33,12 @@ interface Props {
     testResult?: (data: errors) => void,
     warningStyle?: { [k: string]: string },
     justifyStyle?: boolean,
+    children?: ReactElement[],                      //用过断言了，所以，必须是用FormHeader/FormFooter等包裹进来的
+    childrenConfig?: { [k: string]: boolean }
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
-        const {errors, test, justifyStyle, warningStyle, value} = props;
+    const {errors, test, justifyStyle, warningStyle, value, children} = props;
 
         const inputText = (Value: string | number, name: string) => {   //onChange
             const newFormDate = {...value, [name]: Value};
@@ -132,9 +134,20 @@ const Form: React.FunctionComponent<Props> = (props) => {
                 setTimeout(() => setErrorsView && setErrorsView(val), 1000);
 
         };
-
+    const testChild = Array.isArray(children);
+    const childType = (type: string) => testChild &&
+        children!.filter((a: { [k: string]: any }) => a.type.name === type)[0];
         return (
             <form className="yr-form">
+                {
+                    console.log(children, testChild)
+                }
+                {
+                    childType("FormHeader")
+                }
+                {
+                    childType("FormItem")
+                }
                 <table className="yr-form-table">
                     <tbody>
                     {
@@ -239,7 +252,9 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     </tr>
                     </tbody>
                 </table>
-
+                {
+                    childType("FormFooter")
+                }
             </form>
         );
     }

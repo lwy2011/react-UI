@@ -2,6 +2,7 @@ import Form, {errors, newFormData} from "./form";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Button from "../button/button";
+import {FormFooter, FormHeader} from "./formItem";
 // import Validator from "./validator";
 
 
@@ -174,6 +175,11 @@ const FormExample: React.FunctionComponent = () => {
                   rules={rules}
                   testResult={testResult}
                   justifyStyle={true}
+                  childrenConfig={
+                      {
+                          Header: true,
+                      }
+                  }
                   buttons={
                       [
                           <Button message="提交"
@@ -186,8 +192,22 @@ const FormExample: React.FunctionComponent = () => {
                           <Button message="返回"
                                   onClick={() => setLoading(!loading)}/>
                       ]
-                  }
-            />
+                  }>
+                <FormHeader>
+                    <p>{"登录"}</p>
+                </FormHeader>
+                <FormFooter>
+                    <Button message="提交"
+                            onClick={() => setTest(true)}
+                            loading={loading}
+                            disabled={Boolean(loading || test)}
+                            state={{
+                                important: !Boolean(loading || test)
+                            }}/>
+                    <Button message="返回"
+                            onClick={() => setLoading(!loading)}/>
+                </FormFooter>
+            </Form>
         </div>
     );
 };
