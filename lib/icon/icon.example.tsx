@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from "react";
+import React, {FunctionComponent, useEffect, useRef, useState} from "react";
 
 import Icon from "./icon";
 import {Layout, Header, Content, Footer, Aside} from "../layout/layout";
@@ -23,37 +23,63 @@ const IconExample: FunctionComponent = () => {
         console.log(topWidth, pointWidth, counts);
     };
 
+
     useEffect(
         () => {
             setTopView();
-            window.onresize = null;
+            window.onresize = setTopView;
+            console.log(111, intervalRef);
+
+            const {current} = intervalRef;
+            current && current.interval && clearInterval(current.interval);
+
+            return () => {
+                window.onresize = null;
+            };
         }, []
     );
-    useEffect(
-        () => {
-            window.onresize = setTopView;
-            timer && clearInterval(timer);
-            console.log(222);
 
-        }
-    );
     const [start, setStart] = useState(false);
     const [time, setTime] = useState(60);
-    const [timer, setTimer] = useState<any>(undefined);
+
+    const intervalRef: { [k: string]: any } = useRef();
+    const intervalCallback = () => {
+        setTime(time - 1);
+    };
     useEffect(
         () => {
-            if (!timer && start) {
-                const Timer =
-                    setTimer(
-                        setInterval(
-                            () => setTime(time - 1), 900
-                        )
-                    );
-                setTimer(Timer);
-                console.log(time, Timer, "ttt");
+            const {current} = intervalRef;
+
+            intervalRef.current = {
+                ...current,
+                set: intervalCallback
+            };
+            console.log(intervalRef.current, "ttt");
+        }
+    );
+    useEffect(
+        () => {
+            const {interval, set} = intervalRef.current;
+            if (start && !interval) {
+                const tick = () => {
+                    intervalRef.current.set();
+                };
+                const Timer = setInterval(
+                    tick, 1000
+                );
+                intervalRef.current.interval = Timer;
+                console.log(time, Timer, set, "ttt");
             }
-            time === 0 && clearInterval(timer);
-        }, [start, time]
+            if (!start && interval) {
+                clearInterval(interval);
+                intervalRef.current.interval = undefined;
+            }
+        }, [start]
+    );
+    useEffect(
+        () => {
+            time === 0 && setStart(false);
+        }, [time]
     );
     return (
         <div>
