@@ -96,6 +96,16 @@
         &-timeStart {
             animation: icon-game-time infinite 2s linear;background: #000;
         }
+
+        &-headerStart {
+            > svg {
+                animation: moveX infinite 2s linear;
+            }
+
+            > p {
+                animation: header 60s linear;height: 2em;order: 2;
+            }
+        }
     }
 
     @keyframes header {
@@ -116,16 +126,14 @@
 
             > svg {
                 z-index: 2;font-size: 2em;order: 1;
-                color: $mainColor;animation: moveX infinite 2s linear;
+                color: $mainColor;
             }
 
-            > .yr-icon {
-                //animation: moveLarge 60s linear;
-            }
 
             > p {
                 overflow: hidden;width: calc(100% - 2.5em);
-                animation: header 60s linear;height: 2em;order: 2;
+                height: 2em;order: 2;
+
                 > svg {
                     vertical-align: middle;
                 }
