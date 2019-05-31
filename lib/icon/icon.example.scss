@@ -7,8 +7,29 @@
 
 .yr-layout {
     @keyframes moveX {
-        0% {transform: translate(0, 0);}
-        100% {transform: translate(2em, 0);}
+        0% {
+            transform: rotate(0); color: $mainColor;
+        }
+        25% {
+            transform: rotate(45deg);
+        }
+        50% {
+            transform: rotate(0);
+        }
+        75% {
+            transform: rotate(-45deg);
+        }
+        100% {
+            transform: rotate(0);color: #000;
+        }
+    }
+    @keyframes moveLarge {
+        0% {
+            width: 1rem;height: 1rem;
+        }
+        100% {
+            width: 2rem;height: 2rem;color: #000;
+        }
     }
     @keyframes started {
         0% {
@@ -27,29 +48,84 @@
             color: $activeColor;
         }
     }
+    @keyframes icon-game-time {
+        0% {
+            box-shadow: 0 0 0 1px lighten($warningColor, 50%);opacity: .5;
+            color: $activeColor;font-size: 1em;
+        }
+        100% {
+            box-shadow: 0 0 3px 3px lighten($warningColor, 0%);
+            opacity: .8;color: $warningColor;
+            font-size: 1.2em;
+        }
+    }
+    @keyframes move1 {
+        0% {
+            width: 1em;height: 1em;color: $warningColor;opacity: 1;
+            transform: rotate3d(20, -10, 50, 360deg);
+        }
+        100% {
+            width: 6em;height: 6em;opacity: 0;color: #000;
+            transform: rotate3d(-20, 10, -50, 360deg);
+        }
+    }
 
     .yr-icon {
         &-start {
             color: $activeColor;
             animation: started 3s linear;
         }
+
+        &-gameTime {
+            position: absolute;
+            display: inline-flex;opacity: .6;
+            border-radius: 6px;
+            left: 50%;top: 4em;padding: .5em 1em;
+            transform: translate(-50%, 0);
+
+            > span {
+                color: $lineColor;
+            }
+
+            .yr-icon {
+                position: absolute;
+                animation: move1 infinite 6s linear;
+            }
+        }
+
+        &-timeStart {
+            animation: icon-game-time infinite 2s linear;background: #000;
+        }
+    }
+
+    @keyframes header {
+        0% {
+            width: 100%;
+        }
+        100% {
+            width: 0;
+        }
     }
 
     &-header {
-        padding: 1em 0;
+        padding: 1em 0;position: relative;
 
         .top {
-            position: relative;
-            line-height: 2em;display: flex;
+            position: relative;margin-top: 2em;
+            line-height: 2em;display: flex;justify-content: flex-end;
 
             > svg {
-                position: absolute;z-index: 2;font-size: 2em;
-                color: $mainColor;top: 50%;left: 0;transform: translate(-50%, -50%);
+                z-index: 2;font-size: 2em;order: 1;
+                color: $mainColor;animation: moveX infinite 2s linear;
+            }
+
+            > .yr-icon {
+                //animation: moveLarge 60s linear;
             }
 
             > p {
-                overflow: hidden;width: 100%;
-
+                overflow: hidden;width: calc(100% - 2.5em);
+                animation: header 60s linear;height: 2em;order: 2;
                 > svg {
                     vertical-align: middle;
                 }

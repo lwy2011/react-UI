@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useRef, useState} from "react";
+import React, {Fragment, FunctionComponent, useEffect, useRef, useState} from "react";
 
 import Icon from "./icon";
 import {Layout, Header, Content, Footer, Aside} from "../layout/layout";
@@ -97,10 +97,19 @@ const IconExample: FunctionComponent = () => {
                             state={{disabled: start}}
                             onClick={() => setStart(true)}/>
                     {
-                        time && start &&
-                        <p>
-                            <span>{"剩余时间"}</span>
-                            <span>{time}</span>
+                        // time && start &&
+                        <p className={sc({"gameTime": true, timeStart: start})}>
+                            {
+                                start ?
+                                    <Fragment>
+                                        <span>{"剩余时间"}</span>
+                                        <span>{time}</span>
+                                    </Fragment> :
+                                    <Fragment>
+                                        <Icon name='guilian3'/>
+                                        <span>{"好怕怕"}</span>
+                                    </Fragment>
+                            }
                         </p>
                     }
                     <div className="top">
