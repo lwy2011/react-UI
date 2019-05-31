@@ -75,7 +75,7 @@ const InputExample: React.FunctionComponent = () => {
                            }]
                        }
                        onBlur={e => setData({...data, search: e.target.value})}
-                       button={<Button icon={"search1"}
+                       button={<Button icon={"search1"} state={{important: true}}
                                        onClick={() => setData({...data, search: "what are u 弄啥嘞？"})}/>}/>
 
             <IconInput type="text"
