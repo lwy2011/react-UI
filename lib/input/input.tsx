@@ -17,36 +17,43 @@ const Input: React.FunctionComponent<Props> = ({className, ...rest}) => {
 export default Input;
 
 interface IconProps extends Props {
-    icon?: Array<{ name: string, left: boolean, style?: { [k: string]: string } }>,
+    icon?: Array<{
+        name: string,
+        left: boolean,
+        style?: { [k: string]: string },
+        click?: (e: React.MouseEvent, name: string) => any
+    }>,
     button?: ReactElement,
-    iconClick?: (e: React.MouseEvent, name: string) => any,
-    // onChange:React.ChangeEventHandler<HTMLInputElement>
+    borderbottomonly?: string
 }
 
-const isc = scopeClassName("yr-iconInput-icon");
-const psc = scopeClassName("yr-iconInput-input");
+const isc = scopeClassName("yr-scopedInput-icon");
+const psc = scopeClassName("yr-scopedInput-input");
 
-const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChange, button, iconClick, ...rest}) =>
-    <div className={classes("yr-iconInput", className)}>
+const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChange, button, ...rest}) =>
+    <div className={classes("yr-scopedInput", className)}>
         {
             icon && icon.map((val, index) =>
                 <Fragment key={index}>
                     <Icon name={val.name}
                           style={val.style ? val.style : {}}
-                          className={isc({left: val.left, right: !val.left, click: Boolean(iconClick)})}
+                          className={isc({left: val.left, right: !val.left, click: Boolean(val.click)})}
                           onClick={(e: React.MouseEvent) => {
                               e.preventDefault();
-                              return iconClick && iconClick(e, val.name);
+                              return val.click && val.click(e, val.name);
                           }}/>
                 </Fragment>
             )
         }
         <Input {...rest} onChange={onChange} className={psc(
             {
+                "": true,
+                "button": Boolean(button),
                 left: Boolean(icon && icon.filter(val => val.left).length > 0),
                 right: Boolean(icon && icon.filter(val => !val.left).length > 0),
-            }
+            }, rest.borderbottomonly ? "yr-input-borderBottom" : ""
         )}/>
+
         {
             button && button
         }

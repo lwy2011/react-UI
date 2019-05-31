@@ -179,8 +179,8 @@ const FormExample: React.FunctionComponent = () => {
                           <Button message="提交"
                                   onClick={() => setTest(true)}
                                   loading={loading}
+                                  disabled={Boolean(loading || test)}
                                   state={{
-                                      disabled: Boolean(loading || test),
                                       important: !Boolean(loading || test)
                                   }}/>,
                           <Button message="返回"

@@ -9,8 +9,12 @@ const Buttons: React.FunctionComponent = () => {
 
     return (
         <div className='buttons'>
-            <Button message="下载" loading={loading} onClick={() => setLoading(!loading)} state={{disabled: loading}}/>
-            <Button message="下载" loading={loading1} onClick={() => setLoading1(!loading1)} icon={"download"}/>
+            <Button message="下载"
+                    loading={loading}
+                    onClick={() => setLoading(!loading)} disabled={loading}/>
+            <Button message="下载"
+                    loading={loading1}
+                    onClick={() => setLoading1(!loading1)} icon={"download"}/>
             <ButtonBox>
                 <Button message="向左" icon='left'/>
                 <Button message='ok'/>

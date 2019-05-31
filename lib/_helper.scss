@@ -3,7 +3,19 @@ $activeColor: #fff4c2;
 $warningColor: #FF4D4F;
 $font: 16px;
 $blue: #3FA9FF;
-$mainColor: #728BE7;
+$mainColor: #999EFF;
 $inputLineHeight: 1.375em;
 $inputPadding: .25em .5em;
 $buttonPadding: calc(.25em - 1px); //button ， input的高度基本一致了
+$disabledColor: #B7B7B7;
+$disabledBackground: #F5F5F5;
+$disabledBorder: #D9D9D9;
+@mixin clearBorderRadiusLeft {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+@mixin clearBorderRadiusRight {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

@@ -14,6 +14,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
     state?: {
         [k: string]: boolean
     },
+    disabled?: boolean
 }
 
 const sc = scopeClassName("yr-button");
@@ -24,7 +25,7 @@ const Button: React.FunctionComponent<ButtonProps> =
         return (
             <div className={sc(cases1, className)}
                  {...rest}
-                 onClick={(e) => !(state && state.disabled) && onClick && onClick(e)}>
+                 onClick={(e) => !rest.disabled && onClick && onClick(e)}>
                 {
                     cases &&
                     <Icon name={cases}

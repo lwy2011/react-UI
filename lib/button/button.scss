@@ -26,7 +26,10 @@
         line-height: 1em;display: table;vertical-align: middle;
     }
 
-    &-disabled {background: #666;cursor: none;}
+    &[disabled] {
+        background: $disabledBackground;cursor: not-allowed;
+        border-color: $disabledBorder;color: $disabledColor;
+    }
 
     &-warning {
         color: $warningColor;
@@ -44,7 +47,7 @@
     &-close {
         background: $warningColor;padding: 0;border-radius: 50%;
         border: none;
-
+        color: #fff;
         &:hover {
             border: none;color: #fff;
         }
