@@ -34,7 +34,6 @@ interface Props {
     warningStyle?: { [k: string]: string },
     justifyStyle?: boolean,
     children?: ReactElement[],                      //用过断言了，所以，必须是用FormHeader/FormFooter等包裹进来的
-    childrenConfig?: { [k: string]: boolean }
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {

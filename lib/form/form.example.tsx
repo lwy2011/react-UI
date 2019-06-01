@@ -175,11 +175,6 @@ const FormExample: React.FunctionComponent = () => {
                   rules={rules}
                   testResult={testResult}
                   justifyStyle={true}
-                  childrenConfig={
-                      {
-                          Header: true,
-                      }
-                  }
                   buttons={
                       [
                           <Button message="提交"
