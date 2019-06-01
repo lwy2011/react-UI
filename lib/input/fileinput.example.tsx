@@ -1,4 +1,5 @@
 import * as React from "react";
+// @ts-ignore
 import {FileInput, Imgs} from "./input";
 import {useState} from "react";
 import Button from "../button/button";
@@ -16,14 +17,14 @@ const FileinputExample: React.FunctionComponent = () => {
             {
                 data[0] &&
                 data.map(
-                    (img, index) => {
+                    (img: { [k: string]: string | File }, index: number) => {
                         const {size, title, type} = img;
                         const val1 = typeof size === "string" ? size : "";
                         const val2 = testStr(title);
                         const val3 = testStr(type);
                         return <OutputView key={index}
                                            data={
-                                               {size: val1, title: val2, type: val3}
+                                               {size: val1, name: val2, type: val3}
                                            }/>;
                     }
                 )

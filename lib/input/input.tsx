@@ -104,8 +104,8 @@ interface previewProps extends React.HTMLAttributes<HTMLDivElement> {
     close: () => void,
 }
 
-export type Imgs = Array<propsObj>
-
+type Imgs = Array<propsObj>
+export {Imgs};
 const ImgPreview: React.FunctionComponent<previewProps> = ({src, show, close, ...rest}) => {
     const cs = scopeClassName("yr-img-preview");
     const [width, setWidth] = useState(600);
