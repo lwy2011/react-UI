@@ -3,13 +3,13 @@ import ReactDom from "react-dom";
 import {HashRouter as Router, Route, NavLink} from "react-router-dom";
 import Icon from "./lib/icon/icon";
 import "./local.dev.scss";
-import Dialogs from "./lib/dialog/dialog.example";
 import LayoutExample from "./lib/layout/example";
 import {Layout, Header, Content, Footer, Aside} from "./lib/layout/layout";
 import IconDemo from "./lib/icon/icon.demo";
 import ButtonDemo from "./lib/button/button.demo";
 import FormDemo from "./lib/form/form.medo";
 import InputDemo from "./lib/input/input.demo";
+import DialogDemo from "./lib/dialog/dialog.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -78,7 +78,7 @@ const RouterView: React.FunctionComponent = () => {
                     <h4>{tab}</h4>
                     <Route path="/icon" component={IconDemo}/>
                     <Route path="/button" component={ButtonDemo}/>
-                    <Route path="/dialog" component={Dialogs}/>
+                    <Route path="/dialog" component={DialogDemo}/>
                     <Route path="/layout" component={LayoutExample}/>
                     <Route path="/form" component={FormDemo}/>
                     <Route path="/input" component={InputDemo}/>

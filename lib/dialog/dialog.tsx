@@ -8,7 +8,7 @@ import {scopeClassName} from "../../helpers/classes";
 
 interface props extends React.HTMLAttributes<HTMLElement> {
     visible: Boolean,
-    close: React.MouseEventHandler,
+    close?: React.MouseEventHandler,
     maskClickToClose?: boolean,
     buttons?: Array<ReactElement>,
     title?: string,
@@ -20,9 +20,9 @@ const sc = scopeClassName("yr-dialog");
 
 const Dialog: React.FunctionComponent<props> = ({visible, children, buttons, close, title, maskClickToClose, maskNeed}) => {
     const x = visible && <Fragment>
-        {maskNeed && <div className={sc("mask")} onClick={(e) => maskClickToClose && close(e)}/>}
+        {maskNeed && <div className={sc("mask")} onClick={(e) => maskClickToClose && close && close(e)}/>}
         <div className="yr-dialog">
-            <Button className={sc("close", "yr-button-close")} onClick={close} icon="close"/>
+            <Button className={sc("close", "yr-button-close")} onClick={close ? close : () => ""} icon="close"/>
 
             {title && <header className={sc("header")}>
                 <h3>{title}</h3>
