@@ -55,12 +55,12 @@ const IconExample: FunctionComponent = () => {
                 ...current,
                 set: intervalCallback
             };
-            console.log(intervalRef.current, "ttt");
+            // console.log(intervalRef.current, "ttt");
         }
     );
     useEffect(
         () => {
-            const {interval, set} = intervalRef.current;
+            const {interval} = intervalRef.current;
             if (start && !interval) {
                 const tick = () => {
                     intervalRef.current.set();
@@ -69,7 +69,7 @@ const IconExample: FunctionComponent = () => {
                     tick, 1000
                 );
                 intervalRef.current.interval = Timer;
-                console.log(time, Timer, set, "ttt");
+                console.log(time, Timer, "ttt");
             }
             if (!start && interval) {
                 clearInterval(interval);

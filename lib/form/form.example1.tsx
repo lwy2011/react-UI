@@ -144,7 +144,7 @@ const FormExample1: React.FunctionComponent = () => {
             testFn: (data: string) => Boolean(!data),
             warning: "验证码有误",
             async: false
-        },
+        }
     ];
     const testResult = (result: errors) => {
         console.log(result, "result");

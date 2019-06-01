@@ -44,12 +44,12 @@ const Form: React.FunctionComponent<Props> = (props) => {
             props.onChange(newFormDate);
         };
 
-        const arrTest = (obj: { [k: string]: string[] }, key: string, res: string) =>
-            Array.isArray(obj[key]) ? obj[key].push(res) : obj[key] = [res];
-
 
     const validator =       //验证器
             (data: newFormData, rules: FormRules): void => {
+                const arrTest = (obj: { [k: string]: string[] }, key: string, res: string) =>
+                    Array.isArray(obj[key]) ? obj[key].push(res) : obj[key] = [res];
+
                 const warning: any = {};
                 //同步的验证
                 rules.map(
@@ -57,7 +57,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                         !rule.testFn(data[rule.key]) && arrTest(warning, rule.key, rule.warning)
                 );
 
-
+                //异步
                 const asyncArr = rules.filter(
                     rule => rule.async
                 );
@@ -70,50 +70,22 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                     (err: string) => arrTest(warning, rule.key, err)
                                 )
                     ) : false;
-                // const normals =  rules.filter(rule => !rule.async);
-                // const normalArr:string[] = normals.length === 0 ? []:
-                //     normals.map(rule => !rule.testFn(data[rule.key]) && [rule.key, rule.id+'',rule.warning] )
-                //         .filter(val => val && val.length === 3 );
-                // const testFnArr1 = asyncArr.length > 0 ?
-                //     asyncArr.map(
-                //         rule =>
-                //             (rule.testFn(data[rule.key]) as Promise<{}>)  //强制断言，筛选出异步的，才可以断言
-                //                 .then(
-                //                     (res: boolean) => !res && [rule.key,rule.id+'', rule.warning],
-                //                     (err: string) => [rule.key,rule.id+'', err]
-                //                 )
-                //     ) : false;
 
-                // asyncArr.length === 0 ?
-                //     props.testResult && props.testResult(normalArr) :
-                //
-                // Promise.all(testFnArr1 as Array<Promise<{}>>).then(
-                //     (res: Array<string[]|false>) => {
-                //         // @ts-ignore //这里用filter给筛选了false的占位们了。
-                //         const filter:Array<string[]> = normalArr.concat(
-                //             res.filter(val => Boolean(val))
-                //         );
-                //         const maxArr:Array<string[]> = filter.length > 1 ?
-                //             filter.sort((a:Array<string>,b:Array<string>)=>Number(b[1]) - Number(a[1])): filter;
-                //
-                //         console.log(res, normalArr, "hhhh", filter,maxArr);
-                //         // props.testResult && props.testResult( maxArr )  //验证信息回流给父组件
-                //     }
-                // );
-                asyncArr.length === 0 ?
-                    props.testResult && props.testResult(warning) :  //验证信息回流给父组件
-                    Promise.all(testFnArr as Array<Promise<{}>>).then(    //强制断言,这里也是先确定有异步才可以断言
-                        () =>
-                            props.testResult && props.testResult(warning), //验证信息回流给父组件
-                        () =>
-                            props.testResult && props.testResult(warning)
-                    );
+                const last = () => props.testResult && props.testResult(warning);
+                asyncArr.length === 0 ? last() :  //验证信息回流给父组件
+                    Promise.all(testFnArr as Array<Promise<{}>>)
+                        .then(    //强制断言,这里也是先确定有异步才可以断言
+                            () => last(), //验证信息回流给父组件
+                            () => last()
+                        );
             };
 
     useEffect(
         () => {
             props.rules && props.test &&
             validator(value, props.rules);  //触发验证并返回验证信息给父组件
+
+            props.test && !tested && setTested(true);      //首测过没,测试过之后的标识
         }
     );
 
@@ -123,11 +95,6 @@ const Form: React.FunctionComponent<Props> = (props) => {
 
         const [tested, setTested] = useState(false);
 
-    useEffect(
-        () => {
-            !tested && props.test && setTested(true);      //首测过没,测试过之后的标识
-        }, [tested]
-    );
 
         const viewIconClick = (index: number) => {
             const ind = errorsView.indexOf(index);
@@ -274,3 +241,35 @@ const Form: React.FunctionComponent<Props> = (props) => {
     }
 ;
 export default Form;
+
+
+// const normals =  rules.filter(rule => !rule.async);
+// const normalArr:string[] = normals.length === 0 ? []:
+//     normals.map(rule => !rule.testFn(data[rule.key]) && [rule.key, rule.id+'',rule.warning] )
+//         .filter(val => val && val.length === 3 );
+// const testFnArr1 = asyncArr.length > 0 ?
+//     asyncArr.map(
+//         rule =>
+//             (rule.testFn(data[rule.key]) as Promise<{}>)  //强制断言，筛选出异步的，才可以断言
+//                 .then(
+//                     (res: boolean) => !res && [rule.key,rule.id+'', rule.warning],
+//                     (err: string) => [rule.key,rule.id+'', err]
+//                 )
+//     ) : false;
+
+// asyncArr.length === 0 ?
+//     props.testResult && props.testResult(normalArr) :
+//
+// Promise.all(testFnArr1 as Array<Promise<{}>>).then(
+//     (res: Array<string[]|false>) => {
+//         // @ts-ignore //这里用filter给筛选了false的占位们了。
+//         const filter:Array<string[]> = normalArr.concat(
+//             res.filter(val => Boolean(val))
+//         );
+//         const maxArr:Array<string[]> = filter.length > 1 ?
+//             filter.sort((a:Array<string>,b:Array<string>)=>Number(b[1]) - Number(a[1])): filter;
+//
+//         console.log(res, normalArr, "hhhh", filter,maxArr);
+//         // props.testResult && props.testResult( maxArr )  //验证信息回流给父组件
+//     }
+// );

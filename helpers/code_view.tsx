@@ -7,7 +7,6 @@ interface Props {
     path: string
 }
 
-//'../lib/icon/icon.example.tsx'
 
 const CodeView: React.FunctionComponent<Props> = props => {
     const code = require("!!raw-loader!../lib/" + props.path).default;

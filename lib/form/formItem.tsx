@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./form.scss";
+import "./formItem.scss";
 import {Fragment, ReactElement} from "react";
 import {scopeClassName} from "../../helpers/classes";
 
