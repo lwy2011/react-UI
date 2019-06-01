@@ -2,9 +2,10 @@ import Form, {errors, newFormData} from "./form";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Button from "../button/button";
+import {FormFooter, FormHeader} from "./formItem";
 
 
-const FormExample: React.FunctionComponent = () => {
+const FormExample1: React.FunctionComponent = () => {
     const [formData, setFormData] = useState<newFormData>({
         username: "",
         password: "",
@@ -173,21 +174,24 @@ const FormExample: React.FunctionComponent = () => {
                   rules={rules}
                   testResult={testResult}
                   justifyStyle={true}
-                  buttons={
-                      [
-                          <Button message="提交"
-                                  onClick={() => setTest(true)}
-                                  loading={loading}
-                                  disabled={Boolean(loading || test)}
-                                  state={{
-                                      important: !Boolean(loading || test)
-                                  }}/>,
-                          <Button message="返回"
-                                  onClick={() => setLoading(!loading)}/>
-                      ]
-                  }/>
+            >
+                <FormHeader>
+                    <p>{"登录"}</p>
+                </FormHeader>
+                <FormFooter>
+                    <Button message="提交"
+                            onClick={() => setTest(true)}
+                            loading={loading}
+                            disabled={Boolean(loading || test)}
+                            state={{
+                                important: !Boolean(loading || test)
+                            }}/>
+                    <Button message="返回"
+                            onClick={() => setLoading(!loading)}/>
+                </FormFooter>
+            </Form>
         </div>
     );
 };
 
-export default FormExample;
+export default FormExample1;

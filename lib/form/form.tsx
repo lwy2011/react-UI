@@ -25,7 +25,7 @@ export interface errors {[k: string]: string[]}
 interface Props {
     value: newFormData,
     fields: Array<{ name: string, label: string, input: { type: string } }>,
-    buttons: ReactNode[],
+    buttons?: ReactNode[],
     onChange: (value: newFormData) => void,
     rules?: FormRules,
     errors?: errors,
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const Form: React.FunctionComponent<Props> = (props) => {
-    const {errors, test, justifyStyle, warningStyle, value, children} = props;
+    const {errors, test, justifyStyle, warningStyle, value, children, buttons} = props;
 
         const inputText = (Value: string | number, name: string) => {   //onChange
             const newFormDate = {...value, [name]: Value};
@@ -249,19 +249,23 @@ const Form: React.FunctionComponent<Props> = (props) => {
                             }
                         )
                     }
-                    <tr className={sc("tr")}>
-                        <td className={sc("td")}/>
-                        <td className={sc("td")}>
-                            {
-                                props.buttons.map(
-                                    (button, index) =>
-                                        <Fragment key={index}>
-                                            {button}
-                                        </Fragment>
-                                )
-                            }
-                        </td>
-                    </tr>
+                    {
+                        buttons &&
+                        <tr className={sc("tr")}>
+                            <td className={sc("td")}/>
+                            <td className={sc("td")}>
+                                {
+                                    buttons.map(
+                                        (button, index) =>
+                                            <Fragment key={index}>
+                                                {button}
+                                            </Fragment>
+                                    )
+                                }
+                            </td>
+                        </tr>
+
+                    }
                     </tbody>
                 </table>
                 {

@@ -35,4 +35,12 @@ const FormFooter: React.FunctionComponent<Props> = ({classes, children}) => {
         </div>
     );
 };
-export {FormItem, FormFooter, FormHeader};
+const FormDIYitem: React.FunctionComponent<Props> = ({classes, children}) => {
+    const classNames = classes || {};
+    return (
+        <div className={sc({diyItem: true, ...classNames})}>
+            {children}
+        </div>
+    );
+};
+export {FormItem, FormFooter, FormHeader, FormDIYitem};
