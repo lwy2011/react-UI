@@ -206,10 +206,11 @@
             }
 
             .formDemos {
+                margin: 0 auto; max-width: 700px;overflow-x: scroll;
                 .formExample1 {
 
                     display: inline-flex;flex-wrap: wrap;justify-content: space-between;
-                    overflow-x: scroll;max-width: 600px;
+                    max-width: 600px;
                 }
 
             }
