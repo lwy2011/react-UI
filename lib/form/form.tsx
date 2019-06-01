@@ -218,9 +218,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                                                 </p>
                                             </td>
                                             <td className={sc("td")}>
-                                                {
-                                                    test && <Icon name='search' className="yr-icon-move"/>
-                                                }
+                                                {test && <Icon name='search' className="yr-icon-move"/>}
                                                 <Input type={input.type}
                                                        value={props.value[name]}
                                                        onChange={
