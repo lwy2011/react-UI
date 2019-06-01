@@ -4,7 +4,8 @@ import {Fragment, ReactElement} from "react";
 import {scopeClassName} from "../../helpers/classes";
 
 interface Props extends React.HTMLAttributes<ReactElement> {
-    classes?: { [k: string]: boolean }
+    classes?: { [k: string]: boolean },
+    cases?: boolean | undefined
 }
 
 const sc = scopeClassName("yr-form");
@@ -35,12 +36,17 @@ const FormFooter: React.FunctionComponent<Props> = ({classes, children}) => {
         </div>
     );
 };
-const FormDIYitem: React.FunctionComponent<Props> = ({classes, children}) => {
+const FormDIYitem: React.FunctionComponent<Props> = ({classes, children, cases}) => {
     const classNames = classes || {};
     return (
-        <div className={sc({diyItem: true, ...classNames})}>
-            {children}
-        </div>
+        <Fragment>
+            {
+                cases &&
+                <div className={sc({diyItem: true, ...classNames})}>
+                    {children}
+                </div>
+            }
+        </Fragment>
     );
 };
 export {FormItem, FormFooter, FormHeader, FormDIYitem};
