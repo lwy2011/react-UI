@@ -10,6 +10,7 @@ import ButtonDemo from "./lib/button/button.demo";
 import FormDemo from "./lib/form/form.medo";
 import InputDemo from "./lib/input/input.demo";
 import DialogDemo from "./lib/dialog/dialog.demo";
+import FileInputDemo from "./lib/input/fileinput.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -28,7 +29,8 @@ const names: componentNames = {
     input: "输入框",
     dialog: "对话框",
     layout: "布局",
-    form: "表单"
+    form: "表单",
+    upload: "上传"
 };
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
@@ -82,6 +84,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/layout" component={LayoutExample}/>
                     <Route path="/form" component={FormDemo}/>
                     <Route path="/input" component={InputDemo}/>
+                    <Route path="/upload" component={FileInputDemo}/>
 
                 </Content>
             </Layout>
