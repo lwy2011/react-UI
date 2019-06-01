@@ -140,6 +140,9 @@
 
                         }
 
+                        img {
+                            width: 100%;
+                        }
 
                         display: inline-flex; flex-direction: column;
 
@@ -155,7 +158,7 @@
                     > h4 {color: $lineColor; margin: 1em 0; padding: 2em 0;border-bottom: 1px solid $lineColor;}
 
                     > .yr-button {
-                        margin: 1em;margin-left: 0;
+                        margin: 1em 1em 1em 0;
                     }
                 }
 
