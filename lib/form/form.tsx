@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import "./form.scss";
-import {Fragment, ReactElement, ReactNode, useState} from "react";
+import {Fragment, ReactElement, ReactNode, useEffect, useState} from "react";
 import Input from "../input/input";
 import {scopeClassName} from "../../helpers/classes";
 import Icon from "../icon/icon";
@@ -49,7 +49,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
             Array.isArray(obj[key]) ? obj[key].push(res) : obj[key] = [res];
 
 
-        const validator =
+    const validator =       //验证器
             (data: newFormData, rules: FormRules): void => {
                 const warning: any = {};
                 //同步的验证
@@ -111,15 +111,24 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     );
             };
 
-        props.rules && props.test && validator(value, props.rules);  //触发验证并返回验证信息给父组件
-
+    useEffect(
+        () => {
+            props.rules && props.test &&
+            validator(value, props.rules);  //触发验证并返回验证信息给父组件
+        }
+    );
 
         const sc = scopeClassName("yr-form");
 
         const [errorsView, setErrorsView] = useState<number[]>([]);  //控制验证信息展示的数量
 
         const [tested, setTested] = useState(false);
-        !tested && props.test && setTested(true);      //首测过没,测试过之后的标识
+
+    useEffect(
+        () => {
+            !tested && props.test && setTested(true);      //首测过没,测试过之后的标识
+        }, [tested]
+    );
 
         const viewIconClick = (index: number) => {
             const ind = errorsView.indexOf(index);
@@ -134,9 +143,13 @@ const Form: React.FunctionComponent<Props> = (props) => {
                 setTimeout(() => setErrorsView && setErrorsView(val), 1000);
 
         };
-    const testChild = Array.isArray(children);
+
+
+    const testChild = Array.isArray(children);          //Form组件包裹的Form配套子组件的设定，筛选
     const childType = (type: string) => testChild &&
         children!.filter((a: { [k: string]: any }) => a.type.name === type)[0];
+
+
         return (
             <form className="yr-form">
                 {
