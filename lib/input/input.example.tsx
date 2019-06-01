@@ -2,6 +2,7 @@ import * as React from "react";
 import Input, {IconInput} from "./input";
 import {useState} from "react";
 import Button from "../button/button";
+import OutputView from "../../helpers/outputView";
 
 
 const InputExample: React.FunctionComponent = () => {
@@ -21,12 +22,8 @@ const InputExample: React.FunctionComponent = () => {
             <Input value={value} disabled onChange={e => setVal(e.target.value)}/>
             <Input value={value1} onChange={e => setVal1(e.target.value)}/>
             <Input value={value2} readOnly onChange={e => setVal2(e.target.value)}/>
-            <div>
-                {JSON.stringify(data)}
-            </div>
-            <div>
-                message : {message}
-            </div>
+            <OutputView data={{...data, message}}/>
+
             <IconInput type="text"
                        onChange={e => setData({...data, user: e.target.value})}
                        value={data.user}

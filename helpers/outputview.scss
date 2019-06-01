@@ -1,0 +1,26 @@
+@import "../lib/_helper.scss";
+
+.output-view {
+    background: #000;opacity: .7;
+    padding: 1em;margin: 2em auto;
+    color: $activeColor;
+
+    > .view-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        > svg {
+            color: $mainColor;
+            margin: 0 1em;
+        }
+
+        span:last-child {
+            color: $warningColor;
+
+            svg {
+                color: #fff;width: 2em;height: 2em;
+            }
+        }
+    }
+}

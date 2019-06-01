@@ -3,6 +3,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import Button from "../button/button";
 import {FormFooter, FormHeader} from "./formItem";
+import OutputView from "../../helpers/outputView";
 
 
 const FormExample1: React.FunctionComponent = () => {
@@ -162,9 +163,7 @@ const FormExample1: React.FunctionComponent = () => {
 
     return (
         <div className="formExample1">
-            <div>
-                {JSON.stringify(formData)}
-            </div>
+            <OutputView data={formData}/>
             <Form value={formData} fields={fields}
                   onChange={(newData: newFormData) => {
                       setFormData(newData);
