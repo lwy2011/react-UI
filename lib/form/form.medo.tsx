@@ -9,7 +9,7 @@ const FormDemo: React.FunctionComponent = () =>
         <CodeView path="form/form.example.tsx">
             <FormExample/>
         </CodeView>
-        <CodeView path="form/form.example.tsx">
+        <CodeView path="form/form.example1.tsx">
             <FormExample1/>
         </CodeView>
     </div>;
