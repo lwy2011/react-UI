@@ -204,6 +204,16 @@
                     background: #58725F;margin: 5px;width: 40%;
                 }
             }
+
+            .formDemos {
+                .formExample1 {
+
+                    display: inline-flex;flex-wrap: wrap;justify-content: space-between;
+                    overflow-x: scroll;max-width: 600px;
+                }
+
+            }
+
         }
     }
 }

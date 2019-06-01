@@ -60,4 +60,33 @@ const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChang
     </div>;
 
 
-export {IconInput};
+const FileInput: React.FunctionComponent<IconProps> = ({className, icon, onChange, button, ...rest}) =>
+    <div className={classes("yr-scopedInput", className)}>
+        {
+            icon && icon.map((val, index) =>
+                <Fragment key={index}>
+                    <Icon name={val.name}
+                          style={val.style ? val.style : {}}
+                          className={isc({left: val.left, right: !val.left, click: Boolean(val.click)})}
+                          onClick={(e: React.MouseEvent) => {
+                              e.preventDefault();
+                              return val.click && val.click(e, val.name);
+                          }}/>
+                </Fragment>
+            )
+        }
+        <Input {...rest} onChange={onChange} className={psc(
+            {
+                "": true,
+                "button": Boolean(button),
+                left: Boolean(icon && icon.filter(val => val.left).length > 0),
+                right: Boolean(icon && icon.filter(val => !val.left).length > 0),
+            }, rest.borderbottomonly ? "yr-input-borderBottom" : ""
+        )}/>
+
+        {
+            button && button
+        }
+    </div>;
+
+export {IconInput, FileInput};
