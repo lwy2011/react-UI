@@ -113,7 +113,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
 
     const testChild = Array.isArray(children);          //Form组件包裹的Form配套子组件的设定，筛选
     const childType = (type: string) => testChild &&
-        children!.filter((a: { [k: string]: any }) => a.type.name === type)[0];
+        children!.filter((a: { [k: string]: any }) => a.props.type === type)[0];
 
 
         return (
@@ -122,10 +122,10 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     console.log(children, testChild)
                 }
                 {
-                    childType("FormHeader")
+                    childType("header")
                 }
                 {
-                    childType("FormItem")
+                    childType("item")
                 }
                 <table className="yr-form-table">
                     <tbody>
@@ -234,7 +234,7 @@ const Form: React.FunctionComponent<Props> = (props) => {
                     </tbody>
                 </table>
                 {
-                    childType("FormFooter")
+                    childType("footer")
                 }
             </form>
         );

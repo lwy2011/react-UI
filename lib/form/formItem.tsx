@@ -6,6 +6,7 @@ import {scopeClassName} from "../../helpers/classes";
 
 interface Props extends React.HTMLAttributes<ReactElement> {
     classes?: { [k: string]: boolean },
+    type: string,
     cases?: boolean | undefined
 }
 

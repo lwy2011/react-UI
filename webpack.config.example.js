@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = Object.assign({}, base, {
     mode: 'production',
     entry: {
-        example: './local.dev.tsx',
+        index: './local.dev.tsx',
     },
     output: {
         path: path.resolve(__dirname, 'doc/')

@@ -174,10 +174,10 @@ const FormExample1: React.FunctionComponent = () => {
                   testResult={testResult}
                   justifyStyle={true}
             >
-                <FormHeader>
+                <FormHeader type={"header"}>
                     <p>{"登录"}</p>
                 </FormHeader>
-                <FormFooter>
+                <FormFooter type={"footer"}>
                     <Button message="提交"
                             onClick={() => setTest(true)}
                             loading={loading}
