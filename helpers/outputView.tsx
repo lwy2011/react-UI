@@ -3,7 +3,8 @@ import Icon from "../lib/icon/icon";
 import "./outputview.scss";
 
 interface props {
-    data: { [k: string]: string }
+    data: { [k: string]: string },
+    string?: string
 }
 
 const OutputView: React.FunctionComponent<props> = (props) => {
@@ -17,6 +18,12 @@ const OutputView: React.FunctionComponent<props> = (props) => {
                         <span>{props.data[key] || <Icon name={"kong"}/>}</span>
                     </li>
                 )
+            }
+            {
+                props.string &&
+                <div>
+                    {props.string}
+                </div>
             }
         </ul>
     );
