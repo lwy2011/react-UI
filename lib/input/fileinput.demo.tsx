@@ -6,6 +6,7 @@ import FileInputExample2 from "./fileinput.example2";
 import FileInputExample3 from "./fileinput.example3";
 import FileInputExample4 from "./fileinput.example4";
 import FileInputExample5 from "./fileinput.example5";
+import FileInputExample6 from "./fileinput.example6";
 
 
 const FileInputDemo: React.FunctionComponent = () =>
@@ -27,6 +28,9 @@ const FileInputDemo: React.FunctionComponent = () =>
         </CodeView>
         <CodeView path="input/fileinput.example5.tsx">
             <FileInputExample5/>
+        </CodeView>
+        <CodeView path="input/fileinput.example6.tsx">
+            <FileInputExample6/>
         </CodeView>
     </div>;
 

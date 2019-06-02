@@ -14,6 +14,7 @@ const FileInputExample1: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
+            <h4>{"出现在右边"}</h4>
             {
                 data[0] &&
                 data.map(

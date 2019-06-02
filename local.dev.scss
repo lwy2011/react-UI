@@ -91,7 +91,7 @@
                 color: $lineColor;border-bottom: 1px solid $lineColor;
             }
 
-            > h4 {
+            h4 {
                 color: $lineColor;text-align: center;
                 margin: 1em 0;
             }
@@ -112,17 +112,28 @@
 
 
             > .inputDemo {
+                overflow-x: scroll;
                 > div {
                     > .yr-input {
                         margin: 1em;
-
                     }
 
+                    h4 {
+                        font-size: 12px;text-align: left;
+                    }
                     > div {margin: 1em;}
 
                     > .yr-iconInput {
                         margin: 1em;
                     }
+
+                    .yr-scopedInput-input {
+                        width: 10em;
+                    }
+                }
+
+                .fileInputExample {
+                    border: 1px dashed $mainColor;
                 }
             }
 

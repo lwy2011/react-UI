@@ -14,6 +14,7 @@ const FileInputExample4: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
+            <h4>{"出现在本身"}</h4>
             {
                 data[0] &&
                 data.map(

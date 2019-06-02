@@ -130,7 +130,7 @@ interface fileProps extends Props {
     upload: boolean,
     uploadData: (imgs: Imgs) => void,
     imgsPosition: string,
-    imgSize: stringObj,
+    imgSize?: stringObj,
     maxSize?: stringObj,
     minSize?: stringObj,
 }
@@ -215,7 +215,7 @@ const FileInput: React.FunctionComponent<fileProps> =
         </Fragment>;
 
 
-        const imgLists =
+        const imgLists = imgsPosition !== "noNeed" &&
             <Fragment>
                 {
                     (imgsPosition === "right" || imgsPosition === "left" || imgs[0]) &&
@@ -274,18 +274,22 @@ const FileInput: React.FunctionComponent<fileProps> =
         const inputDom = <div className={classes("yr-fileInput", "yr-fileInput-inputBox")}
                               style={imgsPosition === "center" ? imgSize : {}}>
             {
-                imgsPosition !== "center" ? inputChildDom :
-                    (imgs.length > 0 ? imgLists : inputChildDom)
+                !("noNeed" === imgsPosition || imgsPosition !== "center") ?
+                    (imgs.length > 0 ? imgLists : inputChildDom) : inputChildDom
             }
         </div>;
 
         console.log(imgs);
         return (
-            <div className={classes("yr-input-file", className)}>
-                {(imgsPosition === "up" || imgsPosition === "left" || imgsPosition === "right") && imgLists}
-                {(imgsPosition === "up" || imgsPosition === "down" || imgsPosition === "center") && inputDom}
-                {(imgsPosition === "down") && imgLists}
-            </div>
+            imgsPosition === "noNeed" ?
+                <div className={classes("yr-input-file", className)}>
+                    {inputDom}
+                </div> :
+                <div className={classes("yr-input-file", className)}>
+                    {(imgsPosition === "up" || imgsPosition === "left" || imgsPosition === "right") && imgLists}
+                    {(imgsPosition === "up" || imgsPosition === "down" || imgsPosition === "center") && inputDom}
+                    {(imgsPosition === "down") && imgLists}
+                </div>
         );
     };
 
