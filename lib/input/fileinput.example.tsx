@@ -6,7 +6,7 @@ import Button from "../button/button";
 import OutputView from "../../helpers/outputView";
 
 
-const FileinputExample: React.FunctionComponent = () => {
+const FileInputExample: React.FunctionComponent = () => {
     const [data, setData] = useState<Imgs>([]);
 
     const [upload, setUpload] = useState(false);
@@ -20,6 +20,7 @@ const FileinputExample: React.FunctionComponent = () => {
                     (img: { [k: string]: string | File }, index: number) => {
                         const {size, title, type} = img;
                         const val1 = typeof size === "string" ? size : "";
+
                         const val2 = testStr(title);
                         const val3 = testStr(type);
                         return <OutputView key={index}
@@ -42,4 +43,4 @@ const FileinputExample: React.FunctionComponent = () => {
     );
 };
 
-export default FileinputExample;
+export default FileInputExample;

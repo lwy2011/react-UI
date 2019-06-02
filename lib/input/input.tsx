@@ -108,22 +108,32 @@ type Imgs = Array<propsObj>
 export {Imgs};
 const ImgPreview: React.FunctionComponent<previewProps> = ({src, show, close, ...rest}) => {
     const cs = scopeClassName("yr-img-preview");
-    const [width, setWidth] = useState(600);
+    const [width, setWidth] = useState<number | null>(null);
     useEffect(
         () => {
             const baseWidth = getStyle(".yr-img-preview-box", "width");
+            console.log(baseWidth, "bbb");
             baseWidth && setWidth(parseInt(baseWidth));
         }, []
     );
+    const bigerClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setWidth(width! + 50);
+    };
+    const smallerClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setWidth(width! - 150 > 0 ? width! - 50 : width);
+    };
     const x = show &&
         <div className={cs("")}>
             <div className={cs("mask")} {...rest} onClick={() => close()}/>
-            <div className={cs("box")} style={{width: width, maxWidth: width}}>
+            <div onClick={smallerClick}
+                 className={cs("box")}
+                 style={width ? {width: width, maxWidth: width} : {}}>
                 <img src={src} alt="img"
-                     onMouseLeave={() => setWidth(width - 150 > 0 ? width - 50 : width)}
-                     onClick={() => setWidth(width + 50)}/>
+                     onClick={bigerClick}/>
                 <p className={cs("remind")}>
-                    {"点击图片，放大！鼠标移出去缩小！"}
+                    {"点击图片，放大！点击边框，缩小！"}
                 </p>
             </div>
         </div>;
@@ -171,25 +181,37 @@ const FileInput: React.FunctionComponent<fileProps> =
         useEffect(
             () => { upload && save(imgs); }
         );
-        const imgList =
-            (img: propsObj, index: number) => {
-                const src = typeof img.src === "string" ? img.src : "";
-                return <li key={index}>
-                    <div className={fsc("mask")}/>
-                    <img
-                        className={fsc("img")}
-                        src={src}
-                        alt="img"/>
+        const imgLists =
+            <Fragment>
+                {
+                    imgs[0] && <ul className={fsc("img-box")}>
+                        {
+                            imgs.map(
+                                (img, index) => {
+                                    const src = typeof img.src === "string" ? img.src : "";
+                                    return (
+                                        <li key={index} className={fsc("img-list")}>
+                                            <div className={fsc("mask")}/>
+                                            <img
+                                                className={fsc("img")}
+                                                src={src}
+                                                alt="img"/>
 
-                    <span className={fsc("iconBox")}>
-                        <Icon name={"close"} onClick={() => deleteImg(index)}
-                              className={fsc("close")}/>
-                              <Icon name={"view"}
-                                    onClick={() => Preview(src, true)}
-                                    className={fsc("view")}/>
-                    </span>
-                </li>;
-            };
+                                            <span className={fsc("iconBox")}>
+                                            <Icon name={"close"}
+                                                  onClick={() => deleteImg(index)} className={fsc("close")}/>
+                                            <Icon name={"view"}
+                                                  onClick={() => Preview(src, true)} className={fsc("view")}/>
+                                        </span>
+                                        </li>
+                                    );
+                                }
+                            )
+                        }
+                    </ul>
+                }
+            </Fragment>;
+
 
         console.log(imgs);
 
@@ -210,18 +232,7 @@ const FileInput: React.FunctionComponent<fileProps> =
                                    className="yr-fileInput-input"
                                    type='file'/>
                         </Fragment> :
-                        <Fragment>
-                            {
-                                imgs[0] && <ul>
-                                    {
-                                        imgs.map(
-                                            (img, index) =>
-                                                imgList(img, index)
-                                        )
-                                    }
-                                </ul>
-                            }
-                        </Fragment>
+                        imgLists
                 }
 
             </div>
