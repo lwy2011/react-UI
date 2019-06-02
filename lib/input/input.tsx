@@ -198,6 +198,7 @@ const FileInput: React.FunctionComponent<fileProps> =
         useEffect(
             () => { upload && uploadData(imgs); }
         );
+
         const isc = scopeClassName("yr-fileInput-img");
         const inputChildDom = <Fragment>
             {
