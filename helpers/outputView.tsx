@@ -3,7 +3,7 @@ import Icon from "../lib/icon/icon";
 import "./outputview.scss";
 
 interface props {
-    data: { [k: string]: string },
+    data: { [k: string]: string | number },
     string?: string
 }
 
