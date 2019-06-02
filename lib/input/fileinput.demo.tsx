@@ -11,6 +11,7 @@ import FileInputExample6 from "./fileinput.example6";
 
 const FileInputDemo: React.FunctionComponent = () =>
     <div className="inputDemo">
+        <h4>{"如何查看拿到的图片信息?点击upload！"}</h4>
         <CodeView path="input/fileinput.example.tsx">
             <FileInputExample/>
         </CodeView>

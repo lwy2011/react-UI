@@ -35,7 +35,6 @@ const FileInputExample6: React.FunctionComponent = () => {
                 span={"上传"}
                 upload={upload}
                 imgsPosition={"noNeed"}
-                imgSize={{width: "6em", height: "6em", borderRadius: "50%"}}
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}
