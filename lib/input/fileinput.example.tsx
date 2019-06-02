@@ -11,7 +11,7 @@ const FileInputExample: React.FunctionComponent = () => {
 
     const [upload, setUpload] = useState(false);
     const testStr = (data: any) => typeof data === "string" ? data : "";
-    console.log(data, setData);
+    console.log(data);
     return (
         <div className="fileInputExample">
             {
@@ -35,6 +35,7 @@ const FileInputExample: React.FunctionComponent = () => {
                 upload={upload}
                 imgsPosition={"left"}
                 imgSize={{width: "6em", height: "6em"}}
+                multiple
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}

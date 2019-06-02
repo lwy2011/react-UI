@@ -11,7 +11,7 @@ const FileInputExample1: React.FunctionComponent = () => {
 
     const [upload, setUpload] = useState(false);
     const testStr = (data: any) => typeof data === "string" ? data : "";
-    console.log(data, setData);
+    console.log(data);
     return (
         <div className="fileInputExample">
             {

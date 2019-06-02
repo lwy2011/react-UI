@@ -136,26 +136,32 @@ interface propsObj {
 }
 
 const fsc = scopeClassName("yr-fileInput");
-const loadImg = (files: File[], fn: (data: propsObj, index: number) => void) =>
+const loadImg = (files: File[]) =>
     files.map(
-        (file, index) => {
-            const reader = new FileReader();
-            reader.onerror = () => {
-                alert(file.name + "error");
-            };
-            reader.onloadend = () => {
-                const obj: propsObj = {};
-                obj.src = typeof reader.result === "string" ? reader.result : "";
-                obj.title = file.name;
-                obj.file = file;
-                obj.size = file.size + "";
-                obj.type = file.type;
-                console.log(obj, 222);
-                fn(obj, index);
-            };
-            reader.readAsDataURL(file);
+        (file) => {
+            return new Promise(
+                (resolve) => {
+                    const reader = new FileReader();
+                    const obj: propsObj = {};
+                    reader.onerror = () => {
+                        alert(file.name + "error");
+                    };
+                    reader.onloadend = () => {
+                        obj.src = typeof reader.result === "string" ? reader.result : "";
+                        obj.title = file.name;
+                        obj.file = file;
+                        obj.size = file.size + "";
+                        obj.type = file.type;
+                        console.log(obj, 222);
+                        resolve(obj);
+
+                    };
+                    reader.readAsDataURL(file);
+                }
+            );
         }
     );
+const asyncLoad = (files: File[]) => Promise.all(loadImg(files));
 
 const FileInput: React.FunctionComponent<fileProps> =
     ({className, icon, uploadData, button, src, span, upload, imgsPosition, imgSize, ...rest}) => {
@@ -163,12 +169,9 @@ const FileInput: React.FunctionComponent<fileProps> =
         const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
             const files = e.target.files;
             files && files.length > 0 &&
-            loadImg(
-                Array.from(files),
-                (data) => {
-                    setImgs([...imgs, data]);
-                    // index === files.length - 1 && (e.target.value = '')
-                });
+            asyncLoad(Array.from(files)).then(
+                (res: Imgs) => {setImgs([...imgs, ...res]);}
+            );
             e.target.value && (e.target.value = "");
             console.log(files, e.target.value);
         };
