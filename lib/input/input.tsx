@@ -121,6 +121,8 @@ const PreviewSet = (src: string, show: boolean) => {
     // return closeFn;
 };
 
+interface stringObj {[k: string]: string}
+
 interface fileProps extends Props {
     icon?: string,
     button?: ReactElement,
@@ -128,7 +130,9 @@ interface fileProps extends Props {
     upload: boolean,
     uploadData: (imgs: Imgs) => void,
     imgsPosition: string,
-    imgSize: { [k: string]: string },
+    imgSize: stringObj,
+    maxSize?: stringObj,
+    minSize?: stringObj,
 }
 
 interface propsObj {
@@ -136,7 +140,7 @@ interface propsObj {
 }
 
 const fsc = scopeClassName("yr-fileInput");
-const loadImg = (files: File[]) =>
+const loadImg = (files: File[], max?: stringObj, min?: stringObj) =>
     files.map(
         (file) => {
             return new Promise(
@@ -151,27 +155,36 @@ const loadImg = (files: File[]) =>
                         obj.title = file.name;
                         obj.file = file;
                         obj.size = file.size + "";
+                        max && file.size > Number(max.size) && (obj.warning = max.warning);
+                        min && file.size < Number(min.size) && (obj.warning = min.warning);
                         obj.type = file.type;
                         console.log(obj, 222);
                         resolve(obj);
-
                     };
                     reader.readAsDataURL(file);
                 }
             );
         }
     );
-const asyncLoad = (files: File[]) => Promise.all(loadImg(files));
+const asyncLoad = (files: File[], max?: stringObj, min?: stringObj) =>
+    Promise.all(loadImg(files, max, min));
 
 const FileInput: React.FunctionComponent<fileProps> =
-    ({className, icon, uploadData, button, src, span, upload, imgsPosition, imgSize, ...rest}) => {
+    (
+        {
+            className, icon, uploadData, button, src, span, upload,
+            imgsPosition, imgSize, maxSize, minSize, ...rest
+        }
+    ) => {
         const [imgs, setImgs] = useState<Imgs>([]);
+
         const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
             const files = e.target.files;
             files && files.length > 0 &&
-            asyncLoad(Array.from(files)).then(
-                (res: Imgs) => {setImgs([...imgs, ...res]);}
-            );
+            asyncLoad(Array.from(files), maxSize, minSize)
+                .then(
+                    (res: Imgs) => {setImgs([...imgs, ...res]);}
+                );
             e.target.value && (e.target.value = "");
             console.log(files, e.target.value);
         };
@@ -199,6 +212,8 @@ const FileInput: React.FunctionComponent<fileProps> =
                    className="yr-fileInput-input"
                    type='file'/>
         </Fragment>;
+
+
         const imgLists =
             <Fragment>
                 {
@@ -216,18 +231,29 @@ const FileInput: React.FunctionComponent<fileProps> =
                                 const src = typeof img.src === "string" ? img.src : "";
                                 return (
                                     <li key={index} className={isc("list")} style={imgSize}>
-                                        <div className={fsc("mask")} style={imgSize}/>
+                                        <div className={fsc("mask", img.warning && "mask-warning")} style={imgSize}/>
                                         <img style={imgSize}
                                              className={fsc("img")}
                                              src={src}
                                              alt="img"/>
 
                                         <span className={fsc("iconBox")}>
-                                                <Icon name={"close"}
-                                                      onClick={() => deleteImg(index)} className={fsc("close")}/>
-                                                <Icon name={"view"}
-                                                      onClick={() => PreviewSet(src, true)} className={fsc("view")}/>
+                                             <Icon name={"close"}
+                                                   onClick={() => deleteImg(index)}
+                                                   className={fsc("close")}/>
+                                             <Icon name={"view"}
+                                                   onClick={() => PreviewSet(src, true)}
+                                                   className={fsc("view")}/>
+                                        </span>
+                                        {
+                                            img.warning &&
+                                            <span className={fsc({"iconBox": true, warning: true})}>
+                                                <Icon
+                                                    name={"warning"}
+                                                    className={fsc("warning-icon")}/>
+                                                {img.warning}
                                             </span>
+                                        }
                                     </li>
                                 );
                             }

@@ -127,8 +127,8 @@
 
     &-iconBox {
         position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);
-        display: inline-flex;width: 3em;justify-content: space-between;
-        z-index: 10;
+        display: inline-flex;justify-content: space-between;align-items: center;
+        z-index: 10;min-width: 3em;
 
         svg {
             cursor: pointer;opacity: .7;
@@ -140,6 +140,16 @@
         }
     }
 
+    &-warning {
+        font-size: 12px;color: $warningColor;
+        flex-direction: column;width: 80%;
+
+        svg {
+            display: inline;
+        }
+    }
+
+    &:hover &-warning {display: none;}
     &-view:hover {
         color: $mainColor;
     }
@@ -152,8 +162,12 @@
         position: absolute;top: 0;bottom: 0;width: 100%;left: 0;
         background: #000;opacity: .6;
         display: none;
+
     }
 
+    .mask-warning {
+        display: block;
+    }
     transition: all 1s;
 
     &:hover &-mask, &:hover &-close, &:hover &-view {display: block; }
