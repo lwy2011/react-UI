@@ -63,41 +63,6 @@ const IconInput: React.FunctionComponent<IconProps> = ({className, icon, onChang
     </div>;
 
 
-interface fileProps extends Props {
-    icon?: string,
-    button?: ReactElement,
-    span?: string,
-    // onChange: (e: React.ChangeEvent) => void,
-    upload: boolean,
-    save: (imgs: Imgs) => void
-}
-
-interface propsObj {
-    [k: string]: string | File
-}
-
-const fsc = scopeClassName("yr-fileInput");
-const loadImg = (files: File[], fn: (data: propsObj) => void) =>
-    files.map(
-        (file) => {
-            const reader = new FileReader();
-            reader.onerror = () => {
-                alert(file.name + "error");
-            };
-            reader.onloadend = () => {
-                const obj: propsObj = {};
-                obj.src = typeof reader.result === "string" ? reader.result : "";
-                obj.title = file.name;
-                obj.file = file;
-                obj.size = file.size + "";
-                obj.type = file.type;
-                console.log(obj, 222);
-                fn(obj);
-            };
-            reader.readAsDataURL(file);
-        }
-    );
-
 interface previewProps extends React.HTMLAttributes<HTMLDivElement> {
     src: string,
     show: boolean,
@@ -141,7 +106,7 @@ const ImgPreview: React.FunctionComponent<previewProps> = ({src, show, close, ..
     return ReactDom.createPortal(x, document.body);
 };
 
-const Preview = (src: string, show: boolean) => {
+const PreviewSet = (src: string, show: boolean) => {
     const div = document.createElement("div");
     document.body.append(div);
     const closeFn = () => {
@@ -156,8 +121,44 @@ const Preview = (src: string, show: boolean) => {
     // return closeFn;
 };
 
+interface fileProps extends Props {
+    icon?: string,
+    button?: ReactElement,
+    span?: string,
+    upload: boolean,
+    uploadData: (imgs: Imgs) => void,
+    imgsPosition: string,
+    imgSize: { [k: string]: string },
+}
+
+interface propsObj {
+    [k: string]: string | File
+}
+
+const fsc = scopeClassName("yr-fileInput");
+const loadImg = (files: File[], fn: (data: propsObj, index: number) => void) =>
+    files.map(
+        (file, index) => {
+            const reader = new FileReader();
+            reader.onerror = () => {
+                alert(file.name + "error");
+            };
+            reader.onloadend = () => {
+                const obj: propsObj = {};
+                obj.src = typeof reader.result === "string" ? reader.result : "";
+                obj.title = file.name;
+                obj.file = file;
+                obj.size = file.size + "";
+                obj.type = file.type;
+                console.log(obj, 222);
+                fn(obj, index);
+            };
+            reader.readAsDataURL(file);
+        }
+    );
+
 const FileInput: React.FunctionComponent<fileProps> =
-    ({className, icon, save, button, src, span, upload, ...rest}) => {
+    ({className, icon, uploadData, button, src, span, upload, imgsPosition, imgSize, ...rest}) => {
         const [imgs, setImgs] = useState<Imgs>([]);
         const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
             const files = e.target.files;
@@ -166,78 +167,97 @@ const FileInput: React.FunctionComponent<fileProps> =
                 Array.from(files),
                 (data) => {
                     setImgs([...imgs, data]);
+                    // index === files.length - 1 && (e.target.value = '')
                 });
-
-            console.log(files, setImgs);
-
+            e.target.value && (e.target.value = "");
+            console.log(files, e.target.value);
         };
 
         const deleteImg = (index: number) => {
             const now = [...imgs];
             now.splice(index, 1);
-            console.log(now, index);
             setImgs(now);
+            uploadData(now);
         };
         useEffect(
-            () => { upload && save(imgs); }
+            () => { upload && uploadData(imgs); }
         );
+        const isc = scopeClassName("yr-fileInput-img");
+        const inputChildDom = <Fragment>
+            {
+                (icon || span) &&
+                <div className={fsc("prompt")}>
+                    {icon && <Icon name={icon}/>}
+                    {span && <span>{span}</span>}
+                </div>
+            }
+            <input {...rest}
+                   onChange={e => getData(e)}
+                   className="yr-fileInput-input"
+                   type='file'/>
+        </Fragment>;
         const imgLists =
             <Fragment>
                 {
-                    imgs[0] && <ul className={fsc("img-box")}>
+                    (imgsPosition === "right" || imgsPosition === "left" || imgs[0]) &&
+                    <ul className={isc({"box": true, [imgsPosition]: true}, "yr-fileInput")}>
                         {
-                            imgs.map(
-                                (img, index) => {
-                                    const src = typeof img.src === "string" ? img.src : "";
-                                    return (
-                                        <li key={index} className={fsc("img-list")}>
-                                            <div className={fsc("mask")}/>
-                                            <img
-                                                className={fsc("img")}
-                                                src={src}
-                                                alt="img"/>
+                            imgsPosition === "right" &&
+                            <li className={classes("yr-fileInput", "yr-fileInput-inputBox")}>
+                                {inputChildDom}
+                            </li>
+                        }
+                        {imgs[0] &&
+                        imgs.map(
+                            (img, index) => {
+                                const src = typeof img.src === "string" ? img.src : "";
+                                return (
+                                    <li key={index} className={isc("list")} style={imgSize}>
+                                        <div className={fsc("mask")} style={imgSize}/>
+                                        <img style={imgSize}
+                                             className={fsc("img")}
+                                             src={src}
+                                             alt="img"/>
 
-                                            <span className={fsc("iconBox")}>
-                                            <Icon name={"close"}
-                                                  onClick={() => deleteImg(index)} className={fsc("close")}/>
-                                            <Icon name={"view"}
-                                                  onClick={() => Preview(src, true)} className={fsc("view")}/>
-                                        </span>
-                                        </li>
-                                    );
-                                }
-                            )
+                                        <span className={fsc("iconBox")}>
+                                                <Icon name={"close"}
+                                                      onClick={() => deleteImg(index)} className={fsc("close")}/>
+                                                <Icon name={"view"}
+                                                      onClick={() => PreviewSet(src, true)} className={fsc("view")}/>
+                                            </span>
+                                    </li>
+                                );
+                            }
+                        )
+                        }
+                        {
+                            imgsPosition === "left" &&
+                            <li className={classes("yr-fileInput", "yr-fileInput-inputBox")}>
+                                {inputChildDom}
+                            </li>
                         }
                     </ul>
                 }
             </Fragment>;
 
 
+        const inputDom = <div className={classes("yr-fileInput", "yr-fileInput-inputBox")}
+                              style={imgsPosition === "center" ? imgSize : {}}>
+            {
+                imgsPosition !== "center" ? inputChildDom :
+                    (imgs.length > 0 ? imgLists : inputChildDom)
+            }
+        </div>;
+
         console.log(imgs);
-
         return (
-            <div className={classes("yr-fileInput", className)}>
-                {
-                    imgs.length === 0 ?
-                        <Fragment>
-                            {
-                                (icon || span) &&
-                                <div className={fsc("prompt")}>
-                                    {icon && <Icon name={icon}/>}
-                                    {span && <span>{span}</span>}
-                                </div>
-                            }
-                            <input {...rest}
-                                   onChange={e => getData(e)}
-                                   className="yr-fileInput-input"
-                                   type='file'/>
-                        </Fragment> :
-                        imgLists
-                }
-
+            <div className={classes("yr-input-file", className)}>
+                {(imgsPosition === "up" || imgsPosition === "left" || imgsPosition === "right") && imgLists}
+                {(imgsPosition === "up" || imgsPosition === "down" || imgsPosition === "center") && inputDom}
+                {(imgsPosition === "down") && imgLists}
             </div>
         );
     };
 
 
-export {IconInput, FileInput};
+export {IconInput, FileInput, PreviewSet};

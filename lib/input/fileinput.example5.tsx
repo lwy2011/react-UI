@@ -6,7 +6,7 @@ import Button from "../button/button";
 import OutputView from "../../helpers/outputView";
 
 
-const FileInputExample: React.FunctionComponent = () => {
+const FileInputExample5: React.FunctionComponent = () => {
     const [data, setData] = useState<Imgs>([]);
 
     const [upload, setUpload] = useState(false);
@@ -30,11 +30,11 @@ const FileInputExample: React.FunctionComponent = () => {
                 )
             }
             <FileInput
-                icon='img'
+                icon='avarage1'
                 span={"上传"}
                 upload={upload}
-                imgsPosition={"left"}
-                imgSize={{width: "6em", height: "6em"}}
+                imgsPosition={"center"}
+                imgSize={{width: "6em", height: "6em", borderRadius: "50%"}}
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}
@@ -44,4 +44,4 @@ const FileInputExample: React.FunctionComponent = () => {
     );
 };
 
-export default FileInputExample;
+export default FileInputExample5;

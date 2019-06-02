@@ -98,9 +98,11 @@
 }
 
 .yr-fileInput {
-    border: 1px dashed $lineColor;
-    width: 5em; height: 5em;position: relative;
 
+    &-inputBox {
+        border: 1px dashed $lineColor;
+        width: 5em; height: 5em;position: relative;
+    }
     &-input {
         width: 100%;height: 100%;
         border: none;outline: none;opacity: 0;
@@ -158,6 +160,19 @@
 
 }
 
+.yr-fileInput-img {
+    &-left, &-right {
+        display: inline-flex;flex-wrap: wrap;
+    }
+
+    &-left + .yr-fileInput {display: inline-block;}
+
+    &-list {
+        position: relative;
+
+        &:not(:last-child) {margin-right: .5em;}
+    }
+}
 .yr-img-preview {
     position: absolute;top: 0;left: 0;bottom: 0;width: 100vw;
     z-index: 10;display: flex;justify-content: center;align-items: center;
