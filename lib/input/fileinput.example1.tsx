@@ -13,17 +13,15 @@ const FileInputExample1: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
-            <h4>{"出现在右边"}</h4>
+            <h4>{"出现在右边,压缩图片测试"}</h4>
             {
                 data[0] &&
                 data.map(
                     (img: Img, index: number) => {
-                        const {size, title, type} = img;
+                        const {size, name, type} = img;
 
-                        return <OutputView key={index}
-                                           data={
-                                               {size, title, type}
-                                           }/>;
+                        return <OutputView
+                            key={index} data={{size, name, type}}/>;
                     }
                 )
             }
@@ -35,7 +33,7 @@ const FileInputExample1: React.FunctionComponent = () => {
                 imgsPosition={"right"}
                 imgSize={{width: "6em", height: "6em"}}
                 maxSize={{size: "200000", warning: "图片过大", width: "400", height: "400"}}
-                // zip={'personal'}   这个很不友好，暂时别给用户太多自由度了
+                zip={"personal"}                                 //  这个很不友好，暂时别给用户太多自由度了
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}

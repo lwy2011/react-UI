@@ -72,7 +72,7 @@ interface previewProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface Img {
-    title: string,
+    name: string,
     file: File | Blob,
     size: number,
     type: string,
@@ -145,32 +145,41 @@ interface fileProps extends Props {
     imgSize?: stringObj,
     maxSize?: stringObj,
     minSize?: stringObj,
-    zip?: string
+    zip?: string,
+
 }
 
-interface propsObj {
-    [k: string]: string | File | Blob
-}
 
 const fsc = scopeClassName("yr-fileInput");
 
-const noZipLoad = (file: File, fn: (data: propsObj) => void, max?: stringObj, min?: stringObj) => {
+const noZipLoad = (
+    file: File, fn: (data: Img) => void, max?: stringObj,
+    min?: stringObj, err?: () => void
+) => {
     const reader = new FileReader();
-    const obj: propsObj = {};
-    reader.onerror = () => {
-        alert(file.name + "error");
-    };
+    console.log(file, "load...");
     reader.onload = () => {
+
         console.log(reader.result);
-        obj.src = typeof reader.result === "string" ? reader.result : "";
-        obj.title = file.name;
-        obj.file = file;
-        obj.size = file.size + "";
-        max && file.size > Number(max.size) && (obj.warning = max.warning);
-        min && file.size < Number(min.size) && (obj.warning = min.warning);
-        obj.type = file.type;
+        const src = typeof reader.result === "string" ? reader.result : "";
+        const warning = max && file.size > Number(max.size) ? max.warning :
+            (min && file.size < Number(min.size) ? min.warning : "");
+        const obj = {
+            src,
+            file,
+            size: file.size,
+            type: file.type,
+            name: file.name,
+            warning
+        };
+        console.log(obj, "reader");
         fn(obj);
     };
+    let count = 1;
+    reader.onprogress = () => {
+        console.log(count++);
+    };
+    reader.onerror = () => err ? err() : alert(file.name + "error");
     reader.readAsDataURL(file);
 };
 const loadImg = (files: File[], max?: stringObj, min?: stringObj, zipType?: string) =>
@@ -180,10 +189,10 @@ const loadImg = (files: File[], max?: stringObj, min?: stringObj, zipType?: stri
                 (resolve) => {
                     !max ? noZipLoad(file, resolve, max, min) :
                         (
-                            Number(max.size) < file.size ? zipType !== "personal" &&
+                            Number(max.size) < file.size && zipType !== "personal" ?
                                 zipImg(file, Number(max.width), Number(max.height), resolve, file.name) :
                                 noZipLoad(file, resolve, max, min)
-                        )
+                        );
                 }
             )
     );
@@ -204,14 +213,12 @@ const FileInput: React.FunctionComponent<fileProps> =
         const getData = (e: React.ChangeEvent<HTMLInputElement>) => {
             const files = e.target.files;
 
-
             files && files.length > 0 &&
             asyncLoad(Array.from(files), maxSize, minSize, zip)
                 .then(
                     (res: Imgs) => {setImgs([...imgs, ...res]);}
                 );
             e.target.value && (e.target.value = "");
-            console.log(files, e.target.value);
         };
 
         const deleteImg = (index: number) => {
@@ -225,12 +232,15 @@ const FileInput: React.FunctionComponent<fileProps> =
         );
 
         const isc = scopeClassName("yr-fileInput-img");
+
+        const {width, height} = maxSize ? maxSize : imgSize ? imgSize : {width: "", height: ""};
         const inputChildDom = <Fragment>
             {
                 (icon || span) &&
                 <div className={fsc("prompt")}>
                     {icon && <Icon name={icon}/>}
                     {span && <span>{span}</span>}
+                    {width && <span>{`${width} * ${height}`}</span>}
                 </div>
             }
             <input {...rest}
@@ -239,9 +249,10 @@ const FileInput: React.FunctionComponent<fileProps> =
                    type='file'/>
         </Fragment>;
 
-        const zipUpload = (data: Img, index: number) => {
+        const zipUpload = (data: Img, index: number, fn: () => void) => {
             const now = [...imgs];
             now.splice(index, 1, data);
+            fn();
             setImgs(now);
         };
         const imgLists = imgsPosition !== "noNeed" &&
@@ -287,12 +298,14 @@ const FileInput: React.FunctionComponent<fileProps> =
                                             </span>
                                         }
                                         {
-                                            maxSize && <ZipImg
+                                            img.warning &&
+                                            <ZipImg
                                                 file={img.file}
                                                 height={Number(maxSize!.height)}
                                                 width={Number(maxSize!.width)}
-                                                imgName={img.title}
-                                                upload={(data) => zipUpload(data, index)}
+                                                imgName={img.name}
+                                                className={fsc("zip-icon")}
+                                                upload={(data, fn) => zipUpload(data, index, fn)}
                                             />
                                         }
                                     </li>

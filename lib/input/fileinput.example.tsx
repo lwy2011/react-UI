@@ -18,12 +18,11 @@ const FileInputExample: React.FunctionComponent = () => {
                 data[0] &&
                 data.map(
                     (img: Img, index: number) => {
-                        const {size, title, type} = img;
+                        const {size, name, type} = img;
 
-                        return <OutputView key={index}
-                                           data={
-                                               {size, title, type}
-                                           }/>;
+                        return <OutputView
+                            key={index}
+                            data={{size, name, type}}/>;
                     }
                 )
             }

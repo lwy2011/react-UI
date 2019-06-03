@@ -1,3 +1,5 @@
+import {Img} from "../lib/input/input";
+
 const drawImg = (img: CanvasImageSource, width: number, height: number) => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
@@ -12,7 +14,7 @@ const drawImg = (img: CanvasImageSource, width: number, height: number) => {
 };
 
 
-const zipImg = (file: File | Blob, width: number, height: number, fn: (data: { [k: string]: string | Blob }, name?: string) => void, name: string, err?: () => void) => {
+const zipImg = (file: File | Blob, width: number, height: number, fn: (data: Img, name?: string) => void, name: string, err?: () => void) => {
     const reader = new FileReader();
     const img = new Image();
     reader.onload = () => {
@@ -33,7 +35,7 @@ const zipImg = (file: File | Blob, width: number, height: number, fn: (data: { [
             const now = new Blob([ab], {type: "image/jpeg"});
             const src = window.URL.createObjectURL(now);
 
-            fn({file: now, title: name, src: src, type: now.type, size: now.size + ""});
+            fn({file: now, name, src: src, type: now.type, size: now.size});
         };
         img.onerror = () => err && err();
     };
