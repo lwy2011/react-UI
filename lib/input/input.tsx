@@ -6,7 +6,7 @@ import {Fragment, ReactElement, useEffect, useState} from "react";
 import ReactDom from "react-dom";
 import {getStyle} from "../../helpers/function";
 import zipImg from "../../helpers/zipImg";
-import ZipImg from "../icon/zipimg";
+import ZipIcon from "../icon/zipimg";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
@@ -299,14 +299,14 @@ const FileInput: React.FunctionComponent<fileProps> =
                                         }
                                         {
                                             img.warning &&
-                                            <ZipImg
+                                            <ZipIcon
                                                 file={img.file}
                                                 height={Number(maxSize!.height)}
                                                 width={Number(maxSize!.width)}
                                                 imgName={img.name}
                                                 className={fsc("zip-icon")}
                                                 type={img.type}
-                                                upload={(data, fn) => zipUpload(data, index, fn)}
+                                                upload={(data: Img, fn: () => void) => zipUpload(data, index, fn)}
                                             />
                                         }
                                     </li>

@@ -13,10 +13,20 @@ const InputExample: React.FunctionComponent = () => {
         console.log(e.target, name);
         name === "close" && setMsg("");
     };
+    const update = (e: React.ChangeEvent<HTMLInputElement>, key: string) => setData({...data, [key]: e.target.value});
     const [value, setVal] = useState("看我！disabled");
     const [value1, setVal1] = useState("看我！我可以的");
     const [value2, setVal2] = useState("看我！只读哦");
-
+    const keyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const code = e.key;
+        console.log(e.target);
+        const val = "value" in e.target ? e.target["value"] : "";
+        console.log(val);
+        //加回车，TS报错，key事件对象的target没有value属性，但是我console.log获取到了。
+        //很奇怪！！大胆的就用，胆小的，，这里只能做个锁，触发了解锁.
+        //这里有受控组件，非受控组件的value的不同，但是，，，控制台都打印出来了，，，不知道是不是google的自优化？？
+        code === "Enter" && setMsg(`回车键事件？${val}你要弄啥嘞？`);
+    };
     return (
         <div>
             <Input value={value} disabled onChange={e => setVal(e.target.value)}/>
@@ -25,7 +35,7 @@ const InputExample: React.FunctionComponent = () => {
             <OutputView data={{...data, message}}/>
 
             <IconInput type="text"
-                       onChange={e => setData({...data, user: e.target.value})}
+                       onChange={e => update(e, "user")}
                        value={data.user}
                        icon={
                            [
@@ -34,7 +44,7 @@ const InputExample: React.FunctionComponent = () => {
                        }/>
             <IconInput type="password"
                        value={data.password}
-                       onChange={e => setData({...data, password: e.target.value})}
+                       onChange={e => update(e, "password")}
                        icon={
                            [
                                {name: "password", left: true},
@@ -53,7 +63,7 @@ const InputExample: React.FunctionComponent = () => {
             <IconInput type="text"
                        placeholder={"请输入关键字"}
                        defaultValue={""}
-                       onBlur={e => setData({...data, search: e.target.value})}
+                       onBlur={e => update(e, "search")}
                        icon={
                            [
                                {name: "search", left: false}
@@ -62,7 +72,7 @@ const InputExample: React.FunctionComponent = () => {
             <IconInput type="text"
                        placeholder={"请输入关键字"}
                        value={data.search}
-                       onChange={e => setData({...data, search: e.target.value})}
+                       onChange={e => update(e, "search")}
                        icon={
                            [{
                                name: "close",
@@ -71,25 +81,44 @@ const InputExample: React.FunctionComponent = () => {
                                click: () => setData({...data, search: "我删了！你呢"})
                            }]
                        }
-                       onBlur={e => setData({...data, search: e.target.value})}
+                       onBlur={e => update(e, "search")}
                        button={<Button icon={"search1"} state={{important: true}}
                                        onClick={() => setData({...data, search: "what are u 弄啥嘞？"})}/>}/>
 
-            <IconInput type="text"
-                       placeholder={"请输入关键字"}
-                       defaultValue={""}
-                       icon={
-                           [
-                               {
-                                   name: "search1",
-                                   left: false,
-                                   style: {"color": "#888"},
-                                   click: () => setVal("described又如何？我点！！")
-                               }
-                           ]
-                       }
-                       borderbottomonly='true'
-                       onBlur={e => setData({...data, search: e.target.value})}/>
+            <IconInput
+                type="text"
+                placeholder={"请输入关键字"}
+                defaultValue={""}
+                onKeyUp={keyUp}
+                icon={
+                    [
+                        {
+                            name: "search1",
+                            left: false,
+                            style: {"color": "#888"},
+                            click: () => setVal("described又如何？我点！！")
+                        }
+                    ]
+                }
+                borderbottomonly='true'
+                onBlur={e => update(e, "search")}/>
+            <IconInput
+                type="text"
+                placeholder={"请输入关键字"}
+                value={data.search}
+                onChange={e => update(e, "search")}
+                onKeyUp={keyUp}
+                icon={
+                    [
+                        {
+                            name: "search1",
+                            left: false,
+                            style: {"color": "#888"},
+                            click: () => setVal("described又如何？我点！！")
+                        }
+                    ]
+                }
+                borderbottomonly='true'/>
         </div>
 
     );
