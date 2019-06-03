@@ -130,6 +130,58 @@
                     .yr-scopedInput-input {
                         width: 10em;
                     }
+
+                    transition: all 1s linear;
+                    position: relative;
+
+                    .yr-input-tabs {
+
+                        &-icon {
+                            cursor: pointer;color: $mainColor;
+
+                            &:hover {
+                                color: $blue;opacity: .7;
+                                animation: loading 1s infinite linear;
+                            }
+
+                        }
+
+                        &-ul {
+                            position: absolute;background: #000;
+                            opacity: .8;z-index: 10;
+                            top: 3em;
+                            padding: 3em 1em;display: inline-flex;width: 90%;
+                            max-width: 70em;justify-content: space-between;
+                            flex-wrap: wrap;
+                            overflow-y: scroll;
+                            border-radius: 6px;cursor: pointer;
+                        }
+
+                        &-ul {
+                            animation: showformerror 1s linear;cursor: pointer;
+                        }
+
+                        &-li {
+                            max-width: 9em;
+                            margin: 1em .5em;
+                            color: $mainColor;
+                            font-size: 12px;
+                            display: inline-flex;
+                            justify-content: center;
+                            align-items: center;
+
+                            &:hover {
+                                color: $activeColor;
+                            }
+
+                            cursor: pointer;
+                            border-radius: 6px;
+
+                            &.active {
+                                color: #000;background: $activeColor;
+                            }
+                        }
+                    }
                 }
 
                 .fileInputExample {
