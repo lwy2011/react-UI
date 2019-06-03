@@ -168,8 +168,8 @@
                             font-size: 12px;
                             display: inline-flex;
                             justify-content: center;
-                            align-items: center;
-
+                            align-items: end;
+                            word-break: break-word;
                             &:hover {
                                 color: $activeColor;
                             }
