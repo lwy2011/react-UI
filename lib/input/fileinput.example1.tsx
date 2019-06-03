@@ -13,7 +13,7 @@ const FileInputExample1: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
-            <h4>{"出现在右边,压缩图片测试"}</h4>
+            <h4>{"出现在右边,压缩图片测试,zip === personal"}</h4>
             {
                 data[0] &&
                 data.map(

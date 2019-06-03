@@ -14,7 +14,7 @@ const FileInputExample2: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
-            <h4>{"出现在上边"}</h4>
+            <h4>{"出现在上边，压缩定死,无zip"}</h4>
             {
                 data[0] &&
                 data.map(
@@ -31,9 +31,11 @@ const FileInputExample2: React.FunctionComponent = () => {
             <FileInput
                 icon='img'
                 span={"上传"}
+                multiple
                 upload={upload}
                 imgsPosition={"up"}
                 imgSize={{width: "6em", height: "6em"}}
+                maxSize={{size: "200000", warning: "图片过大", width: "400", height: "400"}}
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}

@@ -13,7 +13,7 @@ const FileInputExample: React.FunctionComponent = () => {
     console.log(data);
     return (
         <div className="fileInputExample">
-            <h4>{"图片类型限制，最大最小数据量规定，可一次多传，出现在左边"}</h4>
+            <h4>{"图片限制png，最大最小数据量规定，可一次多传，出现在左边"}</h4>
             {
                 data[0] &&
                 data.map(
