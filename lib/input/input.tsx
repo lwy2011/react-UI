@@ -190,7 +190,7 @@ const loadImg = (files: File[], max?: stringObj, min?: stringObj, zipType?: stri
                     !max ? noZipLoad(file, resolve, max, min) :
                         (
                             Number(max.size) < file.size && zipType !== "personal" ?
-                                zipImg(file, Number(max.width), Number(max.height), resolve, file.name) :
+                                zipImg(file, Number(max.width), Number(max.height), resolve, file.name, file.type) :
                                 noZipLoad(file, resolve, max, min)
                         );
                 }
@@ -305,6 +305,7 @@ const FileInput: React.FunctionComponent<fileProps> =
                                                 width={Number(maxSize!.width)}
                                                 imgName={img.name}
                                                 className={fsc("zip-icon")}
+                                                type={img.type}
                                                 upload={(data, fn) => zipUpload(data, index, fn)}
                                             />
                                         }

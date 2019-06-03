@@ -1,6 +1,7 @@
 import * as React from "react";
 import Icon from "../lib/icon/icon";
 import "./outputview.scss";
+import {scopeClassName} from "./classes";
 
 interface props {
     data: { [k: string]: string | number },
@@ -8,15 +9,17 @@ interface props {
 }
 
 const OutputView: React.FunctionComponent<props> = (props) => {
+    const cs = scopeClassName("output-view-table");
     return (
-        <ul className="output-view">
+        <table className={cs()}>
+            <tbody>
             {
                 Object.keys(props.data).map(
-                    key => <li key={key} className={"view-list"}>
-                        <span>{key}</span>
-                        <Icon name={"shi"}/>
-                        <span>{props.data[key] || <Icon name={"kong"}/>}</span>
-                    </li>
+                    key => <tr key={key} className={cs("tr")}>
+                        <td className={cs("td")}>{key}</td>
+                        <td className={cs("td")}><Icon name={"shi"}/></td>
+                        <td className={cs("td")}>{props.data[key] || <Icon name={"kong"}/>}</td>
+                    </tr>
                 )
             }
             {
@@ -25,7 +28,8 @@ const OutputView: React.FunctionComponent<props> = (props) => {
                     {props.string}
                 </div>
             }
-        </ul>
+            </tbody>
+        </table>
     );
 };
 export default OutputView;

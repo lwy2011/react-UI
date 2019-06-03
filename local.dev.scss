@@ -178,7 +178,7 @@
             pre { //代码展示区
                 font-family: 'Fira Code Medium', Consolas, monospace;
                 margin: 2em 0;overflow-x: scroll;
-                padding: 2em;
+                padding: 2em 0;
             }
 
             > .yr-layoutExample {
@@ -217,9 +217,9 @@
             }
 
             .formDemos {
-                margin: 0 auto; max-width: 700px;overflow-x: scroll;
+                overflow-x: scroll;padding: 0 1em;
+                margin: 0 auto; max-width: 700px;
                 .formExample1 {
-
                     display: inline-flex;flex-wrap: wrap;justify-content: space-between;
                     max-width: 600px;
                 }

@@ -13,14 +13,14 @@ interface props {
     upload: (data: Img, fn: () => void) => void,
     imgName: string,
     className?: string,
-
+    type: string
 }
 
-const ZipImg: React.FunctionComponent<props> = ({file, width, height, upload, imgName, className}) => {
+const ZipImg: React.FunctionComponent<props> = ({file, type, width, height, upload, imgName, className}) => {
     const [zip, setZip] = useState(false);
     const zipfn = () => new Promise(
         (resolve) => {
-            zipImg(file, width, height, resolve, imgName);
+            zipImg(file, width, height, resolve, imgName, type);
         }
     );
     useEffect(

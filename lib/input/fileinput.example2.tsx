@@ -35,7 +35,7 @@ const FileInputExample2: React.FunctionComponent = () => {
                 upload={upload}
                 imgsPosition={"up"}
                 imgSize={{width: "6em", height: "6em"}}
-                maxSize={{size: "200000", warning: "图片过大", width: "400", height: "400"}}
+                maxSize={{size: "100000", warning: "图片过大", width: "400", height: "400"}}
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}
                     loading={upload}

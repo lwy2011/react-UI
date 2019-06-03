@@ -14,7 +14,7 @@ const drawImg = (img: CanvasImageSource, width: number, height: number) => {
 };
 
 
-const zipImg = (file: File | Blob, width: number, height: number, fn: (data: Img, name?: string) => void, name: string, err?: () => void) => {
+const zipImg = (file: File | Blob, width: number, height: number, fn: (data: Img, name?: string) => void, name: string, type: string, err?: () => void) => {
     const reader = new FileReader();
     const img = new Image();
     reader.onload = () => {
@@ -32,7 +32,7 @@ const zipImg = (file: File | Blob, width: number, height: number, fn: (data: Img
             for (let i = 0; i < bytes.length; i++) {
                 ia[i] = bytes.charCodeAt(i);
             }
-            const now = new Blob([ab], {type: "image/jpeg"});
+            const now = new Blob([ab], {type: type});
             const src = window.URL.createObjectURL(now);
 
             fn({file: now, name, src: src, type: now.type, size: now.size});

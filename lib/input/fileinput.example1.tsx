@@ -32,7 +32,7 @@ const FileInputExample1: React.FunctionComponent = () => {
                 upload={upload}
                 imgsPosition={"right"}
                 imgSize={{width: "6em", height: "6em"}}
-                maxSize={{size: "200000", warning: "图片过大", width: "400", height: "400"}}
+                maxSize={{size: "10000", warning: "图片过大", width: "400", height: "400"}}
                 zip={"personal"}                                 //  这个很不友好，暂时别给用户太多自由度了
                 uploadData={(data: Imgs) => setData(data)}/>
             <Button message={"upload"}

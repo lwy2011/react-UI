@@ -1,21 +1,24 @@
 @import "../lib/_helper.scss";
 
-.output-view {
+.output-view-table {
     background: #000;opacity: .7;
-    padding: 1em;margin: 2em 1em;
+    padding: 1em;margin: 2em auto;
     color: $activeColor;
+    width: 90%;
 
-    > .view-list {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
+    &-td {
+        white-space: pre;
 
-        > svg {
-            color: $mainColor;
-            margin: 0 1em;
+        &:first-child {
+            color: $activeColor;
+
         }
 
-        span:last-child {
+        &:nth-child(2) {
+            color: $blue;
+        }
+
+        &:last-child {
             color: $warningColor;
 
             svg {
