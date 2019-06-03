@@ -93,9 +93,9 @@ const IconExample: FunctionComponent = () => {
             </div>
             <Layout className="iconGame">
                 <Header>
-                    <Button message={"开始游戏"}
+                    <Button message={start ? "what a u 弄啥嘞？" : "开始游戏"}
                             icon={"guilian1"}
-                            state={{disabled: start}}
+                            disabled={start}
                             onClick={() => setStart(true)}/>
 
                     <p className={sc({"gameTime": true, timeStart: start})}>
