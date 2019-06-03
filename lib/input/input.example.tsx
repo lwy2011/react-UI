@@ -165,7 +165,7 @@ const InputExample: React.FunctionComponent = () => {
 
     return (
         <div>
-            <h4 style={{color: "red"}}>{"受控组件无bug!非受控组件，react不待见！！！"}</h4>
+            <h4 style={{color: "red"}}>{"受控组件亲儿子!非受控组件，react不待见！！！"}</h4>
             <Input value={value} disabled onChange={e => setVal(e.target.value)}/>
             <Input value={value1} onChange={e => setVal1(e.target.value)}/>
             <Input value={value2} readOnly onChange={e => setVal2(e.target.value)}/>
