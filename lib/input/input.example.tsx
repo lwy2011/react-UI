@@ -36,7 +36,7 @@ const InputExample: React.FunctionComponent = () => {
         "受控组件！！——keys:user",
         "受控组件！！——keys:password",
         "onBlur事件，受控组件！！——keys:message",
-        "onBlur事件，非受控组件！！——keys:search,value",
+        "onBlur事件，非受控组件！！——keys:search",
         "onBlur事件，button和icon点击事件，受控组件！！——keys:search",
         "onBlur事件，keyUp，icon点击事件，非受控组件!!——keys:search,value,message",
         "onBlur事件，keyUp，icon点击事件，受控组件！！——keys:search,value,message"

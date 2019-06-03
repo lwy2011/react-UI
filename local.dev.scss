@@ -151,7 +151,7 @@
                             opacity: .8;z-index: 10;
                             top: 3em;
                             padding: 3em 1em;display: inline-flex;width: 90%;
-                            max-width: 70em;justify-content: space-between;
+                            max-width: 30em;justify-content: space-between;
                             flex-wrap: wrap;
                             overflow-y: scroll;
                             border-radius: 6px;cursor: pointer;
@@ -168,7 +168,7 @@
                             font-size: 12px;
                             display: inline-flex;
                             justify-content: center;
-                            align-items: end;
+                            align-items: center;
                             word-break: break-word;
                             &:hover {
                                 color: $activeColor;
