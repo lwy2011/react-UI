@@ -29,10 +29,6 @@ const IconExample: FunctionComponent = () => {
         () => {
             setTopView();
             window.onresize = setTopView;
-            console.log(111, intervalRef);
-
-            const {current} = intervalRef;
-            current && current.interval && clearInterval(current.interval);
 
             return () => {
                 window.onresize = null;
@@ -40,41 +36,54 @@ const IconExample: FunctionComponent = () => {
         }, []
     );
 
+
+    //计时器，这部分可以抽象出来一个单独的函数，为了不影响父组件的ref，
+    //逻辑不多，第一，计时器不能因为组件的刷新而印象，计时器是独立于组件的更新的，销毁的话，组件提供锁就可以的
+    // 第二，计时器独立了，它要执行的函数如何引入？ref就是传递的方法。就这两个点，恶心了半天
+    //函数内容如下
+    // const useInterval = (callback: () => void, cases: boolean | undefined) => {
+    //     const intervalRef: React.MutableRefObject<(() => void) | undefined> = useRef();
+    //     // const intervalCallback = () => { setTime(time - 1); };
+    //
+    //     useEffect(
+    //         () => {
+    //             intervalRef.current = callback;
+    //         }
+    //     );
+    //     useEffect(
+    //         () => {
+    //             const tick = () => {
+    //                 intervalRef && intervalRef.current && intervalRef.current();
+    //             };
+    //             const Timer = start && setInterval(
+    //                 tick, 1000
+    //             );
+    //             return Timer && !cases ? clearInterval(Timer) : undefined;
+    //         }, [cases]
+    //     );
+    // };
+    // 引用它在各个组件就可以的
     const [start, setStart] = useState(false);
     const [time, setTime] = useState(60);
 
-    const intervalRef: { [k: string]: any } = useRef();
-    const intervalCallback = () => {
-        setTime(time - 1);
-    };
+    const intervalRef: React.MutableRefObject<(() => void) | undefined> = useRef();
+    const intervalCallback = () => { setTime(time - 1); };
+
     useEffect(
         () => {
-            const {current} = intervalRef;
-
-            intervalRef.current = {
-                ...current,
-                set: intervalCallback
-            };
-            // console.log(intervalRef.current, "ttt");
+            intervalRef.current = intervalCallback;
         }
     );
     useEffect(
         () => {
-            const {interval} = intervalRef.current;
-            if (start && !interval) {
-                const tick = () => {
-                    intervalRef.current.set();
-                };
-                const Timer = setInterval(
-                    tick, 1000
-                );
-                intervalRef.current.interval = Timer;
-                console.log(time, Timer, "ttt");
-            }
-            if (!start && interval) {
-                clearInterval(interval);
-                intervalRef.current.interval = undefined;
-            }
+            const tick = () => {
+                intervalRef && intervalRef.current && intervalRef.current();
+            };
+            const Timer = start && setInterval(
+                tick, 1000
+            );
+            // console.log(time, Timer, start, tick, "ttt");
+            return Timer && !start ? clearInterval(Timer) : undefined;
         }, [start]
     );
     useEffect(
