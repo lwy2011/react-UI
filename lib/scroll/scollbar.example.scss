@@ -1,0 +1,9 @@
+@import '../_helper.scss';
+
+.yr-scroll-bar-example {
+    &-list {
+        height: 2em;
+        background: $warningColor;
+        margin: .5em 0;
+    }
+}
