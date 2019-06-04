@@ -157,10 +157,8 @@ const noZipLoad = (
     min?: stringObj, err?: () => void
 ) => {
     const reader = new FileReader();
-    console.log(file, "load...");
     reader.onload = () => {
 
-        console.log(reader.result);
         const src = typeof reader.result === "string" ? reader.result : "";
         const warning = max && file.size > Number(max.size) ? max.warning :
             (min && file.size < Number(min.size) ? min.warning : "");
@@ -172,7 +170,6 @@ const noZipLoad = (
             name: file.name,
             warning
         };
-        console.log(obj, "reader");
         fn(obj);
     };
     let count = 1;
@@ -182,7 +179,7 @@ const noZipLoad = (
     reader.onerror = () => err ? err() : alert(file.name + "error");
     reader.readAsDataURL(file);
 };
-const loadImg = (files: File[], max?: stringObj, min?: stringObj, zipType?: string) =>
+const loadImgs = (files: File[], max?: stringObj, min?: stringObj, zipType?: string) =>
     files.map(
         (file) =>
             new Promise(
@@ -198,7 +195,7 @@ const loadImg = (files: File[], max?: stringObj, min?: stringObj, zipType?: stri
     );
 
 const asyncLoad = (files: File[], max?: stringObj, min?: stringObj, zipType?: string) =>
-    Promise.all(loadImg(files, max, min, zipType));
+    Promise.all(loadImgs(files, max, min, zipType));
 
 
 const FileInput: React.FunctionComponent<fileProps> =
@@ -332,17 +329,16 @@ const FileInput: React.FunctionComponent<fileProps> =
                     (imgs.length > 0 ? imgLists : inputChildDom) : inputChildDom
             }
         </div>;
-
-        console.log(imgs);
+        const pointTest = (position: string, cases: string[]) => Boolean(cases.indexOf(position) >= 0);
         return (
             imgsPosition === "noNeed" ?
                 <div className={classes("yr-input-file", className)}>
                     {inputDom}
                 </div> :
                 <div className={classes("yr-input-file", className)}>
-                    {(imgsPosition === "up" || imgsPosition === "left" || imgsPosition === "right") && imgLists}
-                    {(imgsPosition === "up" || imgsPosition === "down" || imgsPosition === "center") && inputDom}
-                    {(imgsPosition === "down") && imgLists}
+                    {pointTest(imgsPosition, ["up", "left", "right"]) && imgLists}
+                    {pointTest(imgsPosition, ["up", "down", "center"]) && inputDom}
+                    {imgsPosition === "down" && imgLists}
                 </div>
         );
     };
