@@ -12,6 +12,7 @@ import InputDemo from "./lib/input/input.demo";
 import DialogDemo from "./lib/dialog/dialog.demo";
 import FileInputDemo from "./lib/input/fileinput.demo";
 import ScrollBarDemo from "./lib/scroll/scrollbar.demo";
+import GridDemo from "./lib/grid/grid.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -29,6 +30,7 @@ const names: componentNames = {
     button: "按钮",
     input: "输入框",
     dialog: "对话框",
+    grid: "栅栏",
     layout: "布局",
     form: "表单",
     upload: "上传",
@@ -88,6 +90,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/input" component={InputDemo}/>
                     <Route path="/upload" component={FileInputDemo}/>
                     <Route path="/scrollbar" component={ScrollBarDemo}/>
+                    <Route path="/grid" component={GridDemo}/>
 
                 </Content>
             </Layout>

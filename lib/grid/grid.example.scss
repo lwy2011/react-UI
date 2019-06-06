@@ -1,0 +1,33 @@
+@import "../_helper.scss";
+
+.gridExample {
+    width: 80%;max-width: 600px;margin: 2em auto;
+
+    .yr-col {
+        height: 3em;color: #fff;
+
+        &-box {
+            height: 3em;
+        }
+
+        &:nth-child(2n - 1) {
+            .yr-col-box {
+                background: $blue;
+            }
+        }
+
+        &:nth-child(2n) {
+            .yr-col-box { background: $mainColor;}
+
+        }
+
+    }
+
+    .yr-row {
+        margin: .5em 0;
+    }
+
+    &.justify .yr-row {
+        height: 4em; background: $lineColor;
+    }
+}
