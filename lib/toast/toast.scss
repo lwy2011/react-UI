@@ -6,8 +6,9 @@
     left: 50%;
     transform: translateX(-50%);
     background: $toast-bg;
-    color:$toast;
+    color: #ffffff;
     padding: $toastPadding;
     font-size: $toastFont;
     box-shadow: 0 0 3px 0 rgba(0,0,0,.5);
+
 }

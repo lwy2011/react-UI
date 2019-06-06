@@ -5,17 +5,24 @@ import classes from "../../helpers/classes";
 
 interface props extends React.HTMLAttributes<HTMLDivElement> {
     show: boolean,
-    message: string
+    message: string,
 }
 
-const ToastDom: React.FunctionComponent<props> = ({message, className, ...rest}) => {
-    return (
+const ToastDom: React.FunctionComponent<props> = ({message, className, show, ...rest}) => {
+    const x = show &&
         <div className={classes("yr-toast", className)} {...rest}>
             {message}
-        </div>
-    );
+        </div>;
+    return ReactDom.createPortal(x, document.body);
 };
-const Toast = (message: string) => {
+
+const Toast = (message: string, configObj?: { [k: string]: any }) => {
+    const config = {
+        autoClose: true,
+        autoCloseDelay: 4,
+        ...configObj
+    };
+
         const div = document.createElement("div");
     document.body.appendChild(div);
 
@@ -27,9 +34,9 @@ const Toast = (message: string) => {
 
         const Dom = <ToastDom message={message} show={true}/>;
         ReactDom.render(Dom, div);
-        console.log(message);
-
-        return close;
+    return config.autoClose && setTimeout(
+        () => close(), config.autoCloseDelay * 1000
+    );
     }
 ;
 export default Toast;
