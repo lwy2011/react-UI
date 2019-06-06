@@ -1,0 +1,12 @@
+@import "../_helper.scss";
+
+.yr-toast-example {
+    &-list {
+        &:not(:last-child) {margin-bottom: 2em;}
+
+    }
+
+    &-timer {
+        margin: 1em; color: $warningColor;
+    }
+}
