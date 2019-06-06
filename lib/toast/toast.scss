@@ -10,5 +10,28 @@
     padding: $toastPadding;
     font-size: $toastFont;
     box-shadow: 0 0 3px 0 rgba(0,0,0,.5);
+    display: flex;
+    line-height: 1.8;
+    align-items: center;
+    border-radius: 4px;
+    //min-width:10em;
+    //max-width: 15em;
+    &-text {height: 100%;}
 
+    &-line {
+        height: 100%;margin-left: $toastFont;
+
+        &:after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            border-left: 1px solid $lineColor;top: 0;
+        }
+    }
+
+    &-close {
+        padding-left: $toastFont;cursor: pointer;white-space: nowrap;
+
+        &:active {opacity: .7;}
+    }
 }

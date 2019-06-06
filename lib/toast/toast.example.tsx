@@ -44,7 +44,31 @@ const ToastExample: React.FunctionComponent = () => {
                 disabled={Boolean(time)}
                 onClick={
                     () => showToast("点我干哈？我定2s后消失", {autoCloseDelay: 2})}/>,
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭`}
+                disabled={Boolean(time)}
+                onClick={
+                    () => showToast(
+                        "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
+                        {
+                            autoCloseDelay: 50,
+                            closeText: "关闭",
+                            closeCallback: () => setTime(0)
+                        }
+                    )}
+        />,
     ];
+    // useEffect(
+    //     () => {
+    //         showToast(
+    //             "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
+    //             {
+    //                 autoCloseDelay: 50,
+    //                 closeText: "关闭",
+    //                 closeCallback: () => setTime(0)
+    //             }
+    //         );
+    //     },[]
+    // );
     return (
         <div className="yr-toast-example">
             <ul>
@@ -52,7 +76,7 @@ const ToastExample: React.FunctionComponent = () => {
                     lists.map(
                         (list, index) =>
                             <li key={index}
-                                onClick={() => setCurrent(index)}
+                                onClick={() => !current && current !== 0 && setCurrent(index)}
                                 className={sc("list")}>
                                 {list}
                                 {current === index && <span className={sc("timer")}>{time + "s"}</span>}
