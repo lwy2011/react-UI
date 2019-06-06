@@ -6,18 +6,13 @@
     .yr-col {
         height: 3em;color: #fff;
 
-        &-box {
-            height: 3em;
-        }
 
         &:nth-child(2n - 1) {
-            .yr-col-box {
-                background: $blue;
-            }
+            background: $blue;
         }
 
         &:nth-child(2n) {
-            .yr-col-box { background: $mainColor;}
+            background: $mainColor;
 
         }
 
@@ -29,5 +24,32 @@
 
     &.justify .yr-row {
         height: 4em; background: $lineColor;
+    }
+
+    .taobao {
+        .yr-row, .yr-col {
+            margin-top: 0;margin-bottom: 0;
+            border: 1px solid $warningColor;
+        }
+
+        .yr-col {background: $lineColor;}
+
+        img {
+            width: 100%;height: 100%;
+        }
+
+        .imgCol {
+            max-width: 40px;max-height: 50px;
+        }
+
+        .imgBox {
+            width: 100%;height: 100%;
+        }
+
+        .footer {
+            height: 150px;
+
+            .yr-col {height: 100%;}
+        }
     }
 }
