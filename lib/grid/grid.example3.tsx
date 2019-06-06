@@ -6,6 +6,8 @@ import "./grid.example.scss";
 const GridExample3: React.FunctionComponent = () => {
     return (
         <div className="gridExample justify">
+            <h4>{"justify align 属性"}</h4>
+
             <Row justify={"center"}>
                 <Col span={4}>{"col-12"}</Col>
                 <Col span={12}>{"col-12"}</Col>

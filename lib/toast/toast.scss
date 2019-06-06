@@ -1,0 +1,13 @@
+@import '../_helper.scss';
+
+.yr-toast {
+    position: fixed;
+    top:0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $toast-bg;
+    color:$toast;
+    padding: $toastPadding;
+    font-size: $toastFont;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,.5);
+}

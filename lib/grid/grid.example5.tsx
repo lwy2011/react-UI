@@ -6,6 +6,8 @@ import "./grid.example.scss";
 const GridExample5: React.FunctionComponent = () => {
     return (
         <div className="gridExample">
+            <h4>{"五种响应式phone ipad nerrowpc pc widePc"}</h4>
+
             <Row>
                 <Col span={12} phone={{span: 6}} ipad={{span: 4}}>{"col-12"}</Col>
                 <Col span={12} phone={{span: 18}} ipad={{span: 12, offset: 8}}>{"col-12"}</Col>

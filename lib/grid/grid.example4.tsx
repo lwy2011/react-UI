@@ -6,6 +6,8 @@ import "./grid.example.scss";
 const GridExample4: React.FunctionComponent = () => {
     return (
         <div className="gridExample">
+            <h4>{"布局测试"}</h4>
+
             <div className="layout">
                 <Row>
                     <Col span={8}>
@@ -42,7 +44,7 @@ const GridExample4: React.FunctionComponent = () => {
             </div>
 
 
-            <Row gutter={24}>
+            <Row>
                 <Col span={4} order={6}>{"col-1"}</Col>
                 <Col span={4} order={5}>{"col-2"}</Col>
                 <Col span={4} order={4}>{"col-3"}</Col>

@@ -6,6 +6,8 @@ import "./grid.example.scss";
 const GridExample1: React.FunctionComponent = () => {
     return (
         <div className="gridExample">
+            <h4>{"offset属性"}</h4>
+
             <Row>
                 <Col span={4}>{"col-4"}</Col>
                 <Col span={18} offset={2}>{"col-18"}</Col>
