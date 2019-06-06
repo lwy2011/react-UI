@@ -17,5 +17,104 @@
             order: $n;
         }
     }
-
+    @media all {
+        $class-prefix: offset-;
+        @for $n from 0 through 24 {
+            &-phone-#{$class-prefix}#{$n} {
+                margin-left: ($n / 24)*100%;
+            }
+        }
+        $class-prefix: span-;
+        @for $n from 0 through 24 {
+            &-phone-#{$class-prefix}#{$n} {
+                width: ($n / 24)* 100%;
+            }
+        }
+        $class-prefix: order-;
+        @for $n from 0 through 24 {
+            &-phone-#{$class-prefix}#{$n} {
+                order: $n;
+            }
+        }
+    }
+    @media screen and (min-width: 500px) {
+        $class-prefix: offset-;
+        @for $n from 0 through 24 {
+            &-ipad-#{$class-prefix}#{$n} {
+                margin-left: ($n / 24)*100%;
+            }
+        }
+        $class-prefix: span-;
+        @for $n from 0 through 24 {
+            &-ipad-#{$class-prefix}#{$n} {
+                width: ($n / 24)* 100%;
+            }
+        }
+        $class-prefix: order-;
+        @for $n from 0 through 24 {
+            &-ipad-#{$class-prefix}#{$n} {
+                order: $n;
+            }
+        }
+    }
+    @media screen and (min-width: 768px) {
+        $class-prefix: offset-;
+        @for $n from 0 through 24 {
+            &-nerrowpc-#{$class-prefix}#{$n} {
+                margin-left: ($n / 24)*100%;
+            }
+        }
+        $class-prefix: span-;
+        @for $n from 0 through 24 {
+            &-nerrowpc-#{$class-prefix}#{$n} {
+                width: ($n / 24)* 100%;
+            }
+        }
+        $class-prefix: order-;
+        @for $n from 0 through 24 {
+            &-nerrowpc-#{$class-prefix}#{$n} {
+                order: $n;
+            }
+        }
+    }
+    @media screen and (min-width: 992px) {
+        $class-prefix: offset-;
+        @for $n from 0 through 24 {
+            &-pc-#{$class-prefix}#{$n} {
+                margin-left: ($n / 24)*100%;
+            }
+        }
+        $class-prefix: span-;
+        @for $n from 0 through 24 {
+            &-pc-#{$class-prefix}#{$n} {
+                width: ($n / 24)* 100%;
+            }
+        }
+        $class-prefix: order-;
+        @for $n from 0 through 24 {
+            &-pc-#{$class-prefix}#{$n} {
+                order: $n;
+            }
+        }
+    }
+    @media screen and (min-width: 1200px) {
+        $class-prefix: offset-;
+        @for $n from 0 through 24 {
+            &-widePc-#{$class-prefix}#{$n} {
+                margin-left: ($n / 24)*100%;
+            }
+        }
+        $class-prefix: span-;
+        @for $n from 0 through 24 {
+            &-widePc-#{$class-prefix}#{$n} {
+                width: ($n / 24)* 100%;
+            }
+        }
+        $class-prefix: order-;
+        @for $n from 0 through 24 {
+            &-widePc-#{$class-prefix}#{$n} {
+                order: $n;
+            }
+        }
+    }
 }

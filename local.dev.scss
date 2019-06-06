@@ -2,7 +2,7 @@
 @import "./lib/_helper.scss";
 
 .page {
-    width: 100%;
+    width: 100vw;
     font-size: $font;
     @mixin padding {
         padding: .7em;
@@ -36,7 +36,7 @@
     > .yr-layout {
         background: RGBA(244, 244, 244, 1.00);
         flex-wrap: wrap;
-
+        width: 100%;
         > .yr-layout-aside {
             max-width: 8em;min-height: 100%;
             margin-right: 1em;
@@ -85,8 +85,7 @@
         > .yr-layout-content {
             @include padding();border-left: 1px solid $lineColor;
             min-width: 150px;
-            width: calc(100% - 9rem);
-
+            width: calc(100% - 9em);
             > h3 {
                 color: $lineColor;border-bottom: 1px solid $lineColor;
             }

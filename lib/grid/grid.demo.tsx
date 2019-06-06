@@ -5,6 +5,7 @@ import GridExample1 from "./grid.example1";
 import GridExample2 from "./grid.example2";
 import GridExample3 from "./grid.example3";
 import GridExample4 from "./grid.example4";
+import GridExample5 from "./grid.example5";
 
 
 const GridDemo: React.FunctionComponent = () => {
@@ -24,6 +25,9 @@ const GridDemo: React.FunctionComponent = () => {
             </CodeView>
             <CodeView path={"grid/grid.example4.tsx"}>
                 <GridExample4/>
+            </CodeView>
+            <CodeView path={"grid/grid.example5.tsx"}>
+                <GridExample5/>
             </CodeView>
         </div>
     );

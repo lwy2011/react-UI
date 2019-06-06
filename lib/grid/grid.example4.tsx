@@ -6,7 +6,7 @@ import "./grid.example.scss";
 const GridExample4: React.FunctionComponent = () => {
     return (
         <div className="gridExample">
-            <div className="taobao">
+            <div className="layout">
                 <Row>
                     <Col span={8}>
                         <Row>
@@ -28,6 +28,7 @@ const GridExample4: React.FunctionComponent = () => {
                     <Col span={6}>
                         <Row align={"center"} className={"imgBox"} justify={"center"}>
                             <Col className={"imgCol"}>
+
                                 <img
                                     src="https://cn.bing.com/th?id=OIP.GrGkavFEjUFdumUw1uJVuAHaHi&pid=PersonalBing&rs=1&p=0"
                                     alt="img"/>
