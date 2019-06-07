@@ -77,11 +77,47 @@ const ToastExample: React.FunctionComponent = () => {
                                 <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
                                 <p style={{color: "red"}}>{"为所欲为，，，我接，，为所欲为！为所欲为，，，为所欲为"}</p>
                                 <Button message={"吻我！"} icon={"guilian2"}
-                                        onClick={() => alert("你问我爱你有多深？给钱！")}/>
+                                        onClick={() => alert("你问我爱你有多深？给钱！默认为顶部出现，想改，就看position配置")}/>
                             </div>,
                             autoCloseDelay: 50,
                             closeText: "关闭",
                             closeCallback: () => setTime(0)
+                        }
+                    )}
+        />,
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭,position:middle`}
+                disabled={Boolean(time)}
+                onClick={
+                    () => showToast(
+                        {
+                            child: <div>
+                                <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
+                                <p style={{color: "red"}}>{"为所欲为，，，我接，，为所欲为！为所欲为，，，为所欲为"}</p>
+                                <Button message={"吻我！"} icon={"guilian2"}
+                                        onClick={() => alert("你问我爱你有多深？给钱！")}/>
+                            </div>,
+                            position: "middle",
+                            autoCloseDelay: 50,
+                            closeText: "关闭",
+                            closeCallback: () => setTime(0)
+                        }
+                    )}
+        />,
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭,position:bottom`}
+                disabled={Boolean(time)}
+                onClick={
+                    () => showToast(
+                        {
+                            child: <div>
+                                <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
+                                <p style={{color: "red"}}>{"为所欲为，，，我接，，为所欲为！为所欲为，，，为所欲为"}</p>
+                                <Button message={"吻我！"} icon={"guilian2"}
+                                        onClick={() => alert("你问我爱你有多深？给钱！")}/>
+                            </div>,
+                            autoCloseDelay: 50,
+                            closeText: "关闭",
+                            closeCallback: () => setTime(0),
+                            position: "bottom"
                         }
                     )}
         />,

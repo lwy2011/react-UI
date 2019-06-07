@@ -9,13 +9,16 @@ interface props extends React.HTMLAttributes<HTMLDivElement> {
     child?: ReactNode,
     message?: string,
     closeText?: string,
-    close?: () => void
+    close?: () => void,
+    position: string
 }
 
-const ToastDom: React.FunctionComponent<props> = ({message, className, show, closeText, close, child, ...rest}) => {
+const ToastDom: React.FunctionComponent<props> = ({message, className, show, closeText, close, child, position, ...rest}) => {
     const sc = scopeClassName("yr-toast");
+    const classNameFix = ["top", "middle", "bottom"].indexOf(position) >= 0 ?
+        [`position-${position}`, className].filter(val => val).join(" ") : className;
     const x = show &&
-        <div className={sc("", className)} {...rest}>
+        <div className={sc("", classNameFix)} {...rest}>
             <div className={sc("text")}>
                 {child}
                 {message}
@@ -38,7 +41,8 @@ interface configProps {
     autoCloseDelay: number,
     closeText: string,
     closeCallback: undefined | (() => void),
-    child: ReactNode
+    child: ReactNode,
+    position: string
 }
 
 const Toast = (configObj?: { [k: string]: any }) => {
@@ -49,6 +53,7 @@ const Toast = (configObj?: { [k: string]: any }) => {
         closeText: "",
         closeCallback: undefined,
         child: undefined,
+        position: "top",
         ...configObj
     };
 
@@ -67,6 +72,7 @@ const Toast = (configObj?: { [k: string]: any }) => {
     };
     const Dom = <ToastDom message={config.message}
                           child={config.child}
+                          position={config.position}
                           show={true}
                           closeText={config.closeText}
                           close={clickToClose}/>;

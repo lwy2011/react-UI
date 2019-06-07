@@ -2,9 +2,7 @@
 
 .yr-toast {
     position: fixed;
-    top:0;
     left: 50%;
-    transform: translateX(-50%);
     background: $toast-bg;
     color: #ffffff;
     padding: $toastPadding;
@@ -32,5 +30,17 @@
         padding-left: $toastFont;cursor: pointer;flex-shrink: 0;
 
         &:active {opacity: .7;}
+    }
+
+    &.position-top {
+        top: 0; transform: translateX(-50%);
+    }
+
+    &.position-bottom {
+        bottom: 0; transform: translateX(-50%);
+    }
+
+    &.position-middle {
+        top: 50%; transform: translate(-50%, -50%);
     }
 }
