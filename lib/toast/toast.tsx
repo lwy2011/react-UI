@@ -17,6 +17,7 @@ const ToastDom: React.FunctionComponent<props> = ({message, className, show, clo
     const sc = scopeClassName("yr-toast");
     const classNameFix = ["top", "middle", "bottom"].indexOf(position) >= 0 ?
         [`position-${position}`, className].filter(val => val).join(" ") : className;
+
     const x = show &&
         <div className={sc("", classNameFix)} {...rest}>
             <div className={sc("text")}>
@@ -42,10 +43,11 @@ interface configProps {
     closeText: string,
     closeCallback: undefined | (() => void),
     child: ReactNode,
-    position: string
+    position: string,
 }
 
-const Toast = (configObj?: { [k: string]: any }) => {
+const Toast = (configObj: { [k: string]: any }) => {
+    if (configObj.showOnlyOne && configObj.hasCurrent) return;
     const config: configProps = {
         message: "",
         autoClose: true,
@@ -53,7 +55,7 @@ const Toast = (configObj?: { [k: string]: any }) => {
         closeText: "",
         closeCallback: undefined,
         child: undefined,
-        position: "top",
+        position: "middle",
         ...configObj
     };
 
@@ -65,11 +67,17 @@ const Toast = (configObj?: { [k: string]: any }) => {
             ReactDom.unmountComponentAtNode(div);
             div.remove();
         };
+
+    const timer = config.autoClose && setTimeout(
+        () => close(), config.autoCloseDelay * 1000
+    );
     const clickToClose = () => {
+        timer && clearTimeout(timer);
         close();
         const {closeCallback} = config;
         closeCallback && closeCallback();
     };
+
     const Dom = <ToastDom message={config.message}
                           child={config.child}
                           position={config.position}
@@ -77,9 +85,7 @@ const Toast = (configObj?: { [k: string]: any }) => {
                           closeText={config.closeText}
                           close={clickToClose}/>;
         ReactDom.render(Dom, div);
-    return config.autoClose && setTimeout(
-        () => close(), config.autoCloseDelay * 1000
-    );
+    return clickToClose;
     }
 ;
 export default Toast;
