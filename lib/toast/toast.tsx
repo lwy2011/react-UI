@@ -2,19 +2,22 @@ import * as React from "react";
 import "./toast.scss";
 import ReactDom from "react-dom";
 import {scopeClassName} from "../../helpers/classes";
+import {ReactNode} from "react";
 
 interface props extends React.HTMLAttributes<HTMLDivElement> {
     show: boolean,
-    message: string,
+    child?: ReactNode,
+    message?: string,
     closeText?: string,
     close?: () => void
 }
 
-const ToastDom: React.FunctionComponent<props> = ({message, className, show, closeText, close, ...rest}) => {
+const ToastDom: React.FunctionComponent<props> = ({message, className, show, closeText, close, child, ...rest}) => {
     const sc = scopeClassName("yr-toast");
     const x = show &&
         <div className={sc("", className)} {...rest}>
             <div className={sc("text")}>
+                {child}
                 {message}
             </div>
             {closeText && <div className={sc("line")}/>}
@@ -30,18 +33,22 @@ const ToastDom: React.FunctionComponent<props> = ({message, className, show, clo
 };
 
 interface configProps {
+    message: string,
     autoClose: boolean,
     autoCloseDelay: number,
     closeText: string,
     closeCallback: undefined | (() => void),
+    child: ReactNode
 }
 
-const Toast = (message: string, configObj?: { [k: string]: any }) => {
+const Toast = (configObj?: { [k: string]: any }) => {
     const config: configProps = {
+        message: "",
         autoClose: true,
         autoCloseDelay: 4,
         closeText: "",
         closeCallback: undefined,
+        child: undefined,
         ...configObj
     };
 
@@ -58,7 +65,11 @@ const Toast = (message: string, configObj?: { [k: string]: any }) => {
         const {closeCallback} = config;
         closeCallback && closeCallback();
     };
-    const Dom = <ToastDom message={message} show={true} closeText={config.closeText} close={clickToClose}/>;
+    const Dom = <ToastDom message={config.message}
+                          child={config.child}
+                          show={true}
+                          closeText={config.closeText}
+                          close={clickToClose}/>;
         ReactDom.render(Dom, div);
     return config.autoClose && setTimeout(
         () => close(), config.autoCloseDelay * 1000

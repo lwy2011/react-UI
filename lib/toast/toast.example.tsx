@@ -16,8 +16,8 @@ const ToastExample: React.FunctionComponent = () => {
     useEffect(
         () => {intervalRef.current.set = callback;}
     );
-    const showToast = (message: string, config?: { [k: string]: any }) => {
-        Toast(message, config);
+    const showToast = (config?: { [k: string]: any }) => {
+        Toast(config);
         const tick = () => {
             intervalRef.current.set();
         };
@@ -39,17 +39,46 @@ const ToastExample: React.FunctionComponent = () => {
         <Button message={`点我,默认4s后消失`}
                 disabled={Boolean(time)}
                 onClick={
-                    () => showToast("点我干哈？默认4s后消失！")}/>,
+                    () => showToast({message: "点我干哈？默认4s后消失！"})}/>,
         <Button message={`点我,我定2s后消失`}
                 disabled={Boolean(time)}
                 onClick={
-                    () => showToast("点我干哈？我定2s后消失", {autoCloseDelay: 2})}/>,
+                    () => showToast({message: "点我干哈？我定2s后消失", autoCloseDelay: 2})}/>,
         <Button message={`点我,我定50s后消失,可点关闭，提前关闭`}
                 disabled={Boolean(time)}
                 onClick={
                     () => showToast(
-                        "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
                         {
+                            message: "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
+                            autoCloseDelay: 50,
+                            closeText: "关闭",
+                            closeCallback: () => setTime(0)
+                        }
+                    )}
+        />,
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭`}
+                disabled={Boolean(time)}
+                onClick={
+                    () => showToast(
+                        {
+                            child: "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
+                            autoCloseDelay: 50,
+                            closeText: "关闭",
+                            closeCallback: () => setTime(0)
+                        }
+                    )}
+        />,
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭`}
+                disabled={Boolean(time)}
+                onClick={
+                    () => showToast(
+                        {
+                            child: <div>
+                                <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
+                                <p style={{color: "red"}}>{"为所欲为，，，我接，，为所欲为！为所欲为，，，为所欲为"}</p>
+                                <Button message={"吻我！"} icon={"guilian2"}
+                                        onClick={() => alert("你问我爱你有多深？给钱！")}/>
+                            </div>,
                             autoCloseDelay: 50,
                             closeText: "关闭",
                             closeCallback: () => setTime(0)

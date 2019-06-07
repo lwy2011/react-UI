@@ -14,8 +14,7 @@
     line-height: 1.8;
     align-items: center;
     border-radius: 4px;
-    //min-width:10em;
-    //max-width: 15em;
+    max-width: 15em;
     &-text {height: 100%;}
 
     &-line {
@@ -30,7 +29,7 @@
     }
 
     &-close {
-        padding-left: $toastFont;cursor: pointer;white-space: nowrap;
+        padding-left: $toastFont;cursor: pointer;flex-shrink: 0;
 
         &:active {opacity: .7;}
     }
