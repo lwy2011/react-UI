@@ -6,8 +6,8 @@ import {scopeClassName} from "../../helpers/classes";
 import "./toast.example.scss";
 
 const ToastExample1: React.FunctionComponent = () => {
-    const [time, setTime] = useState(0);
-    const [current, setCurrent] = useState();
+    const [time, setTime] = useState(0);  //记录toast 的关闭时间
+    const [current, setCurrent] = useState();  ////它只是为了定位哪个按钮点了，然后把倒计时的秒数定位到那个按钮下面！
     const callback = () => {setTime(time - 1);};
     const intervalRef: MutableRefObject<{ set: () => void, timer: undefined | number }> =
         useRef({timer: 0, set: () => console.log("1")});
@@ -123,18 +123,7 @@ const ToastExample1: React.FunctionComponent = () => {
                     )}
         />
     ];
-    // useEffect(
-    //     () => {
-    //         showToast(
-    //             "点我干哈？我定50s后消失,点击关闭，可提前关闭！",
-    //             {
-    //                 autoCloseDelay: 50,
-    //                 closeText: "关闭",
-    //                 closeCallback: () => setTime(0)
-    //             }
-    //         );
-    //     },[]
-    // );
+
     return (
         <div className="yr-toast-example">
             <h4>{"用的time实现的点击拦截，计时器的依据是设置的延迟时间，看button的disabled属性！"}</h4>

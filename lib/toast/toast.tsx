@@ -1,8 +1,9 @@
 import * as React from "react";
+import {ReactNode, useEffect, useState} from "react";
 import "./toast.scss";
 import ReactDom from "react-dom";
 import {scopeClassName} from "../../helpers/classes";
-import {ReactNode} from "react";
+import useInterval from "../interval/interval";
 
 interface props extends React.HTMLAttributes<HTMLDivElement> {
     show: boolean,
@@ -29,6 +30,7 @@ const ToastDom: React.FunctionComponent<props> = ({message, className, show, clo
                 closeText &&
                 <div className={sc("close")} onClick={close}>
                     {closeText}
+                    {"id" + parseInt(Math.random() * 100 + "")}
                 </div>
             }
         </div>;
@@ -89,3 +91,59 @@ const Toast = (configObj: { [k: string]: any }) => {
     }
 ;
 export default Toast;
+
+interface onlyProps extends React.HTMLAttributes<HTMLDivElement> {
+    config: { [k: string]: any }
+}
+
+const OnlyOneToast: React.FunctionComponent<onlyProps> = ({config, children, className, ...rest}) => {
+    const fn = config.closeCallback;
+    config.closeCallback = () => {
+        setTime(0);
+        fn && fn();
+    };
+    const [current, setCurrent] = useState();
+    const sc = scopeClassName("yr-toast-one-show");
+    const [time, setTime] = useState(0);
+    // const timerRef = useRef({set: () => console.log(1), id: 0});
+    // const callback = () => {setTime(time - 1);};
+    // useEffect(
+    //     () => { timerRef.current.set = callback; }
+    // );
+    useInterval(() => setTime(time - 1), 1, time);
+    const create = () => {
+        current && current();
+        const now = Toast(config);
+        // clearInterval(timerRef.current.id);
+        setTime(config.autoCloseDelay || 4);
+        // @ts-ignore
+        // const tick = () => {
+        //     timerRef.current.set();
+        // };
+
+        // @ts-ignore
+        // timerRef.current.id = setInterval(
+        //     () => tick(), 1000
+        // );
+        setCurrent(() => now);
+    };
+
+
+    useEffect(                  //时间到了的清零
+        () => {
+            // const {id} = timerRef.current;
+            // time === 0 && id && clearInterval(id);
+            // time === 0 && id && (timerRef.current.id = 0);
+            time === 0 && setCurrent(undefined);
+        }, [time]
+    );
+
+    return (
+        <div className={sc("", className)} {...rest} onClick={create}>
+            {children}
+            <span style={{color: "red"}} className={sc("timer")}>{time + "s"}</span>
+        </div>
+    );
+};
+
+export {OnlyOneToast};
