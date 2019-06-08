@@ -3,6 +3,7 @@ import {ReactNode, useEffect, useState} from "react";
 import "./toast.scss";
 import ReactDom from "react-dom";
 import {scopeClassName} from "../../helpers/classes";
+
 import useInterval from "../interval/interval";
 
 interface props extends React.HTMLAttributes<HTMLDivElement> {
@@ -38,19 +39,18 @@ const ToastDom: React.FunctionComponent<props> = ({message, className, show, clo
     return ReactDom.createPortal(x, document.body);
 };
 
-interface configProps {
-    message: string,
-    autoClose: boolean,
-    autoCloseDelay: number,
-    closeText: string,
-    closeCallback: undefined | (() => void),
-    child: ReactNode,
-    position: string,
+export interface configProps {
+    message?: string,
+    autoClose?: boolean,
+    autoCloseDelay?: number,
+    closeText?: string,
+    closeCallback?: undefined | (() => void),
+    child?: ReactNode,
+    position?: string,
 }
 
-const Toast = (configObj: { [k: string]: any }) => {
-    if (configObj.showOnlyOne && configObj.hasCurrent) return;
-    const config: configProps = {
+const Toast = (configObj: configProps) => {
+    const config = {
         message: "",
         autoClose: true,
         autoCloseDelay: 4,
@@ -68,16 +68,16 @@ const Toast = (configObj: { [k: string]: any }) => {
             ReactDom.render(React.cloneElement(Dom, {show: false}), div);
             ReactDom.unmountComponentAtNode(div);
             div.remove();
+        const {closeCallback} = config;
+        closeCallback && closeCallback();
         };
 
     const timer = config.autoClose && setTimeout(
-        () => close(), config.autoCloseDelay * 1000
+        close, config.autoCloseDelay * 1000
     );
     const clickToClose = () => {
         timer && clearTimeout(timer);
         close();
-        const {closeCallback} = config;
-        closeCallback && closeCallback();
     };
 
     const Dom = <ToastDom message={config.message}
@@ -93,57 +93,79 @@ const Toast = (configObj: { [k: string]: any }) => {
 export default Toast;
 
 interface onlyProps extends React.HTMLAttributes<HTMLDivElement> {
-    config: { [k: string]: any }
+    config: configProps
 }
 
-const OnlyOneToast: React.FunctionComponent<onlyProps> = ({config, children, className, ...rest}) => {
-    const fn = config.closeCallback;
-    config.closeCallback = () => {
-        setTime(0);
-        fn && fn();
-    };
-    const [current, setCurrent] = useState();
-    const sc = scopeClassName("yr-toast-one-show");
-    const [time, setTime] = useState(0);
-    // const timerRef = useRef({set: () => console.log(1), id: 0});
-    // const callback = () => {setTime(time - 1);};
-    // useEffect(
-    //     () => { timerRef.current.set = callback; }
-    // );
-    useInterval(() => setTime(time - 1), 1, time);
-    const create = () => {
-        current && current();
-        const now = Toast(config);
-        // clearInterval(timerRef.current.id);
-        setTime(config.autoCloseDelay || 4);
-        // @ts-ignore
-        // const tick = () => {
-        //     timerRef.current.set();
-        // };
+const OnlyOneToast: React.FunctionComponent<onlyProps> =
+    ({config, children, className, ...rest}) => {
+        const fn = config.closeCallback;
+        config.closeCallback = () => {
+            setTimer(0);
+            fn && fn();
+        };
 
-        // @ts-ignore
-        // timerRef.current.id = setInterval(
-        //     () => tick(), 1000
+
+        const [currentClose, setCurrentClose] = useState();
+        const sc = scopeClassName("yr-toast-one-show");
+        const [time, setTimer] = useState(0);
+        const [createLock, setCreate] = useState(false);
+        const [closeLock, setClose] = useState(false);
+        // const timerRef = useRef({set: () => console.log(1), id: 0});
+        // const callback = () => {setTimer(time - 1);};
+        // useEffect(
+        //     () => { timerRef.current.set = callback; }
         // );
-        setCurrent(() => now);
-    };
+        useInterval(() => setTimer(time - 1), 1, time);
 
-
-    useEffect(                  //时间到了的清零
-        () => {
+        const create = () => {
+            const now = Toast(config);
+            // clearInterval(timerRef.currentClose.id);
+            // // @ts-ignore
+            // const tick = () => {
+            //     timerRef.current.set();
+            // };
             // const {id} = timerRef.current;
-            // time === 0 && id && clearInterval(id);
-            // time === 0 && id && (timerRef.current.id = 0);
-            time === 0 && setCurrent(undefined);
-        }, [time]
-    );
+            // id && clearInterval(id);
+            setTimer(config.autoCloseDelay || 4);
 
-    return (
-        <div className={sc("", className)} {...rest} onClick={create}>
-            {children}
-            <span style={{color: "red"}} className={sc("timer")}>{time + "s"}</span>
-        </div>
-    );
-};
+            // @ts-ignore
+            // timerRef.current.id = setInterval(
+            //     tick, 1000
+            // );
+
+            setCurrentClose(() => now);
+            setClose(false);
+            setCreate(false);
+        };
+        const close = () => {
+            currentClose && currentClose();
+            setCurrentClose(undefined);
+            setTimer(0);
+        };
+        useEffect(
+            () => {
+                createLock && create();
+
+            }, [createLock]
+        );
+
+        useEffect(                  //时间到了的清零
+            () => {
+                closeLock && !createLock && setCreate(true);
+                closeLock && !createLock && close();
+                // const {id} = timerRef.current;
+                // time === 0 && id && clearInterval(id);
+                // time === 0 && id && (timerRef.current.id = 0);
+                // time === 0 && setCurrentClose(undefined);
+            }, [closeLock]
+        );
+
+        return (
+            <div className={sc("", className)} {...rest} onClick={() => setClose(true)}>
+                {children}
+                <span style={{color: "red"}} className={sc("timer")}>{time + "s"}</span>
+            </div>
+        );
+    };
 
 export {OnlyOneToast};

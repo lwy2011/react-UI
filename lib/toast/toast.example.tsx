@@ -1,8 +1,7 @@
 import Button from "../button/button";
-import Toast, {OnlyOneToast} from "./toast";
+import Toast, {configProps} from "./toast";
 import * as React from "react";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
-import {scopeClassName} from "../../helpers/classes";
 import "./toast.example.scss";
 
 
@@ -19,9 +18,9 @@ const ToastExample: React.FunctionComponent = () => {
 
 
     const [currentClose, setCurrentClose] = useState();  //每次点击只出现新的一个，旧的立刻销毁
+    const [count, setCount] = useState(0);
 
-
-    const showToast = (config: { [k: string]: any }) => {
+    const showToast = (config: configProps) => {
         currentClose && currentClose();   //销毁当前存在的toast
         currentClose && setTime(0);  //当前倒计时清除
         const CurrentClose = Toast(config);    //创建新的，并且函数执行返回了，关闭它的方法！
@@ -37,43 +36,19 @@ const ToastExample: React.FunctionComponent = () => {
         //这里对计时器的类有问题，我记得返回的是个数字，但是ts一直认为是node.Timeout，暂时忽略掉了
         // @ts-ignore
         intervalRef.current.timer = setInterval(tick, 1000);  //创建计时器
-        console.log(timer, tick);
+        // console.log(timer, tick);
 
         setCurrentClose(() => CurrentClose);  //储存当前toast的关闭方法，为了函数开始那里的关闭
     };
     useEffect(
         () => {
             const timer = intervalRef.current.timer;
-            console.log(time, "ttt", timer);
+            // console.log(time, "ttt", timer);
             time === 0 && timer && clearInterval(timer);
             time === 0 && timer && (intervalRef.current.timer = undefined);
         }, [time]
     );
 
-    const sc = scopeClassName("yr-toast-example");
-    const lists = [
-        <Button message={`点我,我定50s后消失,可点关闭，提前关闭,点一次，旧的没了，新的出来`}
-                onClick={
-                    () => showToast(
-                        {
-                            child: <div>
-                                <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
-                                <p style={{color: "red"}}>
-                                    {`每点击一次，旧的消失，新的生成！看`}
-                                    <span style={{color: "blue"}}>
-                                        {parseInt(Math.random() * 100 + "" + new Date().toLocaleString())}
-                                    </span>
-                                </p>
-                                <Button message={"吻我！"} icon={"guilian2"}
-                                        onClick={() => alert("你问我爱你有多深？给钱！")}/>
-                            </div>,
-                            autoCloseDelay: 50,
-                            closeText: "关闭",
-                            closeCallback: () => setTime(0),
-                        }
-                    )}
-        />,
-    ];
 
     return (
         <div className="yr-toast-example">
@@ -85,46 +60,35 @@ const ToastExample: React.FunctionComponent = () => {
                     思路 —— Toast方法返回一个立刻关闭当前toast的函数，储存好它。
                     然后，点击按钮的showToast方法那里，第一步不是创建了，是判断加执行关闭函数，
                     然后再创建。就折磨简单。
+                    但是这样写有bug，请关注count!!!我想了快一天了，，，然后终于下面的那个封装，做了步骤的状态管理，才没有了bug!
+                    bug的原因，我是在showToast方法里，那里原本注释了，应该要有setTime为0,因为time为0,会触发清除的一些操作。而上面注释，
+                    说，setTime直接set的是新的toast的delay值。
+  
                     `
                 }
             </h4>
-            <ul>
-                {
-                    lists.map(
-                        (list, index) =>
-                            <li key={index}
-                                className={sc("list")}>
-                                {list}
-                                {<span className={sc("timer")}>{time + "s"}</span>}
-                            </li>
-                    )
-                }
-            </ul>
-            <h4>{"封装的初步的API"}</h4>
-            <h4>{"测试一"}</h4>
-            <OnlyOneToast config={
-                {
-                    child: <div>
-                        <h4>{"点我干哈？我定10s后消失,点击关闭，可提前关闭！"}</h4>
-                        <p style={{color: "red"}}>
-                            {`每点击一次，旧的消失，新的生成！看`}
-                            <span style={{color: "blue"}}>
-                                {parseInt(Math.random() * 100 + "")}
-                                {parseInt(Math.random() * 100 + "")}
-                            </span>
-                        </p>
-                        <Button message={"吻我！"} icon={"guilian2"}
-                                onClick={() => alert("你问我爱你有多深？给钱！")}/>
-                    </div>,
-                    autoCloseDelay: 10,
-                    closeText: "关闭",
-                    closeCallback: () => setTime(0),
-                }
-            } style={{display: "inline-flex"}}>
-                <Button onClick={(e) => { console.log(e, `我的判断条件 ，e.stopPropagation做拦截`);}}
-                        message={`点我,我定10s后消失,可点关闭，提前关闭,点一次，旧的没了，新的出来`}/>
-            </OnlyOneToast>
-
+            <Button message={`点我,我定50s后消失,可点关闭，提前关闭,点一次，旧的没了，新的出来`}
+                    onClick={
+                        () => showToast(
+                            {
+                                child: <div>
+                                    <h4>{"点我干哈？我定50s后消失,点击关闭，可提前关闭！"}</h4>
+                                    <p style={{color: "red"}}>
+                                        {`每点击一次，旧的消失，新的生成！看`}
+                                        <span style={{color: "blue"}}>
+                                        {parseInt(Math.random() * 100 + "" + new Date().toLocaleString())}
+                                    </span>
+                                    </p>
+                                    <Button message={"吻我！"} icon={"guilian2"}
+                                            onClick={() => alert("你问我爱你有多深？给钱！")}/>
+                                </div>,
+                                autoCloseDelay: 50,
+                                closeText: "关闭",
+                                closeCallback: () => setCount(count + 1),
+                            }
+                        )}
+            />
+            <p>{"关闭后，count自增："}{count}</p>
         </div>
     );
 };

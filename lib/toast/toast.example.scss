@@ -6,6 +6,8 @@
 
     }
 
+    border: 1px dashed $warningColor;padding: 2em 0;
+
     &-timer {
         margin: 1em; color: $warningColor;
     }

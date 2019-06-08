@@ -1,5 +1,5 @@
 import Button from "../button/button";
-import Toast from "./toast";
+import Toast, {configProps} from "./toast";
 import * as React from "react";
 import {MutableRefObject, useEffect, useRef, useState} from "react";
 import {scopeClassName} from "../../helpers/classes";
@@ -16,7 +16,7 @@ const ToastExample1: React.FunctionComponent = () => {
     useEffect(
         () => {intervalRef.current.set = callback;}
     );
-    const showToast = (config: { [k: string]: any }) => {
+    const showToast = (config: configProps) => {
         Toast(config);
         const tick = () => {
             intervalRef.current.set();
@@ -86,7 +86,7 @@ const ToastExample1: React.FunctionComponent = () => {
                         }
                     )}
         />,
-        <Button message={`点我,我定50s后消失,可点关闭，提前关闭,position:middle`}
+        <Button message={`点我,我定50s后消失,可点关闭，提前关闭,position:top`}
                 disabled={Boolean(time)}
                 onClick={
                     () => showToast(

@@ -24,6 +24,7 @@ const useInterval = (setFn: () => void, delay: number, now: number) => {
     useEffect(
         () => {
             const {id} = timerRef.current;
+            console.log(id, "销毁了计时器");
             id && clearInterval(id);
         }, []
     );
