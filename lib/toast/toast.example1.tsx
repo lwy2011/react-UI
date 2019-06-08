@@ -45,7 +45,7 @@ const ToastExample1: React.FunctionComponent = () => {
                 disabled={Boolean(time)}
                 onClick={
                     () => showToast({message: "点我干哈？我定2s后消失", autoCloseDelay: 2})}/>,
-        <Button message={`点我,我定50s后消失,可点关闭，提前关闭`}
+        <Button message={`点我,我定5s后消失,可点关闭，提前关闭`}
                 disabled={Boolean(time)}
                 onClick={
                     () => showToast(

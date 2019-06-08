@@ -39,7 +39,8 @@
     line-height: 1.8;
     align-items: center;
     border-radius: 4px;
-    max-width: 15em;
+    max-width: 35em;
+    min-width: 12em;
     background: $toast-bg;
     color: #ffffff;
     padding: $toastPadding;

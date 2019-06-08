@@ -52,7 +52,6 @@ const ToastExample3: React.FunctionComponent = () => {
                         message={`点我,我定10s后消失,可点关闭，提前关闭,点一次，旧的没了，新的出来`}/>
             </OnlyOneToast>
             <p>{"关闭后，count自增："}{count}</p>
-            <h4>{"测试二"}</h4>
         </div>
     );
 };
