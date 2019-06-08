@@ -21,20 +21,23 @@ const ToastDom: React.FunctionComponent<props> = ({message, className, show, clo
         [`position-${position}`, className].filter(val => val).join(" ") : className;
 
     const x = show &&
-        <div className={sc("", classNameFix)} {...rest}>
-            <div className={sc("text")}>
-                {child}
-                {message}
-            </div>
-            {closeText && <div className={sc("line")}/>}
-            {
-                closeText &&
-                <div className={sc("close")} onClick={close}>
-                    {closeText}
-                    {"id" + parseInt(Math.random() * 100 + "")}
+        <div className={sc("wrapper", classNameFix)}>
+            <div className={sc("")} {...rest}>
+                <div className={sc("text")}>
+                    {child}
+                    {message}
                 </div>
-            }
+                {closeText && <div className={sc("line")}/>}
+                {
+                    closeText &&
+                    <div className={sc("close")} onClick={close}>
+                        {closeText}
+                        {"id" + parseInt(Math.random() * 100 + "")}
+                    </div>
+                }
+            </div>
         </div>;
+
 
     return ReactDom.createPortal(x, document.body);
 };

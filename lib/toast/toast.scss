@@ -1,19 +1,51 @@
 @import '../_helper.scss';
 
 .yr-toast {
-    position: fixed;
-    left: 50%;
-    background: $toast-bg;
-    color: #ffffff;
-    padding: $toastPadding;
-    font-size: $toastFont;
-    box-shadow: 0 0 3px 0 rgba(0,0,0,.5);
+    &-wrapper {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+
+        &.position-top {
+            top: 0;
+
+            .yr-toast {
+                animation: yr-toast-slide-down 1s linear;
+                @include clearBorderRadiusTop;
+            }
+        }
+
+        &.position-bottom {
+            bottom: 0;
+
+            .yr-toast {
+                animation: yr-toast-slide-up 1s linear;
+                @include clearBorderRadiusBottom;
+            }
+        }
+
+        &.position-middle {
+            top: 50%;transform: translate(-50%, -50%);
+
+            .yr-toast {
+                animation: yr-toast-fade-in 1s linear;
+            }
+        }
+
+    }
+
+
     display: flex;
     line-height: 1.8;
     align-items: center;
     border-radius: 4px;
     max-width: 15em;
-    &-text {height: 100%;}
+    background: $toast-bg;
+    color: #ffffff;
+    padding: $toastPadding;
+    font-size: $toastFont;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, .5);
+
 
     &-line {
         height: 100%;margin-left: $toastFont;
@@ -30,34 +62,21 @@
         0% {opacity: 0;}
         100% {opacity: 1;}
     }
-    animation: yr-toast-fade-in 1s linear;
-    @keyframes yr-toast-fade-up {
-        0% {opacity: 0;transform: translate(-50%, 100%);}
-        100% {opacity: 1;transform: translate(-50%, 0);}
+    @keyframes yr-toast-slide-up {
+        0% {opacity: 0;transform: translateY(100%);}
+        100% {opacity: 1;transform: translateY(0);}
     }
-    @keyframes yr-toast-fade-down {
-        0% {opacity: 0;transform: translate(-50%, -100%);}
-        100% {opacity: 1;transform: translate(-50%, 0);}
+    @keyframes yr-toast-slide-down {
+        0% {opacity: 0;transform: translateY(-100%);}
+        100% {opacity: 1;transform: translateY(0);}
     }
+
     &-close {
         padding-left: $toastFont;cursor: pointer;flex-shrink: 0;
-
         &:active {opacity: .7;}
     }
 
-    &.position-top {
-        top: 0; transform: translateX(-50%);
-        animation: yr-toast-fade-down 1s linear;
 
-    }
 
-    &.position-bottom {
-        bottom: 0; transform: translateX(-50%);
-        animation: yr-toast-fade-up 1s linear;
 
-    }
-
-    &.position-middle {
-        top: 50%; transform: translate(-50%, -50%);
-    }
 }

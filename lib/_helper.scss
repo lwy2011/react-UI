@@ -15,11 +15,19 @@ $disabledBorder: #D9D9D9;
     border-bottom-left-radius: 0;
 }
 
+@mixin clearBorderRadiusTop {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
 @mixin clearBorderRadiusRight {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
+@mixin clearBorderRadiusBottom {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 $toast-bg: #4A494A;
 $toast:#BABABA;
 $toastFont:16px;
