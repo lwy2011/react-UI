@@ -22,7 +22,7 @@ const ToastExample: React.FunctionComponent = () => {
 
     const showToast = (config: configProps) => {
         currentClose && currentClose();   //销毁当前存在的toast
-        currentClose && setTime(0);  //当前倒计时清除
+        currentClose && setTime(0);  //当前倒计时清除，这里不行，因为下面还有一个，这是出bug的所在！！
         const CurrentClose = Toast(config);    //创建新的，并且函数执行返回了，关闭它的方法！
         const tick = () => {
             intervalRef.current.set();

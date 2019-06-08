@@ -26,6 +26,19 @@
         }
     }
 
+    @keyframes yr-toast-fade-in {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
+    }
+    animation: yr-toast-fade-in 1s linear;
+    @keyframes yr-toast-fade-up {
+        0% {opacity: 0;transform: translate(-50%, 100%);}
+        100% {opacity: 1;transform: translate(-50%, 0);}
+    }
+    @keyframes yr-toast-fade-down {
+        0% {opacity: 0;transform: translate(-50%, -100%);}
+        100% {opacity: 1;transform: translate(-50%, 0);}
+    }
     &-close {
         padding-left: $toastFont;cursor: pointer;flex-shrink: 0;
 
@@ -34,10 +47,14 @@
 
     &.position-top {
         top: 0; transform: translateX(-50%);
+        animation: yr-toast-fade-down 1s linear;
+
     }
 
     &.position-bottom {
         bottom: 0; transform: translateX(-50%);
+        animation: yr-toast-fade-up 1s linear;
+
     }
 
     &.position-middle {
