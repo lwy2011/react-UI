@@ -15,9 +15,23 @@
         display: inline-flex;
         padding: 8px;
         font-size: $font;cursor: pointer;
+        align-items: center;
 
         &.active {
             color: $blue;font-weight: bold;
+        }
+
+
+        svg + span {
+            margin-left: 4px;
+        }
+
+        &.right {
+            span {
+                order: 1;
+            }
+
+            svg {order: 2; margin-left: 4px;}
         }
     }
 

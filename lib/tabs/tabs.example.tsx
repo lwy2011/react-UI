@@ -14,10 +14,10 @@ const TabsExample: React.FunctionComponent = () => {
                         name: "user"
                     }}
                     tabs={[
-                        {text: "美女", name: "women"},
+                        {text: "美女", name: "women", icon: "women"},
                         {text: "科技", name: "science"},
                         {text: "生活", name: "life"},
-                        {text: "家庭", name: "family"},
+                        {text: "家庭", name: "family", icon: "family", right: true},
                     ]}/>
                 <TabsBody contents={
                     [

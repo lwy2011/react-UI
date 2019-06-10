@@ -13,7 +13,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 
 const TabsItem: React.FunctionComponent<Props> = ({className, children, tab, moveline, ...rest}) => {
-    const {text, name, icon} = tab;
+    const {text, name, icon, right} = tab;
     const {current, setCurrent} = useContext(TabsContext);
     const div = document.createElement("div");
     const item = useRef(div);
@@ -28,17 +28,17 @@ const TabsItem: React.FunctionComponent<Props> = ({className, children, tab, mov
         moveline({left, width});
     };
     const tabClick = () => {
-
         setCurrent(name);
         helpLine();
-        // console.log(left, width, div.getBoundingClientRect() ,window.getComputedStyle(div,null));
     };
     return (
         <div onClick={tabClick} ref={item}
-             className={classes(`yr-tabs-item  ${name} ${current === name ? "active" : ""}`, className)}
+             className={
+                 classes(
+                     `yr-tabs-item   ${current === name ? "active" : ""}  ${right ? "right" : ""}`, className)}
              {...rest}>
-            {text && <span>{text}</span>}
             {icon && <Icon name={icon}/>}
+            {text && <span>{text}</span>}
         </div>
     );
 };
