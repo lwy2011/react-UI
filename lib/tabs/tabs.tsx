@@ -12,7 +12,7 @@ const Tabs: React.FunctionComponent<Props> = ({className, children, defaultCurre
 
     return (
         <div className={classes("yr-tabs", className)} {...rest}>
-            <TabsContextProvider>
+            <TabsContextProvider defaultCurrent={defaultCurrent}>
                 {children}
             </TabsContextProvider>
         </div>

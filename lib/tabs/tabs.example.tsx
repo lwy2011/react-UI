@@ -7,7 +7,7 @@ import TabsBody from "./tabs-body";
 const TabsExample: React.FunctionComponent = () => {
     return (
         <div className="yr-tabs-example">
-            <Tabs defaultCurrent={"我靠"}>
+            <Tabs defaultCurrent={"life"}>
                 <TabsHead
                     extra={{
                         icon: "user",

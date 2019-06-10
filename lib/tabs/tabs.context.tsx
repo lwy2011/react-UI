@@ -1,6 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {SetStateAction} from "react";
+import {SetStateAction, useState} from "react";
 // import {useReducer} from "react";
 //
 //
@@ -14,26 +13,15 @@ const val = {current: initialState, setCurrent: set};
 
 const TabsContext = React.createContext(val);
 
-// interface Props extends React.ProviderProps<{}> {
-//     defaultCurrent:string,
-// }
+interface Props {
+    defaultCurrent: string,
+}
 
-const TabsContextProvider: React.FunctionComponent = (props) => {
-    const [current, setCurrent] = useState(initialState);
+const TabsContextProvider: React.FunctionComponent<Props> = (props) => {
+    const [current, setCurrent] = useState(props.defaultCurrent);
     const Provider = TabsContext.Provider;
 
-    useEffect(
-        () => {
-            const {children} = props;
-            const head = Array.isArray(children) && children.filter(
-                child => child && typeof child === "object"
-                    && "props" in child && child.props.tabs
-            );
-            const tabs = head && head[0];
-            // @ts-ignore
-            console.log(head, tabs.props);
-        }, [current]
-    );
+
     return (
         <Provider value={{current, setCurrent}}>
             {props.children}

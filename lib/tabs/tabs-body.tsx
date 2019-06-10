@@ -16,12 +16,12 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const TabsBody: React.FunctionComponent<Props> = ({className, children, contents, ...rest}) => {
     const {current} = useContext(TabsContext);
+    const val = contents.filter(
+        (content) => content.name === current
+    )[0];
     return (
         <div className={classes("yr-tabs-body", className)} {...rest}>
-            <TabsPane content={contents.filter(
-                (content) => content.name === current
-            )[0]}/>
-
+            {val && <TabsPane content={val}/>}
         </div>
     );
 };
