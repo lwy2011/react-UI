@@ -6,6 +6,7 @@ import TabsItem from "./tabs-Item";
 import Icon from "../icon/icon";
 
 
+
 export interface tabType {
     text: string,
     icon?: string,
@@ -21,6 +22,13 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 
+// // interface lineProps extends React.HTMLAttributes<HTMLDivElement> {}
+//
+// const Line: React.FunctionComponent = (props) => {
+//     const {style} = useContext(TabsContext);
+//     // console.log(style)
+//     return    <div className="yr-tabs-head-active-line" {...props} style={style}/>;
+// };
 
 const TabsHead: React.FunctionComponent<Props> = ({className, children, tabs, extra, extraNode, ...rest}) => {
 
