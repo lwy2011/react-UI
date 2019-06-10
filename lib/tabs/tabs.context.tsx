@@ -17,14 +17,13 @@ interface Props {
     defaultCurrent: string,
 }
 
-const TabsContextProvider: React.FunctionComponent<Props> = (props) => {
-    const [current, setCurrent] = useState(props.defaultCurrent);
+const TabsContextProvider: React.FunctionComponent<Props> = ({defaultCurrent, children}) => {
+    const [current, setCurrent] = useState(defaultCurrent);
     const Provider = TabsContext.Provider;
-
 
     return (
         <Provider value={{current, setCurrent}}>
-            {props.children}
+            {children}
         </Provider>
     );
 };

@@ -33,6 +33,10 @@
 
             svg {order: 2; margin-left: 4px;}
         }
+
+        &.disabled {
+            cursor: not-allowed;color: lighten(#A1A1A1, 10%);
+        }
     }
 
     &-extra {
