@@ -1,0 +1,28 @@
+@import "../_helper.scss";
+
+.yr-tabs {
+    &-head {
+        display: flex;justify-content: flex-start;
+        align-items: center;
+        border-bottom: 1px solid $lineColor;position: relative;
+
+        &-active-line {
+            position: absolute;bottom: -1px;border: 1px solid $blue; transition: all .25s linear;
+        }
+    }
+
+    &-item {
+        display: inline-flex;
+        padding: 8px;
+        font-size: $font;cursor: pointer;
+
+        &.active {
+            color: $blue;font-weight: bold;
+        }
+    }
+
+    &-extra {
+        margin-left: auto;padding: 8px;display: inline-flex;align-items: center;cursor: pointer;
+    }
+
+}

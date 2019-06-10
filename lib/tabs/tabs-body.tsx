@@ -1,8 +1,9 @@
 import * as React from "react";
 import "./tabs.scss";
 import classes from "../../helpers/classes";
-import {Fragment} from "react";
+import {useContext} from "react";
 import TabsPane from "./tabs-pane";
+import {TabsContext} from "./tabs.context";
 
 export interface tabContentType {
     content: any,
@@ -14,16 +15,13 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const TabsBody: React.FunctionComponent<Props> = ({className, children, contents, ...rest}) => {
+    const {current} = useContext(TabsContext);
     return (
-        <div className={classes("yr-tabs", className)} {...rest}>
-            {
-                contents.map(
-                    (content, index) =>
-                        <Fragment key={index}>
-                            <TabsPane content={content}/>
-                        </Fragment>
-                )
-            }
+        <div className={classes("yr-tabs-body", className)} {...rest}>
+            <TabsPane content={contents.filter(
+                (content) => content.name === current
+            )[0]}/>
+
         </div>
     );
 };
