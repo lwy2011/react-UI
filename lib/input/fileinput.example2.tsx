@@ -11,7 +11,7 @@ const FileInputExample2: React.FunctionComponent = () => {
 
     const [upload, setUpload] = useState(false);
 
-    console.log(data);
+    // console.log(data);
     return (
         <div className="fileInputExample">
             <h4>{"出现在上边，压缩定死,无zip"}</h4>

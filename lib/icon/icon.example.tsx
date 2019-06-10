@@ -1,7 +1,7 @@
 import React, {Fragment, FunctionComponent, useEffect, useRef, useState} from "react";
 
 import Icon from "./icon";
-import {Layout, Header, Content, Footer, Aside} from "../layout/layout";
+import {Aside, Content, Footer, Header, Layout} from "../layout/layout";
 import "./icon.example.scss";
 import {getStyle} from "../../helpers/function";
 import {scopeClassName} from "../../helpers/classes";
@@ -66,28 +66,34 @@ const IconExample: FunctionComponent = () => {
     const [start, setStart] = useState(false);
     const [time, setTime] = useState(60);
 
-    const intervalRef: React.MutableRefObject<(() => void) | undefined> = useRef();
+    const intervalRef: React.MutableRefObject<{ id: number, set: () => void }> =
+        useRef({id: 0, set: () => {}});
     const intervalCallback = () => { setTime(time - 1); };
 
     useEffect(
         () => {
-            intervalRef.current = intervalCallback;
+            intervalRef.current.set = intervalCallback;
         }
     );
     useEffect(
         () => {
             const tick = () => {
-                intervalRef && intervalRef.current && intervalRef.current();
+                intervalRef.current.set();
             };
-            const Timer = start && setInterval(
+            // @ts-ignore
+            intervalRef.current.id = start ? setInterval(
                 tick, 1000
-            );
-            // console.log(time, Timer, start, tick, "ttt");
-            return Timer && !start ? clearInterval(Timer) : undefined;
+            ) : 0;
+            // const {id} = intervalRef.current;
+
+            // console.log(time, Timer, start, "ttt");
+            // id > 0 && !start && clearInterval(id);
         }, [start]
     );
     useEffect(
         () => {
+            const {id} = intervalRef.current;
+            time === 0 && id > 0 && clearInterval(id);
             time === 0 && setStart(false);
         }, [time]
     );
@@ -105,7 +111,10 @@ const IconExample: FunctionComponent = () => {
                     <Button message={start ? "what a u 弄啥嘞？" : "开始游戏"}
                             icon={"guilian1"}
                             disabled={start}
-                            onClick={() => setStart(true)}/>
+                            onClick={() => {
+                                setStart(true);
+                                setTime(60);
+                            }}/>
 
                     <p className={sc({"gameTime": true, timeStart: start})}>
                         {

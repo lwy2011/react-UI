@@ -11,7 +11,7 @@ scrollbarWidth = () => {
     const value = div.offsetWidth - div.clientWidth;   //IE浏览器的
     //Webkit的,直接用css设置为0 了。
 
-    console.log(value, div.getBoundingClientRect().width, div.clientWidth,);
+    // console.log(value, div.getBoundingClientRect().width, div.clientWidth,);
     document.body.removeChild(div);
     return value;
 };

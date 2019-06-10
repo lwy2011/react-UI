@@ -8,29 +8,29 @@ import {TabsContext} from "./tabs.context";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     tab: tabType,
-    moveline: (style: { [k: string]: number | string }, fix: { transition: string } | undefined) => void,
 }
 
 
-const TabsItem: React.FunctionComponent<Props> = ({className, children, tab, moveline, ...rest}) => {
+const TabsItem: React.FunctionComponent<Props> = ({className, children, tab, ...rest}) => {
     const {text, name, icon, right, disabled} = tab;
-    const {current, setCurrent} = useContext(TabsContext);
+    const {current, set} = useContext(TabsContext);
     const div = document.createElement("div");
     const item = useRef(div);
     useEffect(
         () => {
-            current === name && helpLine(true);
+            current === name && set(name, helpLine(), true);
         }, []
     );
-    const helpLine = (first?: boolean) => {
+    const helpLine = () => {
         const div = item.current;
-        const {width, left} = div ? div.getBoundingClientRect() : {width: 0, left: 0};
-        moveline({width, left}, first ? {transition: "all 0s"} : undefined);
+        // console.log(div.getBoundingClientRect());
+        const {width, left, bottom} = div ? div.getBoundingClientRect() : {width: 0, left: 0, bottom: 0};
+        return {width: `${width}px`, left: `${left}px`, top: `${bottom - 0.5}px`};
     };
     const tabClick = () => {
         if (disabled) return;
-        setCurrent(name);
-        helpLine();
+        if (name === current) return;
+        set(name, helpLine());
     };
     return (
         <div onClick={tabClick} ref={item}

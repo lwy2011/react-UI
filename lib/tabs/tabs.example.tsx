@@ -29,7 +29,7 @@ const TabsExample: React.FunctionComponent = () => {
                         {content: "美女", name: "women"},
                         {content: "科技", name: "science"},
                         {content: "生活", name: "life"},
-                        {content: "家庭", name: "family"},
+                        {content: <h4 style={{color: "red"}}>{"家庭"}</h4>, name: "family"},
                     ]
                 }/>
             </Tabs>

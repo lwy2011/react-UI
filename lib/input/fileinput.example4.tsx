@@ -10,7 +10,7 @@ const FileInputExample4: React.FunctionComponent = () => {
     const [data, setData] = useState<Imgs>([]);
 
     const [upload, setUpload] = useState(false);
-    console.log(data);
+    // console.log(data);
     return (
         <div className="fileInputExample">
             <h4>{"出现在本身"}</h4>

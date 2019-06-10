@@ -9,7 +9,6 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Tabs: React.FunctionComponent<Props> = ({className, children, defaultCurrent, ...rest}) => {
-
     return (
         <div className={classes("yr-tabs", className)} {...rest}>
             <TabsContextProvider defaultCurrent={defaultCurrent}>

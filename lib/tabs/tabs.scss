@@ -6,9 +6,7 @@
         align-items: center;
         border-bottom: 1px solid $lineColor;position: relative;
 
-        &-active-line {
-            position: absolute;bottom: -1px;border: 1px solid $blue; transition: all .25s linear;
-        }
+
     }
 
     &-item {
@@ -43,4 +41,8 @@
         margin-left: auto;padding: 8px;display: inline-flex;align-items: center;cursor: pointer;
     }
 
+}
+
+.yr-tabs-head-active-line {
+    position: absolute;border: 1.5px solid $blue; transition: all .25s linear;
 }

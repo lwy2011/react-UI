@@ -10,7 +10,7 @@ const FileInputExample: React.FunctionComponent = () => {
     const [data, setData] = useState<Imgs>([]);
 
     const [upload, setUpload] = useState(false);
-    console.log(data);
+    // console.log(data);
     return (
         <div className="fileInputExample">
             <h4>{"图片限制png，最大最小数据量规定，可一次多传，出现在左边"}</h4>
