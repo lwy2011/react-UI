@@ -25,7 +25,7 @@ const TabsItem: React.FunctionComponent<Props> = ({className, children, tab, ...
         const div = item.current;
         // console.log(div.getBoundingClientRect(),window.scrollX);
         const {width, left, bottom} = div ? div.getBoundingClientRect() : {width: 0, left: 0, bottom: 0};
-        return {width: `${width}px`, left: `${left + window.scrollX}px`, top: `${bottom + window.scrollY - 0.5}px`};
+        return {width: `${width}px`, left: `${left + window.scrollX}px`, top: `${bottom + window.scrollY - 1}px`};
     };
     const tabClick = () => {
         if (disabled) return;
