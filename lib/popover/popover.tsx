@@ -23,7 +23,6 @@ const PopoverDom: React.FunctionComponent<Props> = ({className, children, visibl
         </div>;
     const windowClick = (e: Event) => {
         const {current} = Dom;
-        console.log(current);
         if (
             !(
                 e.target && current &&
@@ -91,18 +90,26 @@ interface trigger extends React.HTMLAttributes<HTMLDivElement> {
 const PopoverTrigger: React.FunctionComponent<trigger> =
     ({className, children, content, clickCallback, ...rest}) => {
         const [visible, setVisible] = useState(false);
-        const [triggerStyle, setStyle] = useState<{ [k: string]: number }>({});
         // const [closeFn, setCloseFn] = useState<undefined | (() => void)>(undefined);
         const div = document.createElement("div");
         const trigger = useRef(div);
-        const {left, top, bottom, right} = triggerStyle;
-        const popStyle = left >= 0 && top >= 0 ?
-            {
-                left: left + window.scrollX + "px",
-                top: top + window.scrollY + "px",
-                transform: "translateY(-100%)"
-            } : {left: "0"};
-        console.log(bottom, right, left, top, popStyle, "111");
+        const getStyle = () => {
+            const {left, top,} = trigger.current.getBoundingClientRect();
+            return left >= 0 && top >= 0 ?
+                {
+                    left: left + window.scrollX + "px",
+                    top: top + window.scrollY + "px",
+                    transform: "translateY(-100%)"
+                } : {left: "0"};
+        };
+        // const {left, top, bottom, right} = triggerStyle;
+        // const popStyle = left >= 0 && top >= 0 ?
+        //     {
+        //         left: left + window.scrollX + "px",
+        //         top: top + window.scrollY + "px",
+        //         transform: "translateY(-100%)"
+        //     } : {left: "0"};
+        // console.log(bottom, right, left, top, popStyle, "111");
 
         // const windowClick = (e: Event) => {
         //     const {current} = setPopoverRef;
@@ -157,16 +164,11 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
             setVisible(!visible);
             clickCallback && clickCallback(visible);
         };
-        useEffect(
-            () => {
-                const {left, top, bottom, right} = trigger.current.getBoundingClientRect();
-                setStyle({left, top, bottom, right});
-            }, []
-        );
+       
         useEffect(
             () => {
                 // !visible && removeEvent();
-                visible && create(popStyle);
+                visible && create(getStyle());
             }, [visible]
         );
         useEffect(
