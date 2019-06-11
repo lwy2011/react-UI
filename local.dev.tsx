@@ -15,6 +15,7 @@ import ScrollBarDemo from "./lib/scroll/scrollbar.demo";
 import GridDemo from "./lib/grid/grid.demo";
 import ToastDemo from "./lib/toast/toast.memo";
 import TabsDemo from "./lib/tabs/tabs.demo";
+import PopoverDemo from "./lib/popover/popover.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -33,6 +34,7 @@ const names: componentNames = {
     input: "输入框",
     toast: "面包屑",
     tabs: "导航",
+    popover: "泡泡框",
     dialog: "对话框",
     grid: "栅栏",
     layout: "布局",
@@ -97,6 +99,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/grid" component={GridDemo}/>
                     <Route path="/toast" component={ToastDemo}/>
                     <Route path="/tabs" component={TabsDemo}/>
+                    <Route path="/popover" component={PopoverDemo}/>
 
                 </Content>
             </Layout>
