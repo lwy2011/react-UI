@@ -16,7 +16,7 @@ const PopoverExample1: React.FunctionComponent = () => {
 
     return (
         <div className="yr-popover-example" style={{overflow: "hidden"}}>
-            <h4>{"hover触发"}</h4>
+            <h4>{"hover触发！ popover可以同时hover是借用了localstorage的暂存！"}</h4>
             <OutputView style={{width: "100%"}}
                         data={{
                             buttonCallback: count, clickCallback: clickCallback ? "可见喽！" : "不可见喽！"
