@@ -99,21 +99,33 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
         const getStyle = () => {
             const {left, top, width, height} = trigger.current.getBoundingClientRect();
             const translateY = `calc(${height / 2}px - 50%)`;
+
+            const transform = {
+                left: {transform: `translate(-100%, ${translateY} )`},
+                right: {transform: `translateX(calc(${width}px + .5em)) translateY(${translateY})`},
+                bottom: {transform: `translateY(calc(${height}px + .5em)`}
+            };
+            // @ts-ignore
+            const val = (position in transform) && transform[position];
             return left >= 0 && top >= 0 && width >= 0 && height >= 0 ?
                 (
-                    position === "top" || position === "left" ?
-                        {
-                            left: left + window.scrollX + "px",
-                            top: top + window.scrollY + "px",
-                            ...(position === "left" && {transform: `translate(-100%, ${translateY} )`})
-                        } :
-                        {
-                            left: left + window.scrollX + "px",
-                            top: top + window.scrollY + "px",
-                            transform: position === "bottom" ?
-                                `translateY(calc(${height}px + .5em)` :
-                                `translateX(calc(${width}px + .5em)) translateY(${translateY})`
-                        }
+                    {
+                        left: left + window.scrollX + "px",
+                        top: top + window.scrollY + "px",
+                        ...(val)
+                    }
+                    // position === "top" || position === "left" ?
+                    //     {
+                    //         ...base,
+                    //         ...(position === "left" &&
+                    //             {transform: `translate(-100%, ${translateY} )`})
+                    //     } :
+                    //     {
+                    //         ...base,
+                    //         transform: position === "bottom" ?
+                    //             `translateY(calc(${height}px + .5em)` :
+                    //             `translateX(calc(${width}px + .5em)) translateY(${translateY})`
+                    //     }
                 )
                 : {left: "0"};
         };

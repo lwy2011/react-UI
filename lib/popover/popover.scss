@@ -22,7 +22,7 @@
 
     @keyframes popover-fade-in {
         0% {opacity: 0;}
-        70% {opacity: 1;}
+        50% {opacity: 1;}
         100% {opacity: .7;}
     }
     transition: all 1s linear;
