@@ -25,10 +25,11 @@ const PopoverExample1: React.FunctionComponent = () => {
                 closeEvent={"hover"}
                 clickCallback={triggerClick}
                 position={"top"}
+                popCanHover={true}
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian"}/>
+                            {"what a u 弄啥嘞？？pop can hover"} <Icon name={"guilian"}/>
                         </h4>
                         <p>{"添加关闭所需的class，即可关闭"}</p>
                         <Button message={"ok"}
@@ -44,10 +45,11 @@ const PopoverExample1: React.FunctionComponent = () => {
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"left"}
+                popCanHover={true}
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian1"}/>
+                            {"what a u 弄啥嘞？？pop can  hover"} <Icon name={"guilian1"}/>
                         </h4>
                         <p>{"不添加关闭所需的class"}</p>
                         <Button message={"ok1"}/>
@@ -64,7 +66,7 @@ const PopoverExample1: React.FunctionComponent = () => {
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian2"}/>
+                            {"what a u 弄啥嘞？？pop can not hover"} <Icon name={"guilian2"}/>
                         </h4>
                         <p>{"添加关闭所需的class，即可关闭"}</p>
                         <Button message={"ok"}
@@ -80,10 +82,11 @@ const PopoverExample1: React.FunctionComponent = () => {
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"right"}
+                popCanHover={true}
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian3"}/>
+                            {"what a u 弄啥嘞？？pop can hover"} <Icon name={"guilian3"}/>
                         </h4>
                         <p style={{color: "red"}}>{"添加关闭所需的class，即可关闭,有点击事件！"}</p>
                         <Button message={"ok"}
@@ -103,7 +106,7 @@ const PopoverExample1: React.FunctionComponent = () => {
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian2"}/>
+                            {"what a u 弄啥嘞？？ pop can not hover"} <Icon name={"guilian2"}/>
                         </h4>
                         <p style={{color: "red"}}>{"没添加关闭所需的class，有点击事件"}</p>
                         <Button message={"ok"}

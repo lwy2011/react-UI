@@ -4,50 +4,74 @@ import {ReactNode, useEffect, useRef, useState} from "react";
 import "./popover.scss";
 import ReactDom from "react-dom";
 
-// type Storage = (data: HTMLDivElement | undefined) => void;
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     visible: boolean,
-    // storage?: Storage,
     close: () => void,
     closeEvent: string,
-    setVisible?: (val: boolean) => void
+    setVisible?: (val: boolean) => void,
+    popCanHover?: boolean
 }
 
 const sc = scopeClassName("yr-popover");
 
 const PopoverDom: React.FunctionComponent<Props> =
-    ({className, children, visible, close, setVisible, closeEvent, ...rest}) => {
+    ({className, children, visible, close, setVisible, closeEvent, popCanHover, ...rest}) => {
+        const mouseEnter = () => {
+            if (closeEvent === "hover" && popCanHover) {
+                const timer = localStorage.setPopoverNone;
+                timer && clearTimeout(timer);
+                localStorage.setPopoverNone = undefined;
+            }
+        };
+        const mouseLeave = () => {
+            if (closeEvent === "hover" && popCanHover) {
+                closeFn();
+            }
+        };
         const Dom = useRef(document.createElement("div"));
+
+        const handleClick = (e: React.MouseEvent) => {
+            const node = Dom.current.querySelector(".yr-popover-close-cli-true");
+            const test = node && node.contains(e.target as HTMLElement);
+            if (
+                e.target && (e.target as HTMLElement).classList
+                    .contains("yr-popover-close-cli-true") || test
+
+            ) {
+                closeFn();
+            }
+        };
+
         const dom = visible &&
-            <div className={sc("", className)} {...rest} ref={Dom}>
+            <div className={sc("", className)}
+                 onMouseEnter={mouseEnter}
+                 onMouseLeave={mouseLeave}
+                 onClick={handleClick}
+                 {...rest}
+                 ref={Dom}
+            >
                 {children}
             </div>;
+
+
         const closeFn = () => {
             close();
             console.log("window ccc");
             setVisible && setVisible(false);
         };
+
         const windowClick = (e: Event) => {
             const {current} = Dom;
             if (
-                e.target && (e.target as HTMLElement).classList
-                    .contains("yr-popover-close-cli-true")
-            ) {
-                return closeFn();
-            }
-            if (e.target && current && current.contains(e.target as HTMLElement)) {
-                const node = current.querySelector(".yr-popover-close-cli-true");
-                const test = node && node.contains(e.target as HTMLElement);
-                test && closeFn();
-            } else {
+                e.target && current &&
+                current.contains(e.target as HTMLElement)) {} else {
                 current !== e.target && closeFn();
             }
         };
         useEffect(
             () => {
                 console.log("创建了，等待storage");
-                // storage && storage(Dom.current);
                 closeEvent === "click" &&
                 document.addEventListener(
                     "click", windowClick
@@ -75,6 +99,7 @@ const Popover = (
     position: string,
     // storage?: Storage,
     setVisible?: (val: boolean) => void,
+    popCanHover?: boolean,
 ) => {
     const div = document.createElement("div");
     document.body.appendChild(div);
@@ -89,6 +114,7 @@ const Popover = (
     const Component =
         <PopoverDom visible={true} closeEvent={closeEvent}
                     className={`position-${position}`}
+                    popCanHover={popCanHover}
                     style={style} close={close} setVisible={setVisible}>
             {content}
         </PopoverDom>;
@@ -101,11 +127,12 @@ interface trigger extends React.HTMLAttributes<HTMLDivElement> {
     content: ReactNode,
     clickCallback?: (visible: boolean) => void,
     position: string,
-    closeEvent: string
+    closeEvent: string,
+    popCanHover?: boolean
 }
 
 const PopoverTrigger: React.FunctionComponent<trigger> =
-    ({className, children, content, clickCallback, position, closeEvent, ...rest}) => {
+    ({className, children, content, clickCallback, position, closeEvent, popCanHover, ...rest}) => {
         const [visible, setVisible] = useState(false);
         const div = document.createElement("div");
         const trigger = useRef(div);
@@ -136,12 +163,14 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
         const [closeFn, setFn] =
             useState<{ [k: string]: (() => void) | undefined }>({close: undefined});
 
-
-        const create = (style: styleType) =>
-            Popover(
+        const create = (style: styleType) => {
+            const close = Popover(
                 content, style, closeEvent, position,
                 (val: boolean) => {setVisible(val);},
+                popCanHover
             );
+            closeEvent === "hover" && setFn({close: () => {close(); }});
+        };
 
 
         const triggerClick = () => {
@@ -151,28 +180,26 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
 
         useEffect(
             () => {
+                const {close} = closeFn;
                 visible && create(getStyle(current));
+                !visible && close && close();
+                !visible && setFn({close: undefined});
             }, [visible]
         );
 
-        const mouseenterCallback = (e: React.MouseEvent) => {
+        const mouseenterCallback = () => {
             if (closeEvent === "hover" && !closeFn.close) {
-                const close = e.target && create(getStyle(e.target as HTMLElement));
-                // console.log("hovering", close);
-                setFn({
-                    close: () => {
-                        console.log(close, "close storage");
-                        close();
-                    }
-                });
+                setVisible(true);
             }
         };
         const mouseleaveCallback = () => {
             if (closeEvent === "hover" && closeFn.close) {
-                closeFn.close();
-                setFn({close: undefined});
+                popCanHover ?
+                    localStorage.setPopoverNone = setTimeout(
+                        () => setVisible(false), 1000
+                    ) : setVisible(false);
+                // console.log(localStorage.setPopoverNode);
             }
-            // console.log("hoverover", closeFn);
         };
 
         return (
