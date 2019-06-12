@@ -28,14 +28,15 @@
     transition: all 1s linear;
 
     &.position-top {
-        transform: translateY(calc(-100% - .4em)); //$popoverMargin
+        transform: translateY(-100%); //$popoverMargin
+        margin-top: -$popoverMargin;
 
         &:before {
-            top: 100%;border-top-color: $popoverBorder;
+            top: 100%;border-top-color: $popoverBorder; border-bottom: none;
         }
 
         &:after {
-            top: calc(100% - 1.5px); border-top-color: #fff;
+            top: calc(100% - 1.5px); border-top-color: #fff; border-bottom: none;
         }
     }
 
@@ -45,10 +46,11 @@
         &:before {
             left: 100%;border-left-color: $popoverBorder;
             top: calc(50% - .4em); //0.5倍的$popoverMargin
+            border-right: none;
         }
 
         &:after {
-            left: calc(100% - 1.5px); border-left-color: #fff;
+            left: calc(100% - 1.5px); border-left-color: #fff; border-right: none;
             top: calc(50% - .4em); //0.5倍的$popoverMargin
         }
     }
@@ -58,11 +60,11 @@
 
         &:before {
             bottom: 100%;border-bottom-color: $popoverBorder;
-            left: $popoverMargin;
+            left: $popoverMargin; border-top: none;
         }
 
         &:after {
-            bottom: calc(100% - 1.5px); border-bottom-color: #fff;left: $popoverMargin;
+            bottom: calc(100% - 1.5px); border-bottom-color: #fff;left: $popoverMargin; border-top: none;
         }
     }
 
@@ -71,12 +73,12 @@
 
         &:before {
             right: 100%;border-right-color: $popoverBorder;
-            top: calc(50% - .4em);
+            top: calc(50% - .4em); border-left: none;
         }
 
         &:after {
             right: calc(100% - 1.5px); border-right-color: #fff;
-            top: calc(50% - .4em);
+            top: calc(50% - .4em); border-left: none;
         }
 
     }

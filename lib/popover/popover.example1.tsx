@@ -6,7 +6,7 @@ import "./popover.example.scss";
 import {useState} from "react";
 import OutputView from "../../helpers/outputView";
 
-const PopoverExample: React.FunctionComponent = () => {
+const PopoverExample1: React.FunctionComponent = () => {
     const triggerClick = (visible: boolean) => {
         console.log(visible);
         setVisible(visible);
@@ -16,13 +16,13 @@ const PopoverExample: React.FunctionComponent = () => {
 
     return (
         <div className="yr-popover-example" style={{overflow: "hidden"}}>
-            <h4>{"click触发"}</h4>
+            <h4>{"hover触发"}</h4>
             <OutputView style={{width: "100%"}}
                         data={{
                             buttonCallback: count, clickCallback: clickCallback ? "可见喽！" : "不可见喽！"
                         }}/>
             <PopoverTrigger
-                closeEvent={"click"}
+                closeEvent={"hover"}
                 clickCallback={triggerClick}
                 position={"top"}
                 content={
@@ -40,7 +40,7 @@ const PopoverExample: React.FunctionComponent = () => {
                 <Button icon={"women"}/>
             </PopoverTrigger>
             <PopoverTrigger
-                closeEvent={"click"}
+                closeEvent={"hover"}
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"left"}
@@ -57,7 +57,7 @@ const PopoverExample: React.FunctionComponent = () => {
                 <Button icon={"key"}/>
             </PopoverTrigger>
             <PopoverTrigger
-                closeEvent={"click"}
+                closeEvent={"hover"}
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"bottom"}
@@ -76,7 +76,7 @@ const PopoverExample: React.FunctionComponent = () => {
                 <Button icon={"user"}/>
             </PopoverTrigger>
             <PopoverTrigger
-                closeEvent={"click"}
+                closeEvent={"hover"}
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"right"}
@@ -96,7 +96,7 @@ const PopoverExample: React.FunctionComponent = () => {
                 <Button icon={"前车轮"}/>
             </PopoverTrigger>
             <PopoverTrigger
-                closeEvent={"click"}
+                closeEvent={"hover"}
                 clickCallback={triggerClick}
                 style={{margin: "1em"}}
                 position={"right"}
@@ -120,4 +120,4 @@ const PopoverExample: React.FunctionComponent = () => {
     );
 };
 
-export default PopoverExample;
+export default PopoverExample1;

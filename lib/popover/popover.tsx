@@ -10,48 +10,59 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
     visible: boolean,
     // storage?: Storage,
     close: () => void,
+    closeEvent: string,
     setVisible?: (val: boolean) => void
 }
 
 const sc = scopeClassName("yr-popover");
 
-const PopoverDom: React.FunctionComponent<Props> = ({className, children, visible, close, setVisible, ...rest}) => {
-    const Dom = useRef(document.createElement("div"));
-    const dom = visible &&
-        <div className={sc("", className)} {...rest} ref={Dom}>
-            {children}
-        </div>;
-    const windowClick = (e: Event) => {
-        const {current} = Dom;
-        if (
-            !(
-                e.target && current &&
-                current.contains(e.target as HTMLElement) ||
-                current === e.target
-            )
-        ) {
+const PopoverDom: React.FunctionComponent<Props> =
+    ({className, children, visible, close, setVisible, closeEvent, ...rest}) => {
+        const Dom = useRef(document.createElement("div"));
+        const dom = visible &&
+            <div className={sc("", className)} {...rest} ref={Dom}>
+                {children}
+            </div>;
+        const closeFn = () => {
             close();
             console.log("window ccc");
             setVisible && setVisible(false);
-        }
-    };
-    useEffect(
-        () => {
-            console.log("创建了，等待storage");
-            // storage && storage(Dom.current);
-            document.addEventListener(
-                "click", windowClick
-            );
-            return () => {
-                console.log("remove  ,,,,");
-                document.removeEventListener(
+        };
+        const windowClick = (e: Event) => {
+            const {current} = Dom;
+            if (
+                e.target && (e.target as HTMLElement).classList
+                    .contains("yr-popover-close-cli-true")
+            ) {
+                return closeFn();
+            }
+            if (e.target && current && current.contains(e.target as HTMLElement)) {
+                const node = current.querySelector(".yr-popover-close-cli-true");
+                const test = node && node.contains(e.target as HTMLElement);
+                test && closeFn();
+            } else {
+                current !== e.target && closeFn();
+            }
+        };
+        useEffect(
+            () => {
+                console.log("创建了，等待storage");
+                // storage && storage(Dom.current);
+                closeEvent === "click" &&
+                document.addEventListener(
                     "click", windowClick
                 );
-            };
-        }, []
-    );
-    return ReactDom.createPortal(dom, document.body);
-};
+                return () => {
+                    console.log("remove  ,,,,");
+                    closeEvent === "click" &&
+                    document.removeEventListener(
+                        "click", windowClick
+                    );
+                };
+            }, []
+        );
+        return ReactDom.createPortal(dom, document.body);
+    };
 
 interface styleType {
     [k: string]: string | undefined
@@ -60,6 +71,7 @@ interface styleType {
 const Popover = (
     content: ReactNode,
     style: styleType,
+    closeEvent: string,
     position: string,
     // storage?: Storage,
     setVisible?: (val: boolean) => void,
@@ -75,7 +87,8 @@ const Popover = (
         div.remove();
     };
     const Component =
-        <PopoverDom visible={true} className={`position-${position}`}
+        <PopoverDom visible={true} closeEvent={closeEvent}
+                    className={`position-${position}`}
                     style={style} close={close} setVisible={setVisible}>
             {content}
         </PopoverDom>;
@@ -88,18 +101,20 @@ interface trigger extends React.HTMLAttributes<HTMLDivElement> {
     content: ReactNode,
     clickCallback?: (visible: boolean) => void,
     position: string,
+    closeEvent: string
 }
 
 const PopoverTrigger: React.FunctionComponent<trigger> =
-    ({className, children, content, clickCallback, position, ...rest}) => {
+    ({className, children, content, clickCallback, position, closeEvent, ...rest}) => {
         const [visible, setVisible] = useState(false);
-        // const [closeFn, setCloseFn] = useState<undefined | (() => void)>(undefined);
         const div = document.createElement("div");
         const trigger = useRef(div);
-        const getStyle = () => {
-            const {left, top, width, height} = trigger.current.getBoundingClientRect();
-            const translateY = `calc(${height / 2}px - 50%)`;
+        const {current} = trigger;
 
+        const getStyle = (current: HTMLElement) => {
+            const {left, top, width, height} = current.getBoundingClientRect();
+            const translateY = `calc(${height / 2}px - 50%)`;
+            // console.log(left, top, "style");
             const transform = {
                 left: {transform: `translate(-100%, ${translateY} )`},
                 right: {transform: `translateX(calc(${width}px + .5em)) translateY(${translateY})`},
@@ -114,103 +129,114 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
                         top: top + window.scrollY + "px",
                         ...(val)
                     }
-                    // position === "top" || position === "left" ?
-                    //     {
-                    //         ...base,
-                    //         ...(position === "left" &&
-                    //             {transform: `translate(-100%, ${translateY} )`})
-                    //     } :
-                    //     {
-                    //         ...base,
-                    //         transform: position === "bottom" ?
-                    //             `translateY(calc(${height}px + .5em)` :
-                    //             `translateX(calc(${width}px + .5em)) translateY(${translateY})`
-                    //     }
                 )
                 : {left: "0"};
         };
-        // const {left, top, bottom, right} = triggerStyle;
-        // const popStyle = left >= 0 && top >= 0 ?
-        //     {
-        //         left: left + window.scrollX + "px",
-        //         top: top + window.scrollY + "px",
-        //         transform: "translateY(-100%)"
-        //     } : {left: "0"};
-        // console.log(bottom, right, left, top, popStyle, "111");
 
-        // const windowClick = (e: Event) => {
-        //     const {current} = setPopoverRef;
-        //     console.log(current, "eventhui");
-        //     if (
-        //         !(
-        //             e.target && current &&
-        //             current.contains(e.target as HTMLElement) ||
-        //             current === e.target
-        //         )
-        //     ) {
-        //         // removeEvent();
-        //         setVisible(false);
-        //     }
-        //
-        // };
+        const [closeFn, setFn] =
+            useState<{ [k: string]: (() => void) | undefined }>({close: undefined});
 
-        // const eventRef = useRef((e: Event) => {});
 
-        // const removeEvent = () => {
-        //     document.removeEventListener(
-        //         "click", eventRef.current
-        //     );
-        //     console.log("remove");
-        // };
-
-        // const setPopoverRef = useRef<HTMLDivElement | undefined>(div);
-
-        const create = (style: styleType) => {
+        const create = (style: styleType) =>
             Popover(
-                content, style, position,
-
-                // (data: HTMLDivElement | undefined) => {
-                //     console.log(data, "sss");
-                //     // setPopoverRef.current = data;
-                // },
+                content, style, closeEvent, position,
                 (val: boolean) => {setVisible(val);},
             );
-            // eventRef.current = (e: Event) => {windowClick(e);};
-            // setCloseFn(() => close);
-            // document.addEventListener(
-            //     "click", windowClick
-            // );
-        };
 
-        // const toClose = () => {
-        //     // closeFn && closeFn();
-        //     // setCloseFn(undefined);
-        //     // setPopoverRef.current = undefined;
-        // };
+
         const triggerClick = () => {
-            visible && document.body.click();
-            setVisible(!visible);
-            clickCallback && clickCallback(visible);
+            closeEvent === "click" && setVisible(!visible);
+            clickCallback && clickCallback(!visible);
         };
 
         useEffect(
             () => {
-                // !visible && removeEvent();
-                visible && create(getStyle());
+                visible && create(getStyle(current));
             }, [visible]
         );
-        useEffect(
-            () => {
-                close && visible && setVisible(false);
-            }, [close]
-        );
+
+        const mouseenterCallback = (e: React.MouseEvent) => {
+            if (closeEvent === "hover" && !closeFn.close) {
+                const close = e.target && create(getStyle(e.target as HTMLElement));
+                // console.log("hovering", close);
+                setFn({
+                    close: () => {
+                        console.log(close, "close storage");
+                        close();
+                    }
+                });
+            }
+        };
+        const mouseleaveCallback = () => {
+            if (closeEvent === "hover" && closeFn.close) {
+                closeFn.close();
+                setFn({close: undefined});
+            }
+            // console.log("hoverover", closeFn);
+        };
+
         return (
             <div
+                onMouseLeave={mouseleaveCallback}
+                onMouseEnter={mouseenterCallback}
                 className={sc("trigger", className)}
                 ref={trigger} {...rest} onClick={triggerClick}>
                 {children}
             </div>
         );
-    };
+    }
+;
 
 export default PopoverTrigger;
+
+// (data: HTMLDivElement | undefined) => {
+//     console.log(data, "sss");
+//     // setPopoverRef.current = data;
+// },
+// eventRef.current = (e: Event) => {windowClick(e);};
+// setCloseFn(() => close);
+// document.addEventListener(
+//     "click", windowClick
+// );
+
+// const {left, top, bottom, right} = triggerStyle;
+// const popStyle = left >= 0 && top >= 0 ?
+//     {
+//         left: left + window.scrollX + "px",
+//         top: top + window.scrollY + "px",
+//         transform: "translateY(-100%)"
+//     } : {left: "0"};
+// console.log(bottom, right, left, top, popStyle, "111");
+
+// const windowClick = (e: Event) => {
+//     const {current} = setPopoverRef;
+//     console.log(current, "eventhui");
+//     if (
+//         !(
+//             e.target && current &&
+//             current.contains(e.target as HTMLElement) ||
+//             current === e.target
+//         )
+//     ) {
+//         // removeEvent();
+//         setVisible(false);
+//     }
+//
+// };
+
+// const eventRef = useRef((e: Event) => {});
+
+// const removeEvent = () => {
+//     document.removeEventListener(
+//         "click", eventRef.current
+//     );
+//     console.log("remove");
+// };
+
+// const setPopoverRef = useRef<HTMLDivElement | undefined>(div);
+
+// const toClose = () => {
+//     // closeFn && closeFn();
+//     // setCloseFn(undefined);
+//     // setPopoverRef.current = undefined;
+// };

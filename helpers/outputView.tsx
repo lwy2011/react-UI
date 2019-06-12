@@ -3,29 +3,29 @@ import Icon from "../lib/icon/icon";
 import "./outputview.scss";
 import {scopeClassName} from "./classes";
 
-interface props {
+interface props extends React.HTMLAttributes<HTMLDivElement> {
     data: { [k: string]: string | number },
     string?: string
 }
 
-const OutputView: React.FunctionComponent<props> = (props) => {
+const OutputView: React.FunctionComponent<props> = ({data, string, ...rest}) => {
     const cs = scopeClassName("output-view-table");
     return (
-        <table className={cs()}>
+        <table className={cs()} {...rest}>
             <tbody>
             {
-                Object.keys(props.data).map(
+                Object.keys(data).map(
                     key => <tr key={key} className={cs("tr")}>
                         <td className={cs("td")}>{key}</td>
                         <td className={cs("td")}><Icon name={"shi"}/></td>
-                        <td className={cs("td")}>{props.data[key] || <Icon name={"kong"}/>}</td>
+                        <td className={cs("td")}>{data[key] || <Icon name={"kong"}/>}</td>
                     </tr>
                 )
             }
             {
-                props.string &&
+                string &&
                 <div>
-                    {props.string}
+                    {string}
                 </div>
             }
             </tbody>
