@@ -37,7 +37,7 @@ const PopoverDom: React.FunctionComponent<Props> = ({className, children, visibl
     };
     useEffect(
         () => {
-            console.log(Dom, "创建了，等待storage");
+            console.log("创建了，等待storage");
             // storage && storage(Dom.current);
             document.addEventListener(
                 "click", windowClick
@@ -60,8 +60,9 @@ interface styleType {
 const Popover = (
     content: ReactNode,
     style: styleType,
+    position: string,
     // storage?: Storage,
-    setVisible?: (val: boolean) => void
+    setVisible?: (val: boolean) => void,
 ) => {
     const div = document.createElement("div");
     document.body.appendChild(div);
@@ -74,7 +75,8 @@ const Popover = (
         div.remove();
     };
     const Component =
-        <PopoverDom visible={true} style={style} close={close} setVisible={setVisible}>
+        <PopoverDom visible={true} className={`position-${position}`}
+                    style={style} close={close} setVisible={setVisible}>
             {content}
         </PopoverDom>;
     ReactDom.render(Component, div);
@@ -84,23 +86,36 @@ const Popover = (
 
 interface trigger extends React.HTMLAttributes<HTMLDivElement> {
     content: ReactNode,
-    clickCallback?: (visible: boolean) => void
+    clickCallback?: (visible: boolean) => void,
+    position: string,
 }
 
 const PopoverTrigger: React.FunctionComponent<trigger> =
-    ({className, children, content, clickCallback, ...rest}) => {
+    ({className, children, content, clickCallback, position, ...rest}) => {
         const [visible, setVisible] = useState(false);
         // const [closeFn, setCloseFn] = useState<undefined | (() => void)>(undefined);
         const div = document.createElement("div");
         const trigger = useRef(div);
         const getStyle = () => {
-            const {left, top,} = trigger.current.getBoundingClientRect();
-            return left >= 0 && top >= 0 ?
-                {
-                    left: left + window.scrollX + "px",
-                    top: top + window.scrollY + "px",
-                    transform: "translateY(-100%)"
-                } : {left: "0"};
+            const {left, top, width, height} = trigger.current.getBoundingClientRect();
+            const translateY = `calc(${height / 2}px - 50%)`;
+            return left >= 0 && top >= 0 && width >= 0 && height >= 0 ?
+                (
+                    position === "top" || position === "left" ?
+                        {
+                            left: left + window.scrollX + "px",
+                            top: top + window.scrollY + "px",
+                            ...(position === "left" && {transform: `translate(-100%, ${translateY} )`})
+                        } :
+                        {
+                            left: left + window.scrollX + "px",
+                            top: top + window.scrollY + "px",
+                            transform: position === "bottom" ?
+                                `translateY(calc(${height}px + .5em)` :
+                                `translateX(calc(${width}px + .5em)) translateY(${translateY})`
+                        }
+                )
+                : {left: "0"};
         };
         // const {left, top, bottom, right} = triggerStyle;
         // const popStyle = left >= 0 && top >= 0 ?
@@ -140,12 +155,13 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
 
         const create = (style: styleType) => {
             Popover(
-                content, style,
+                content, style, position,
+
                 // (data: HTMLDivElement | undefined) => {
                 //     console.log(data, "sss");
                 //     // setPopoverRef.current = data;
                 // },
-                (val: boolean) => {setVisible(val);}
+                (val: boolean) => {setVisible(val);},
             );
             // eventRef.current = (e: Event) => {windowClick(e);};
             // setCloseFn(() => close);
@@ -164,7 +180,7 @@ const PopoverTrigger: React.FunctionComponent<trigger> =
             setVisible(!visible);
             clickCallback && clickCallback(visible);
         };
-       
+
         useEffect(
             () => {
                 // !visible && removeEvent();

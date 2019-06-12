@@ -12,10 +12,11 @@ const PopoverExample: React.FunctionComponent = () => {
         <div className="yr-popover-example" style={{overflow: "hidden"}}>
             <PopoverTrigger
                 clickCallback={triggerClick}
+                position={"top"}
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian3"}/>
+                            {"what a u 弄啥嘞？？"} <Icon name={"guilian"}/>
                         </h4>
                         <Button message={"ok"} onClick={() => document.body.click()}/>
                     </div>
@@ -25,16 +26,48 @@ const PopoverExample: React.FunctionComponent = () => {
             </PopoverTrigger>
             <PopoverTrigger
                 clickCallback={triggerClick}
+                style={{margin: "1em"}}
+                position={"left"}
                 content={
                     <div>
                         <h4>
-                            {"what a u 弄啥嘞？？"} <Icon name={"guilian3"}/>
+                            {"what a u 弄啥嘞？？"} <Icon name={"guilian2"}/>
                         </h4>
                         <Button message={"ok"} onClick={() => document.body.click()}/>
                     </div>
                 }
             >
-                <Button icon={"user"} style={{margin: "1em 0"}}/>
+                <Button icon={"user"}/>
+            </PopoverTrigger>
+            <PopoverTrigger
+                clickCallback={triggerClick}
+                style={{margin: "1em"}}
+                position={"bottom"}
+                content={
+                    <div>
+                        <h4>
+                            {"what a u 弄啥嘞？？"} <Icon name={"guilian2"}/>
+                        </h4>
+                        <Button message={"ok"} onClick={() => document.body.click()}/>
+                    </div>
+                }
+            >
+                <Button icon={"user"}/>
+            </PopoverTrigger>
+            <PopoverTrigger
+                clickCallback={triggerClick}
+                style={{margin: "1em"}}
+                position={"right"}
+                content={
+                    <div>
+                        <h4>
+                            {"what a u 弄啥嘞？？"} <Icon name={"guilian2"}/>
+                        </h4>
+                        <Button message={"ok"} onClick={() => document.body.click()}/>
+                    </div>
+                }
+            >
+                <Button icon={"user"}/>
             </PopoverTrigger>
         </div>
     );
