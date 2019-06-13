@@ -12,15 +12,20 @@ const sc = scopeClassName("yr-cascader-item");
 const CascaderItem: React.FunctionComponent<Props> = ({className, data, ...rest}) => {
     return (
         <div className={sc("", className)} {...rest}>
-            {data.value} <Icon name={"right"}/>
-            {/*{*/}
-            {/*    data.children &&*/}
-            {/*        data.children.map(*/}
-            {/*            (child,index)=><CascaderItem data={child} key={index}/>*/}
-            {/*        )*/}
-            {/*}*/}
+            {data.value}
+            {
+                data.children &&
+                <Icon name={"right"}/>
+            }
         </div>
     );
 };
 
 export default CascaderItem;
+
+{/*{*/}
+{/*    data.children &&*/}
+{/*        data.children.map(*/}
+{/*            (child,index)=><CascaderItem data={child} key={index}/>*/}
+{/*        )*/}
+{/*}*/}
