@@ -35,3 +35,8 @@ $toastPadding: 4px 16px;
 
 $popoverBorder: #666;
 $popoverMargin: .4em;
+@mixin boxShadow {
+    box-shadow: 0 0 5px $lineColor;
+}
+
+$hoverColor: #E5F8FF;

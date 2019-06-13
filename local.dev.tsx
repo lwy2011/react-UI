@@ -16,6 +16,7 @@ import GridDemo from "./lib/grid/grid.demo";
 import ToastDemo from "./lib/toast/toast.memo";
 import TabsDemo from "./lib/tabs/tabs.demo";
 import PopoverDemo from "./lib/popover/popover.demo";
+import CascaderDemo from "./lib/cascader/cascader.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -32,7 +33,7 @@ const names: componentNames = {
     icon: "svg图标",
     button: "按钮",
     input: "输入框",
-    toast: "面包屑",
+    toast: "烤面包",
     tabs: "导航",
     popover: "泡泡框",
     dialog: "对话框",
@@ -40,7 +41,8 @@ const names: componentNames = {
     layout: "布局",
     form: "表单",
     upload: "上传",
-    scrollbar: "滚动条"
+    scrollbar: "滚动条",
+    cascader: "层级选择"
 };
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
@@ -100,6 +102,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/toast" component={ToastDemo}/>
                     <Route path="/tabs" component={TabsDemo}/>
                     <Route path="/popover" component={PopoverDemo}/>
+                    <Route path="/cascader" component={CascaderDemo}/>
 
                 </Content>
             </Layout>

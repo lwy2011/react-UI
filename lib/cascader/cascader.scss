@@ -1,0 +1,45 @@
+@import "../_helper.scss";
+
+.yr-cascader {
+    position: relative;
+
+    &-results {
+        border: 1px solid $mainColor;border-radius: 4px;
+        padding: $inputPadding;width: 15em;
+        cursor: pointer;
+    }
+
+    @keyframes cascader-items-fade-in {
+        0% {transform: translateY(-100%);opacity: 0;height: 0; }
+        100% {transform: translateY(0);opacity: 1;}
+    }
+    @keyframes cascader-item-fade-in {
+        0% {opacity: 0; }
+        100% {opacity: 1;}
+    }
+
+    &-selectorBox {
+        display: inline-flex;height: 15em;
+        position: absolute;background: #fff;
+        @include boxShadow; border-radius: 4px;
+        animation: cascader-items-fade-in .7s linear;
+    }
+
+    &-items {
+        border: 1px solid lighten(#A1A1A1, 30%);overflow-y: scroll;min-height: 100%;
+        animation: cascader-item-fade-in 1s linear;
+    }
+
+    &-item {
+        padding: .5em;display: flex;justify-content: space-between;align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            background: $hoverColor;
+        }
+
+        svg {
+            margin-left: 1em; color: $lineColor;width: .7em;height: .7em;
+        }
+    }
+}
