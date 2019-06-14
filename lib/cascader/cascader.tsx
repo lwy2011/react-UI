@@ -1,9 +1,10 @@
 import {scopeClassName} from "../../helpers/classes";
 import * as React from "react";
-import CascaderItem from "./cascaderItem";
+import CascaderItem, {RecursiveCascaderItem} from "./cascaderItem";
 import "./cascader.scss";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Icon from "../icon/icon";
+import CascaderContextProvider, {cascaderContext} from "./cascader.context";
 
 export interface sourceItem {
     value: string,
@@ -78,9 +79,10 @@ const Cascader: React.FunctionComponent<Props> =
                             {
                                 data.map(
                                     (item, index) =>
-                                        <CascaderItem data={item}
-                                                      className={selector[0] === item ? "active" : ""}
-                                                      key={index} onClick={() => clickItem(item, 0)}/>
+                                        <CascaderItem
+                                            data={item}
+                                            className={selector[0] === item ? "active" : ""}
+                                            key={index} onClick={() => clickItem(item, 0)}/>
                                 )
                             }
                         </div>
@@ -92,9 +94,10 @@ const Cascader: React.FunctionComponent<Props> =
                                         {
                                             item.children.map(
                                                 (child, ind) =>
-                                                    <CascaderItem data={child} key={ind}
-                                                                  className={selector[index + 1] === child ? "active" : ""}
-                                                                  onClick={() => clickItem(child, index + 2)}/>
+                                                    <CascaderItem
+                                                        data={child} key={ind}
+                                                        className={selector[index + 1] === child ? "active" : ""}
+                                                        onClick={() => clickItem(child, index + 2)}/>
                                             )
                                         }
                                     </div>
@@ -105,5 +108,58 @@ const Cascader: React.FunctionComponent<Props> =
             </div>
         );
     };
+
+const RecursiveCascader: React.FunctionComponent<Props> =
+    ({className, data, placeholder, scopedItemsBoxClassName, update, ...rest}) => {
+        const [visible, setVisible] = useState(false);
+        const [dom, getDom] = useState<HTMLElement>();
+        const {selectors, set} = useContext(cascaderContext);
+        const results = (data: sourceItem[]) =>
+            data.reduce(
+                (a, b) => a + (b ? b.value : ""), ""
+            );
+        const visibleSet = (e: React.MouseEvent) => {
+            const node = e.target;
+            !dom && e.target && getDom(node as HTMLElement);
+            if (!dom) return setVisible(!visible);
+            const clear = dom && dom.querySelector(".yr-cascader-clear");
+            if (!clear) return setVisible(!visible);
+            !(clear.contains(e.target as HTMLElement) || clear === e.target) &&
+            setVisible(!visible);
+        };
+        return (
+            <div className={sc("", className)} {...rest}>
+                <div className={sc("results")} onClick={visibleSet}>
+                    {
+                        selectors.length === 0 ? placeholder :
+                            results(selectors)
+                    }
+                    {
+                        selectors.length > 0 &&
+                        <Icon name={"close"}
+                              onClick={() => set()}
+                              className={sc("clear")}/>
+                    }
+                </div>
+                {
+                    visible &&
+                    <div className={sc("selectorBox", scopedItemsBoxClassName)}>
+                        <RecursiveCascaderItem data={data} level={0} selector={selectors[0]}/>
+                    </div>
+                }
+            </div>
+        );
+    };
+const Cascader1: React.FunctionComponent<Props> = (props) => {
+    return (
+        <React.Fragment>
+            <CascaderContextProvider>
+                <RecursiveCascader {...props}/>
+            </CascaderContextProvider>
+        </React.Fragment>
+    );
+};
+
+export {Cascader1};
 
 export default Cascader;
