@@ -9,16 +9,17 @@ import CascaderContextProvider, {cascaderContext} from "./cascader.context";
 export interface sourceItem {
     value: string,
     label?: string,
-    children?: sourceItem[],
+    children?: sourceItem[]
 }
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     data: sourceItem[],
     placeholder?: string,
     scopedItemsBoxClassName?: string,
-    update: (data: string) => void
-
+    update: (data: string) => void,
 }
+
+
 
 const sc = scopeClassName("yr-cascader");
 const Cascader: React.FunctionComponent<Props> =
@@ -26,7 +27,6 @@ const Cascader: React.FunctionComponent<Props> =
         const [selector, setSelect] = useState<Array<sourceItem>>([]);
         const [visible, setVisible] = useState(false);
         const [dom, getDom] = useState<HTMLElement>();
-        // const [result, getResult] = useState("");
 
         const clickItem = (item: sourceItem, ind: number) => {
             const val = ind === 0 ? [item] :
@@ -36,8 +36,9 @@ const Cascader: React.FunctionComponent<Props> =
                 );
             setSelect(val);
 
-            console.log(ind, item, val);
+            // console.log(ind, item, val);
         };
+
         const results = (data: sourceItem[]) =>
             data.reduce(
                 (a, b) => a + (b ? b.value : ""), ""
@@ -49,12 +50,12 @@ const Cascader: React.FunctionComponent<Props> =
             }, [selector]
         );
         const visibleSet = (e: React.MouseEvent) => {
-            const node = e.target;
-            !dom && e.target && getDom(node as HTMLElement);
+            const node = e.target && (e.target as HTMLElement);
+            !dom && node && getDom(node);
             if (!dom) return setVisible(!visible);
             const clear = dom && dom.querySelector(".yr-cascader-clear");
             if (!clear) return setVisible(!visible);
-            !(clear.contains(e.target as HTMLElement) || clear === e.target) &&
+            !(clear.contains(node) || clear === node) &&
             setVisible(!visible);
             // console.log(e.target, dom, clear);
         };
@@ -108,7 +109,9 @@ const Cascader: React.FunctionComponent<Props> =
             </div>
         );
     };
-
+Cascader.defaultProps = {
+    placeholder: "\u00A0"
+};
 const RecursiveCascader: React.FunctionComponent<Props> =
     ({className, data, placeholder, scopedItemsBoxClassName, update, ...rest}) => {
         const [visible, setVisible] = useState(false);
@@ -159,7 +162,9 @@ const Cascader1: React.FunctionComponent<Props> = (props) => {
         </React.Fragment>
     );
 };
-
+Cascader1.defaultProps = {
+    placeholder: "\u00A0"
+};
 export {Cascader1};
 
 export default Cascader;

@@ -4,19 +4,22 @@ import {sourceItem} from "./cascader";
 import Icon from "../icon/icon";
 import {useContext} from "react";
 import {cascaderContext} from "./cascader.context";
+import {dbType} from "./cascader.db";
 
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-    data: sourceItem
+    data?: sourceItem,
+    db?: dbType
 }
 
 const sc = scopeClassName("yr-cascader-item");
-const CascaderItem: React.FunctionComponent<Props> = ({className, data, ...rest}) => {
+const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, ...rest}) => {
+    const val = data || db;
     return (
         <div className={sc("", className)} {...rest}>
-            {data.value}
+            {val && val.value}
             {
-                data.children &&
+                data && data.children &&
                 <Icon name={"right"}/>
             }
         </div>

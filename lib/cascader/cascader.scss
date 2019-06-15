@@ -1,12 +1,12 @@
 @import "../_helper.scss";
 
 .yr-cascader {
-    position: relative;
 
+    position: relative;
     &-results {
-        border: 1px solid $mainColor;border-radius: 4px;
-        padding: $inputPadding;width: 15em;
-        cursor: pointer;position: relative;
+        border: 1px solid $lineColor;border-radius: 4px;
+        padding: $cascaderResultsPadding;min-width: 10em;
+        cursor: pointer;position: relative;display: inline-flex;
     }
 
     &-clear {
@@ -30,7 +30,7 @@
     &-selectorBox {
         display: inline-flex;height: $cascaderHeight;
         position: absolute;background: #fff;
-        @extend .boxShadow; border-radius: 4px;
+        @extend .boxShadow; border-radius: 4px;top: 100%;margin-top: 6px;left: 0;
         animation: cascader-items-fade-in .7s linear;
     }
 
