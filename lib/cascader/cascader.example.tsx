@@ -5,7 +5,7 @@ import {useState} from "react";
 import OutputView from "../../helpers/outputView";
 import "./cascader.example.scss";
 import areaDB from "../../helpers/data/db";
-import DBCascader, {loadType} from "./cascader.db";
+import DBCascader, {DBCascader1, loadType} from "./cascader.db";
 
 const CascaderExample: React.FunctionComponent = () => {
     const [value, setValue] = useState("");
@@ -39,6 +39,14 @@ const CascaderExample: React.FunctionComponent = () => {
                 update={update}
                 db={areaDB}
                 placeholder={"请选择，迭代思路，动态请求数据，并渲染筛选"}
+            />
+            <DBCascader1
+                loadFn={
+                    loadFn
+                }
+                update={update}
+                db={areaDB}
+                placeholder={"请选择，递归思路，动态请求数据，并渲染筛选"}
             />
         </div>
     );

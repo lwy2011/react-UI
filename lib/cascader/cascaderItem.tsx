@@ -29,18 +29,19 @@ const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, ...r
 interface Props1 extends React.HTMLAttributes<HTMLDivElement> {
     data: sourceItem[] | sourceItem,
     selector: sourceItem,
-    level: number
+    level: number,
+    ajax?: (item: sourceItem, fn: () => void) => void
 }
 
-{/*<div className={sc("selectorBox", scopedItemsBoxClassName)}>*/}
 
 
 const RecursiveCascaderItem: React.FunctionComponent<Props1> =
-    ({className, data, selector, level, ...rest}) => {
+    ({className, data, selector, level, ajax, ...rest}) => {
         const {selectors, set} = useContext(cascaderContext);
         const sc = scopeClassName("yr-cascader-items");
         const select = (list: sourceItem) => {
-            set(list, level);
+            ajax ? ajax(list, () => {set(list, level);}) :
+                set(list, level);
         };
         const leftDom = (list: sourceItem, index?: number) =>
             <div key={index} className={sc("left-item", list === selectors[level] ? "active" : "")}
@@ -69,7 +70,8 @@ const RecursiveCascaderItem: React.FunctionComponent<Props1> =
                 {
                     selector &&
                     <div className={sc("right")}>
-                        <RecursiveCascaderItem data={selector} level={level + 1} selector={selectors[level + 1]}/>
+                        <RecursiveCascaderItem data={selector} level={level + 1} ajax={ajax}
+                                               selector={selectors[level + 1]}/>
                     </div>
                 }
             </div>

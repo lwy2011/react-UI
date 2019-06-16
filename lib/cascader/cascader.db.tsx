@@ -5,7 +5,7 @@ import "./cascader.scss";
 import {useContext, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 
-// import CascaderContextProvider, {cascaderContext} from "./cascader.context";
+import CascaderContextProvider, {cascaderContext} from "./cascader.context";
 
 export interface sourceItem {
     value: string,
@@ -28,6 +28,7 @@ export interface dbType {
     value: string,
     parent_id: number,
     children?: dbType[],
+
     [k: string]: string | number | dbType[] | undefined
 }
 
@@ -147,7 +148,6 @@ const DBCascader: React.FunctionComponent<Props> =
                                         {
                                             item.children.map(
                                                 (child, ind) => {
-                                                    // console.log(child,item);
                                                     return <CascaderItem
                                                         db={child} key={ind}
                                                         className={selector[index + 1] && selector[index + 1].value === child.value ? "active" : ""}
@@ -166,59 +166,87 @@ const DBCascader: React.FunctionComponent<Props> =
 DBCascader.defaultProps = {
     placeholder: "\u00A0"
 };
-// const RecursiveCascader: React.FunctionComponent<Props> =
-//     ({className, data, placeholder, scopedItemsBoxClassName, update, ...rest}) => {
-//         const [visible, setVisible] = useState(false);
-//         const [dom, getDom] = useState<HTMLElement>();
-//         const {selectors, set} = useContext(cascaderContext);
-//         const results = (data: sourceItem[]) =>
-//             data.reduce(
-//                 (a, b) => a + (b ? b.value : ""), ""
-//             );
-//         const visibleSet = (e: React.MouseEvent) => {
-//             const node = e.target;
-//             !dom && e.target && getDom(node as HTMLElement);
-//             if (!dom) return setVisible(!visible);
-//             const clear = dom && dom.querySelector(".yr-cascader-clear");
-//             if (!clear) return setVisible(!visible);
-//             !(clear.contains(e.target as HTMLElement) || clear === e.target) &&
-//             setVisible(!visible);
-//         };
-//         return (
-//             <div className={sc("", className)} {...rest}>
-//                 <div className={sc("results")} onClick={visibleSet}>
-//                     {
-//                         selectors.length === 0 ? placeholder :
-//                             results(selectors)
-//                     }
-//                     {
-//                         selectors.length > 0 &&
-//                         <Icon name={"close"}
-//                               onClick={() => set()}
-//                               className={sc("clear")}/>
-//                     }
-//                 </div>
-//                 {
-//                     visible && data &&
-//                     <div className={sc("selectorBox", scopedItemsBoxClassName)}>
-//                         <RecursiveCascaderItem data={data} level={0} selector={selectors[0]}/>
-//                     </div>
-//                 }
-//             </div>
-//         );
-//     };
-// const Cascader1: React.FunctionComponent<Props> = (props) => {
-//     return (
-//         <React.Fragment>
-//             <CascaderContextProvider>
-//                 <RecursiveCascader {...props}/>
-//             </CascaderContextProvider>
-//         </React.Fragment>
-//     );
-// };
-// Cascader1.defaultProps = {
-//     placeholder: "\u00A0"
-// };
-// export {Cascader1};
+const DBRecursiveCascader: React.FunctionComponent<Props> =
+    ({className, db, placeholder, scopedItemsBoxClassName, update, loadFn, ...rest}) => {
+        const [visible, setVisible] = useState(false);
+        const [dom, getDom] = useState<HTMLElement>();
+        const [data, setData] = useState<dbType[]>([]);
+        const {selectors, set} = useContext(cascaderContext);
+        const ajax = (item?: dbType) => {
+            return new Promise(
+                (resolve, reject) => {
+                    const children = item && item.children;
+                    children ? resolve(children) :
+                        loadFn(
+                            resolve, item, reject
+                        );
+                }
+            );
+        };
+        const results = (data: sourceItem[]) =>
+            data.reduce(
+                (a, b) => a + (b ? b.value : ""), ""
+            );
+        const visibleSet = (e: React.MouseEvent) => {
+            !data[0] && ajax().then(
+                (res: dbType[]) => {setData(res);},
+                () => setVisible(false)
+            );
+            const node = e.target;
+            !dom && e.target && getDom(node as HTMLElement);
+            if (!dom) return setVisible(!visible);
+            const clear = dom && dom.querySelector(".yr-cascader-clear");
+            if (!clear) return setVisible(!visible);
+            !(clear.contains(e.target as HTMLElement) || clear === e.target) &&
+            setVisible(!visible);
+        };
+        const itemClick = (item: dbType, fn: () => void) => {
+            ajax(item).then(
+                (res: dbType[]) => {
+                    res && res.length > 0 && (item.children = res);
+                    console.log(item, "gengxin", res, "查到的孩子");
+                    setData(data);
+                    fn();
+                }
+            );
+        };
+        return (
+            <div className={sc("", className)} {...rest}>
+                <div className={sc("results")} onClick={visibleSet}>
+                    {
+                        selectors.length === 0 ? placeholder :
+                            results(selectors)
+                    }
+                    {
+                        selectors.length > 0 &&
+                        <Icon name={"close"}
+                              onClick={() => set()}
+                              className={sc("clear")}/>
+                    }
+                </div>
+                {
+                    visible && data &&
+                    <div className={sc("selectorBox", scopedItemsBoxClassName)}>
+                        <RecursiveCascaderItem
+                            ajax={itemClick}
+                            data={data} level={0} selector={selectors[0]}/>
+                    </div>
+                }
+            </div>
+        );
+    };
+const DBCascader1: React.FunctionComponent<Props> = (props) => {
+    return (
+        <React.Fragment>
+            <CascaderContextProvider>
+                <DBRecursiveCascader {...props}/>
+            </CascaderContextProvider>
+        </React.Fragment>
+    );
+};
+DBCascader1.defaultProps = {
+    placeholder: "\u00A0"
+};
+export {DBCascader1};
 
 export default DBCascader;
