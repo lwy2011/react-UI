@@ -13,7 +13,7 @@ export interface sourceItem {
     children?: sourceItem[]
 }
 
-export type loadType = (id: number, resolve: (value: dbType[]) => void, reject?: (reason?: any) => void) => void
+export type loadType = (resolve: (value: dbType[]) => void, item?: dbType, reject?: (reason?: any) => void) => void
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     placeholder?: string,
@@ -28,11 +28,11 @@ export interface dbType {
     value: string,
     parent_id: number,
     children?: dbType[],
-
     [k: string]: string | number | dbType[] | undefined
 }
 
 type filterType = (id: number, data: dbType[], over: { [k: string]: boolean }) => (dbType | undefined | false)
+
 const sc = scopeClassName("yr-cascader");
 const DBCascader: React.FunctionComponent<Props> =
     ({className, placeholder, scopedItemsBoxClassName, update, db, loadFn, ...rest}) => {
@@ -42,19 +42,16 @@ const DBCascader: React.FunctionComponent<Props> =
         const [dom, getDom] = useState<HTMLElement>();
 
         const clickItem = (item: dbType, index: number) => {
-            const {id} = item;
             const over = {over: false};
-            ajax(id).then(
+            ajax(item).then(
                 (res: dbType[]) => {
                     const copy = JSON.parse(JSON.stringify(data));
-                    const result = filterFn(id, copy, over);
+                    const result = filterFn(item.id, copy, over);
                     console.log(item, result, "res is", res);
-                    result && (result.children = res);
+                    res.length > 0 && result && (result.children = res);
                     setData(copy);
-                    // const finalRes = result ? result : item
                     if (result) {
                         const val = index === 0 ? [result] : index === 1 ? [selector[0], result] :
-                            // index === selector.length ? selector.push(result):
                             [...selector.slice(0, index), result];
                         setSelect(val);
                         console.log(index, "index is", val);
@@ -75,15 +72,15 @@ const DBCascader: React.FunctionComponent<Props> =
                 ).filter(item => item)[0];
 
         };
-        // db && db.filter(
-        //     item => item.parent_id === parent_id
-        // );
-        const ajax = (parent_id = 0) => {
+
+        const ajax = (item?: dbType) => {
             return new Promise(
                 (resolve, reject) => {
-                    loadFn(
-                        parent_id, resolve, reject
-                    );
+                    const children = item && item.children;
+                    children ? resolve(children) :
+                        loadFn(
+                            resolve, item, reject
+                        );
                 }
             );
         };
@@ -113,7 +110,6 @@ const DBCascader: React.FunctionComponent<Props> =
             if (!clear) return setVisible(!visible);
             !(clear.contains(node) || clear === node) &&
             setVisible(!visible);
-            // console.log(e.target, dom, clear);
         };
 
         return (
