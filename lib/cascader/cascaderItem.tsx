@@ -19,7 +19,7 @@ const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, ...r
         <div className={sc("", className)} {...rest}>
             {val && val.value}
             {
-                data && data.children &&
+                val && val.children &&
                 <Icon name={"right"}/>
             }
         </div>

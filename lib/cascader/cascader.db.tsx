@@ -13,39 +13,81 @@ export interface sourceItem {
     children?: sourceItem[]
 }
 
+export type loadType = (id: number, resolve: (value: dbType[]) => void, reject?: (reason?: any) => void) => void
+
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     placeholder?: string,
     scopedItemsBoxClassName?: string,
     update: (data: string) => void,
-    db: dbType[]
+    db: dbType[],
+    loadFn: loadType
 }
 
 export interface dbType {
     id: number,
     value: string,
     parent_id: number,
+    children?: dbType[],
 
-    [k: string]: string | number
+    [k: string]: string | number | dbType[] | undefined
 }
 
+type filterType = (id: number, data: dbType[], over: { [k: string]: boolean }) => (dbType | undefined | false)
 const sc = scopeClassName("yr-cascader");
 const DBCascader: React.FunctionComponent<Props> =
-    ({className, placeholder, scopedItemsBoxClassName, update, db, ...rest}) => {
+    ({className, placeholder, scopedItemsBoxClassName, update, db, loadFn, ...rest}) => {
         const [selector, setSelect] = useState<Array<dbType>>([]);
+        const [data, setData] = useState<dbType[]>([]);
         const [visible, setVisible] = useState(false);
         const [dom, getDom] = useState<HTMLElement>();
 
         const clickItem = (item: dbType, index: number) => {
-            const val = index === 0 ? [item] : index === 1 ? [selector[0], item] :
-                index > selector.length - 1 ? [...selector, item] :
-                    [...selector.slice(0, index - 1), item];
-            setSelect(val);
-
-            console.log(item, val);
+            const {id} = item;
+            const over = {over: false};
+            ajax(id).then(
+                (res: dbType[]) => {
+                    const copy = JSON.parse(JSON.stringify(data));
+                    const result = filterFn(id, copy, over);
+                    console.log(item, result, "res is", res);
+                    result && (result.children = res);
+                    setData(copy);
+                    // const finalRes = result ? result : item
+                    if (result) {
+                        const val = index === 0 ? [result] : index === 1 ? [selector[0], result] :
+                            // index === selector.length ? selector.push(result):
+                            [...selector.slice(0, index), result];
+                        setSelect(val);
+                        console.log(index, "index is", val);
+                    }
+                }
+            );
         };
-        const ajax = (parent_id = 0) => db && db.filter(
-            item => item.parent_id === parent_id
-        );
+
+        const filterFn: filterType = (id, data, over) => {
+            if (over.over) return;
+            const result1 = data.filter(item => item.id === id)[0];
+            !over.over && result1 && (over.over = Boolean(result1));
+            if (result1) return result1;
+            const hasChildren = data.map(item => item.children);
+            return hasChildren.length > 0 &&
+                hasChildren.map(
+                    (item: dbType[]) => !over.over && item && filterFn(id, item, over)
+                ).filter(item => item)[0];
+
+        };
+        // db && db.filter(
+        //     item => item.parent_id === parent_id
+        // );
+        const ajax = (parent_id = 0) => {
+            return new Promise(
+                (resolve, reject) => {
+                    loadFn(
+                        parent_id, resolve, reject
+                    );
+                }
+            );
+        };
+
         const results = (data: dbType[]) =>
             data.reduce(
                 (a, b) => a + (b ? b.value : ""), ""
@@ -56,7 +98,14 @@ const DBCascader: React.FunctionComponent<Props> =
                 update(results(selector));
             }, [selector]
         );
+
         const visibleSet = (e: React.MouseEvent) => {
+            !data[0] &&
+            ajax().then(
+                (res: dbType[]) => {setData(res);},
+                () => setVisible(false)
+            );
+
             const node = e.target && (e.target as HTMLElement);
             !dom && node && getDom(node);
             if (!dom) return setVisible(!visible);
@@ -66,6 +115,7 @@ const DBCascader: React.FunctionComponent<Props> =
             setVisible(!visible);
             // console.log(e.target, dom, clear);
         };
+
         return (
             <div className={sc("", className)} {...rest}>
                 <div className={sc("results")} onClick={visibleSet}>
@@ -74,40 +124,37 @@ const DBCascader: React.FunctionComponent<Props> =
                             results(selector)
                     }
                     {
-                        selector.length > 0 &&
+                        selector.length > 1 &&
                         <Icon name={"close"}
                               onClick={() => setSelect([])}
                               className={sc("clear")}/>
                     }
                 </div>
-                {}
                 {
                     visible &&
                     <div className={sc("selectorBox", scopedItemsBoxClassName)}>
                         <div className={sc("items")}>
                             {
-                                ajax().map(
+                                data.map(
                                     (item, index) =>
                                         <CascaderItem
                                             db={item}
-                                            className={selector[0] === item ? "active" : ""}
+                                            className={selector[0] && selector[0].value === item.value ? "active" : ""}
                                             key={index} onClick={() => clickItem(item, 0)}/>
                                 )
                             }
                         </div>
                         {
-                            selector.length > 0 &&
                             selector.map(
-                                (item, index) =>
+                                (item, index) => item.children &&
                                     <div className={sc("items")} key={index}>
-                                        {console.log(ajax(item.id), item.id)}
                                         {
-                                            ajax(item.id).map(
+                                            item.children.map(
                                                 (child, ind) => {
                                                     // console.log(child,item);
                                                     return <CascaderItem
                                                         db={child} key={ind}
-                                                        className={selector[index + 1] === child ? "active" : ""}
+                                                        className={selector[index + 1] && selector[index + 1].value === child.value ? "active" : ""}
                                                         onClick={() => clickItem(child, index + 1)}/>;
                                                 }
                                             )
