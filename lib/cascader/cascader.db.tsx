@@ -121,7 +121,7 @@ const DBCascader: React.FunctionComponent<Props> =
                             results(selector)
                     }
                     {
-                        selector.length > 1 &&
+                        selector.length > 0 &&
                         <Icon name={"close"}
                               onClick={() => setSelect([])}
                               className={sc("clear")}/>
