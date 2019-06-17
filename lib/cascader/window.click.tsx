@@ -17,7 +17,7 @@ const windowClick = (fn: () => void, box: HTMLElement | undefined | null, result
             visible && document.addEventListener("click", callback);
         }, [visible]
     );
-    return "";
+
 };
 
 export default windowClick;

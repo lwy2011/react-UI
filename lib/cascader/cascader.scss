@@ -2,7 +2,7 @@
 
 .yr-cascader {
 
-    position: relative;
+    position: relative;display: inline-block;
 
     &-results {
         border: 1px solid $lineColor;border-radius: 4px;
@@ -33,6 +33,7 @@
         position: absolute;background: #fff;
         @extend .boxShadow; border-radius: 4px;top: 100%;margin-top: 6px;left: 0;
         animation: cascader-items-fade-in .7s linear;
+        z-index: 10;
     }
 
     .border {border-right: 1px solid lighten(#A1A1A1, 30%);}

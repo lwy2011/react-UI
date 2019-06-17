@@ -6,6 +6,7 @@ import {useContext, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 import CascaderContextProvider, {cascaderContext} from "./cascader.context";
 import {sourceItem} from "./cascader.db";
+import windowClick from "./window.click";
 
 
 
@@ -59,6 +60,11 @@ const Cascader: React.FunctionComponent<Props> =
         return (
             <div className={sc("", className)} {...rest}>
                 <div className={sc("results")} onClick={visibleSet}>
+                    {
+                        windowClick(() => {
+                            setVisible(false);
+                        }, dom ? dom.parentElement : undefined, dom, visible)
+                    }
                     {
                         selector.length === 0 ? placeholder :
                             results(selector)
@@ -130,6 +136,11 @@ const RecursiveCascader: React.FunctionComponent<Props> =
         return (
             <div className={sc("", className)} {...rest}>
                 <div className={sc("results")} onClick={visibleSet}>
+                    {
+                        windowClick(() => {
+                            setVisible(false);
+                        }, dom ? dom.parentElement : undefined, dom, visible)
+                    }
                     {
                         selectors.length === 0 ? placeholder :
                             results(selectors)

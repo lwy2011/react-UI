@@ -130,7 +130,7 @@ const App: FunctionComponent = () => {
                     <h4>
                         <span> {"yongr-ui"}</span>
                         <Icon name="copyright"/>
-                        <span>{"刘万永"}</span>
+                        <span>{"流着万条永远的河"}</span>
                     </h4>
                     <a href="mailto:2674706698@qq.com">
                         <Icon name="email"/>

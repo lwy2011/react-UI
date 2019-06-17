@@ -51,14 +51,12 @@ const DBCascader: React.FunctionComponent<Props> =
                 (res: dbType[]) => {
                     const copy = JSON.parse(JSON.stringify(data));
                     const result = filterFn(item.id, copy, over);
-                    console.log(item, result, "res is", res);
                     res.length > 0 && result && (result.children = res);
                     setData(copy);
                     if (result) {
                         const val = index === 0 ? [result] : index === 1 ? [selector[0], result] :
                             [...selector.slice(0, index), result];
                         setSelect(val);
-                        console.log(index, "index is", val);
                     }
                 }
             );
@@ -124,7 +122,6 @@ const DBCascader: React.FunctionComponent<Props> =
                 {
                     windowClick(() => {
                         setVisible(false);
-                        console.log("zhixingle");
                     }, dom ? dom.parentElement : undefined, dom, visible)
                 }
                 <div className={sc("results")} onClick={visibleSet}>
@@ -218,7 +215,7 @@ const DBRecursiveCascader: React.FunctionComponent<Props> =
             ajax(item).then(
                 (res: dbType[]) => {
                     res && res.length > 0 && (item.children = res);
-                    console.log(item, "gengxin", res, "查到的孩子");
+                    // console.log(item, "gengxin", res, "查到的孩子");
                     setData(data);
                     fn();
                 }
@@ -227,6 +224,11 @@ const DBRecursiveCascader: React.FunctionComponent<Props> =
         return (
             <div className={sc("", className)} {...rest}>
                 <div className={sc("results")} onClick={visibleSet}>
+                    {
+                        windowClick(() => {
+                            setVisible(false);
+                        }, dom ? dom.parentElement : undefined, dom, visible)
+                    }
                     {
                         selectors.length === 0 ? placeholder :
                             results(selectors)
