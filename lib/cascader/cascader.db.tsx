@@ -10,7 +10,8 @@ import CascaderContextProvider, {cascaderContext} from "./cascader.context";
 export interface sourceItem {
     value: string,
     label?: string,
-    children?: sourceItem[]
+    children?: sourceItem[],
+    isLeaf?: boolean
 }
 
 export type loadType = (resolve: (value: dbType[]) => void, item?: dbType, reject?: (reason?: any) => void) => void
@@ -28,8 +29,9 @@ export interface dbType {
     value: string,
     parent_id: number,
     children?: dbType[],
+    isLeaf?: boolean,
 
-    [k: string]: string | number | dbType[] | undefined
+    [k: string]: string | number | dbType[] | undefined | boolean
 }
 
 type filterType = (id: number, data: dbType[], over: { [k: string]: boolean }) => (dbType | undefined | false)
@@ -78,10 +80,12 @@ const DBCascader: React.FunctionComponent<Props> =
             return new Promise(
                 (resolve, reject) => {
                     const children = item && item.children;
+                    const isLeaf = item && item.isLeaf;
                     children ? resolve(children) :
-                        loadFn(
-                            resolve, item, reject
-                        );
+                        isLeaf ? resolve([]) :
+                            loadFn(
+                                resolve, item, reject
+                            );
                 }
             );
         };

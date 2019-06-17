@@ -1,4 +1,4 @@
-import {sourceItem} from "../../lib/cascader/cascader";
+import {sourceItem} from "../../lib/cascader/cascader.db";
 
 const data = {
     "北京市": {

@@ -5,12 +5,9 @@ import "./cascader.scss";
 import {useContext, useEffect, useState} from "react";
 import Icon from "../icon/icon";
 import CascaderContextProvider, {cascaderContext} from "./cascader.context";
+import {sourceItem} from "./cascader.db";
 
-export interface sourceItem {
-    value: string,
-    label?: string,
-    children?: sourceItem[]
-}
+
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     data: sourceItem[],

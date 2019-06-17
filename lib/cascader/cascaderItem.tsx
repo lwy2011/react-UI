@@ -1,10 +1,9 @@
 import {scopeClassName} from "../../helpers/classes";
 import * as React from "react";
-import {sourceItem} from "./cascader";
 import Icon from "../icon/icon";
 import {useContext} from "react";
 import {cascaderContext} from "./cascader.context";
-import {dbType} from "./cascader.db";
+import {dbType, sourceItem} from "./cascader.db";
 
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,7 +18,7 @@ const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, ...r
         <div className={sc("", className)} {...rest}>
             {val && val.value}
             {
-                val && val.children &&
+                val && (data && val.children || db && !val.isLeaf) &&
                 <Icon name={"right"}/>
             }
         </div>
@@ -32,7 +31,6 @@ interface Props1 extends React.HTMLAttributes<HTMLDivElement> {
     level: number,
     ajax?: (item: sourceItem, fn: () => void) => void
 }
-
 
 
 const RecursiveCascaderItem: React.FunctionComponent<Props1> =

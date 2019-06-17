@@ -14,7 +14,14 @@ const CascaderExample: React.FunctionComponent = () => {
         setTimeout(
             () => {
                 const id = selector ? selector.id : 0;
-                resolve(areaDB.filter(item => item.parent_id === id));
+                const res = areaDB.filter(item => item.parent_id === id);
+                const fix = res.length > 0 && res.map(
+                    item => {
+                        const filter = areaDB.filter(v => v.parent_id === item.id)[0];
+                        return {...item, isLeaf: !Boolean(filter)};
+                    }
+                );
+                resolve(fix || res);
             }, 1500
         );
     };

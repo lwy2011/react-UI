@@ -1,6 +1,6 @@
-import {sourceItem} from "./cascader";
 import * as React from "react";
 import {useState} from "react";
+import {sourceItem} from "./cascader.db";
 
 interface props {
     selectors: sourceItem[],
@@ -14,7 +14,7 @@ const CascaderContextProvider: React.FunctionComponent = (props) => {
     const [selectors, setSelector] = useState<sourceItem[]>([]);
     const {Provider} = cascaderContext;
     const update = (data: sourceItem, index: number) => {
-        console.log(data, index);
+        // console.log(data, index);
         if (!data) return setSelector([]);
         const res = index > selectors.length - 1 ? [...selectors, data] :
             index === 0 ? [data] :
@@ -22,7 +22,7 @@ const CascaderContextProvider: React.FunctionComponent = (props) => {
                     [...selectors.slice(0, index), data];
         setSelector(res);
     };
-    console.log(selectors);
+    // console.log(selectors);
     return (
         <Provider value={{selectors: selectors, set: update}}>
             {props.children}
