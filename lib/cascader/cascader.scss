@@ -3,6 +3,7 @@
 .yr-cascader {
 
     position: relative;
+
     &-results {
         border: 1px solid $lineColor;border-radius: 4px;
         padding: $cascaderResultsPadding;min-width: 10em;
@@ -61,13 +62,13 @@
 
     &-item, &-items-left-item {
         padding: .5em;display: flex;justify-content: space-between;align-items: center;
-        cursor: pointer;word-break: keep-all;
+        cursor: pointer;white-space: nowrap;
 
         &:hover, &.active {
             background: $hoverColor;
         }
 
-        svg {
+        > svg {
             margin-left: .5em; color: $lineColor;transform: scale(.5);
         }
     }
