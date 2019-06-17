@@ -46,7 +46,7 @@ const RecursiveCascaderItem: React.FunctionComponent<Props1> =
                  onClick={() => select(list)}>
                 {list.value}
                 {
-                    list.children &&
+                    (ajax ? !list.isLeaf : list.children) &&
                     <Icon name={"right"}/>
                 }
             </div>;

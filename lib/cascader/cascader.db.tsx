@@ -180,10 +180,12 @@ const DBRecursiveCascader: React.FunctionComponent<Props> =
             return new Promise(
                 (resolve, reject) => {
                     const children = item && item.children;
+                    const isLeaf = item && item.isLeaf;
                     children ? resolve(children) :
-                        loadFn(
-                            resolve, item, reject
-                        );
+                        isLeaf ? resolve([]) :
+                            loadFn(
+                                resolve, item, reject
+                            );
                 }
             );
         };
