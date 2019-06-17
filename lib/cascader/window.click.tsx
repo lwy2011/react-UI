@@ -1,18 +1,23 @@
-const windowClick = (fn: () => void, dom: HTMLElement, result: HTMLElement) => {
+import {useEffect} from "react";
+
+const windowClick = (fn: () => void, box: HTMLElement | undefined | null, result: HTMLElement | undefined, visible: boolean) => {
     const callback = (e: MouseEvent) => {
+        if (!box || !result) return;
         const {target} = e;
         const node = target && (target as HTMLElement);
-        const test = node && dom.contains(node);
+        const test = node && box.contains(node);
         result.contains(node);
         !test && fn();
         (!test || node && (result.contains(node) || result === node)) &&
         document.removeEventListener("click", callback);
         console.log("chufale", test);
     };
-    return {
-        create: () => document.addEventListener("click", callback),
-        destroy: () => document.removeEventListener("click", callback)
-    };
+    useEffect(
+        () => {
+            visible && document.addEventListener("click", callback);
+        }, [visible]
+    );
+    return "";
 };
 
 export default windowClick;

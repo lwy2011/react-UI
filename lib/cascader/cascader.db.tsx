@@ -101,17 +101,8 @@ const DBCascader: React.FunctionComponent<Props> =
                 update(results(selector));
             }, [selector]
         );
-        useEffect(
-            () => {
-                const box = dom && dom.parentElement;
-                const click = box && dom &&
-                    windowClick(() => {
-                        setVisible(false);
-                        console.log("zhixingle");
-                    }, box, dom);
-                click && visible && click.create();
-            }, [visible]
-        );
+
+
         const visibleSet = (e: React.MouseEvent) => {
             !data[0] &&
             ajax().then(
@@ -130,6 +121,12 @@ const DBCascader: React.FunctionComponent<Props> =
 
         return (
             <div className={sc("", className)} {...rest} >
+                {
+                    windowClick(() => {
+                        setVisible(false);
+                        console.log("zhixingle");
+                    }, dom ? dom.parentElement : undefined, dom, visible)
+                }
                 <div className={sc("results")} onClick={visibleSet}>
                     {
                         selector.length === 0 ? placeholder :

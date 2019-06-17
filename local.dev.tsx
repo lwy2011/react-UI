@@ -13,7 +13,7 @@ import DialogDemo from "./lib/dialog/dialog.demo";
 import FileInputDemo from "./lib/input/fileinput.demo";
 import ScrollBarDemo from "./lib/scroll/scrollbar.demo";
 import GridDemo from "./lib/grid/grid.demo";
-import ToastDemo from "./lib/toast/toast.memo";
+import ToastDemo from "./lib/toast/toast.demo";
 import TabsDemo from "./lib/tabs/tabs.demo";
 import PopoverDemo from "./lib/popover/popover.demo";
 import CascaderDemo from "./lib/cascader/cascader.demo";
