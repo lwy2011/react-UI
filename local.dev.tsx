@@ -17,6 +17,7 @@ import ToastDemo from "./lib/toast/toast.demo";
 import TabsDemo from "./lib/tabs/tabs.demo";
 import PopoverDemo from "./lib/popover/popover.demo";
 import CascaderDemo from "./lib/cascader/cascader.demo";
+import SlidesDemo from "./lib/slides/slidesDemo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -42,7 +43,8 @@ const names: componentNames = {
     form: "表单",
     upload: "上传",
     scrollbar: "滚动条",
-    cascader: "层级选择"
+    cascader: "层级选择",
+    slides: "无缝轮播"
 };
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
@@ -103,7 +105,7 @@ const RouterView: React.FunctionComponent = () => {
                     <Route path="/tabs" component={TabsDemo}/>
                     <Route path="/popover" component={PopoverDemo}/>
                     <Route path="/cascader" component={CascaderDemo}/>
-
+                    <Route path="/slides" component={SlidesDemo}/>
                 </Content>
             </Layout>
 

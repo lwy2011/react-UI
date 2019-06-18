@@ -1,0 +1,32 @@
+.yr-slides {
+    display: inline-block;
+
+    &-box {
+        display: flex;
+        width: 100%;height: 100%;flex-shrink: 0;
+        position: relative;
+    }
+
+    &-item {
+        width: 100%;
+
+        img {
+            width: 100%;height: 100%;
+        }
+
+        position: absolute;
+        @keyframes slides-fade-in {
+            0% {transform: translateX(100%);}
+            100% {transform: translateX(0);position: relative;}
+        }
+        @keyframes slides-fade-out {
+            0% {transform: translateX(0);position: relative;}
+            100% {transform: translateX(-100%);}
+        }
+
+    }
+
+    &-window {
+        overflow: hidden;
+    }
+}
