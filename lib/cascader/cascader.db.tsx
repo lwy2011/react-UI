@@ -44,6 +44,7 @@ const DBCascader: React.FunctionComponent<Props> =
         const [data, setData] = useState<dbType[]>([]);
         const [visible, setVisible] = useState(false);
         const [dom, getDom] = useState<HTMLElement>();
+        const [loading, setLoading] = useState<dbType | undefined>();
 
         const clickItem = (item: dbType, index: number) => {
             const over = {over: false};
@@ -53,6 +54,7 @@ const DBCascader: React.FunctionComponent<Props> =
                     const result = filterFn(item.id, copy, over);
                     res.length > 0 && result && (result.children = res);
                     setData(copy);
+                    setLoading(undefined);
                     if (result) {
                         const val = index === 0 ? [result] : index === 1 ? [selector[0], result] :
                             [...selector.slice(0, index), result];
@@ -76,6 +78,7 @@ const DBCascader: React.FunctionComponent<Props> =
         };
 
         const ajax = (item?: dbType) => {
+            setLoading(item);
             return new Promise(
                 (resolve, reject) => {
                     const children = item && item.children;
@@ -144,7 +147,7 @@ const DBCascader: React.FunctionComponent<Props> =
                                 data.map(
                                     (item, index) =>
                                         <CascaderItem
-                                            db={item}
+                                            db={item} loading={loading}
                                             className={selector[0] && selector[0].value === item.value ? "active" : ""}
                                             key={index} onClick={() => clickItem(item, 0)}/>
                                 )
@@ -158,7 +161,7 @@ const DBCascader: React.FunctionComponent<Props> =
                                             item.children.map(
                                                 (child, ind) => {
                                                     return <CascaderItem
-                                                        db={child} key={ind}
+                                                        db={child} key={ind} loading={loading}
                                                         className={selector[index + 1] && selector[index + 1].value === child.value ? "active" : ""}
                                                         onClick={() => clickItem(child, index + 1)}/>;
                                                 }

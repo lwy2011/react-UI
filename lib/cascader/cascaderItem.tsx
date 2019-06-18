@@ -8,18 +8,20 @@ import {dbType, sourceItem} from "./cascader.db";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     data?: sourceItem,
-    db?: dbType
+    db?: dbType,
+    loading?: dbType | undefined
 }
 
 const sc = scopeClassName("yr-cascader-item");
-const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, ...rest}) => {
+const CascaderItem: React.FunctionComponent<Props> = ({className, data, db, loading, ...rest}) => {
     const val = data || db;
     return (
         <div className={sc("", className)} {...rest}>
             {val && val.value}
             {
-                val && (data && val.children || db && !val.isLeaf) &&
-                <Icon name={"right"}/>
+                db && loading === val ? <Icon name={"loading"} className={"yr-icon-loading"}/> :
+                    val && (data && val.children || db && !val.isLeaf) &&
+                    <Icon name={"right"}/>
             }
         </div>
     );
