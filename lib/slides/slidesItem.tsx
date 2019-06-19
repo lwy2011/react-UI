@@ -9,10 +9,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
     ID: string,
     delay: number,
     style: { [k: string]: string },
-    animationType: string
+    animationType: string,
+    animationDelay: number
 }
 
-const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, delay, style, animationType, ...rest}) => {
+const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, delay, style, animationType, animationDelay, ...rest}) => {
     const sc = scopeClassName("yr-slides-item");
     const {current, ids, lock, set} = useContext(slidesContext);
     const getNext = (current: string) => {
@@ -24,22 +25,35 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
     useEffect(
         () => {
             if (!lock) return;
-            current === ID ? setVisible("current") :
-                getNext(current) === ID ? setVisible("next") : setVisible("");
+            current === ID && setVisible("current");
+            getNext(current) === ID && setVisible("next");
+            current === ID && setTimeout(
+                () => setVisible("last"), delay * 1000
+            );
 
         }, [current]
     );
     useEffect(
         () => {
+            visible === "last" && setTimeout(
+                () => setVisible(""), (animationDelay < delay && animationDelay || delay - 1) * 1000
+            );
+        }, [visible]
+    );
+    useEffect(
+        () => {
+
             set("", undefined, true);
         }, []
     );
     return (
-        visible || visible === "current" || visible === "next" ?
+        visible ?
             <div className={sc("", className)}
                  style={{
                      ...style,
-                     animation: ` slides-fade-${visible === "current" ? "out" : "in"} ${delay}s ${animationType}`
+                     display: visible === "next" ? "none" : "block",
+                     position: visible === "current" ? "relative" : "absolute",
+                     animation: ` slides-fade-${visible === "current" ? "in" : "out"} ${(animationDelay < delay && animationDelay || delay - 1)}s ${animationType}`
                  }}
                  {...rest} >
                 {children}

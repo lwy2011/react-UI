@@ -28,7 +28,8 @@ const SlidesExample: React.FunctionComponent = () => {
             <SlidesItem
                 key={data.id}
                 ID={data.id}
-                delay={2}
+                delay={6}
+                animationDelay={2}
                 animationType={"linear"}
                 style={{width: "60vw", height: "35vw"}}>
                 <img src={data.src} alt="img"/>
@@ -38,7 +39,7 @@ const SlidesExample: React.FunctionComponent = () => {
         <div className="yr-slides-example">
             <Slides
                 default={"风景"}
-                delay={2}
+                delay={6}
             >
                 {lists}
             </Slides>
