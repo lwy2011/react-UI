@@ -29,21 +29,22 @@ const SlidesContextProvider: React.FunctionComponent<Props> = (props) => {
         const index = ids.indexOf(current);
         return index < ids.length - 1 ? ids[index + 1] : ids[0];
     };
+    const next = getNext(current);
     const timer = () => setTimeout(
         () => {
-            const next = getNext(current);
-            next && setCurrent(next);
-            console.log(current, 555, getNext(current), "current", ids);
+            setCurrent(next);
+            console.log(current, 555, getNext(current), ids, "current");
         }, props.delay * 1000
     );
     useEffect(
         () => {
-            timer();
+            next && timer();
+            console.log("current变得");
         }, [current]
     );
     useEffect(
         () => {
-            timer();
+            ids[0] && timer();
         }, [ids]
     );
     return (

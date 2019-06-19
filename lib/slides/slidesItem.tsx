@@ -26,7 +26,7 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
         () => {
             current === ID && setVisible("current");
             const next = getNext(current);
-            !next && current !== ID && setVisible("");
+            current !== ID && setVisible("");
             if (next) {
                 next === ID && setVisible("next");
                 next === ID && setTimeout(
@@ -38,6 +38,7 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
                     }, (delay - animationDelay) * 1000
                 );
             }
+            console.log(visible, "vvvv", current, 666);
         }, [current]
     );
     useEffect(
