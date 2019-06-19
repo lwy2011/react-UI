@@ -15,7 +15,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, delay, style, animationType, animationDelay, ...rest}) => {
     const sc = scopeClassName("yr-slides-item");
-    const {current, ids, lock, set} = useContext(slidesContext);
+    const {current, ids, set} = useContext(slidesContext);
     const getNext = (current: string) => {
         const index = ids.indexOf(current);
         return index < ids.length - 1 ? ids[index + 1] : ids[0];
@@ -24,11 +24,12 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
 
     useEffect(
         () => {
-            if (!lock) return;
             current === ID && setVisible("current");
             getNext(current) === ID && setVisible("next");
             current === ID && setTimeout(
-                () => setVisible("last"), delay * 1000
+                () => {
+                    setVisible("last");
+                }, delay * 1000
             );
 
         }, [current]
@@ -48,12 +49,12 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
     );
     return (
         visible ?
-            <div className={sc("", className)}
+            <div className={sc({"": true, next: visible === "next"}, className)}
                  style={{
                      ...style,
-                     display: visible === "next" ? "none" : "block",
                      position: visible === "current" ? "relative" : "absolute",
-                     animation: ` slides-fade-${visible === "current" ? "in" : "out"} ${(animationDelay < delay && animationDelay || delay - 1)}s ${animationType}`
+                     animation: ` slides-fade-${visible === "current" ? "in" : "out"} 
+                     ${(animationDelay < delay && animationDelay || delay - 1)}s ${animationType}`
                  }}
                  {...rest} >
                 {children}

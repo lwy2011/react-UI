@@ -28,6 +28,9 @@
             0% {transform: translateX(0);position: relative;}
             100% {transform: translateX(-100%);}
         }
+        &-next{
+            display:none;right:100%;
+        }
     }
 
 
