@@ -29,7 +29,19 @@
             100% {transform: translateX(-100%);}
         }
         &-next{
-            display:none;right:100%;
+            display: none;transform: translateX(100%);
+        }
+
+        &-current {
+            position: relative;
+        }
+
+        &-nextToCurrent {
+            display: block;
+        }
+
+        &-last {
+
         }
     }
 

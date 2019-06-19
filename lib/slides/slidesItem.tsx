@@ -20,41 +20,53 @@ const SlidesItem: React.FunctionComponent<Props> = ({className, children, ID, de
         const index = ids.indexOf(current);
         return index < ids.length - 1 ? ids[index + 1] : ids[0];
     };
-    const [visible, setVisible] = useState("chushihua");
+    const [visible, setVisible] = useState("");
 
     useEffect(
         () => {
             current === ID && setVisible("current");
-            getNext(current) === ID && setVisible("next");
-            current === ID && setTimeout(
-                () => {
-                    setVisible("last");
-                }, delay * 1000
-            );
-
+            const next = getNext(current);
+            !next && current !== ID && setVisible("");
+            if (next) {
+                next === ID && setVisible("next");
+                next === ID && setTimeout(
+                    () => {setVisible("nextToCurrent");}, (delay - animationDelay) * 1000
+                );
+                current === ID && setTimeout(
+                    () => {
+                        setVisible("last");
+                    }, (delay - animationDelay) * 1000
+                );
+            }
         }, [current]
     );
     useEffect(
         () => {
             visible === "last" && setTimeout(
-                () => setVisible(""), (animationDelay < delay && animationDelay || delay - 1) * 1000
+                () => setVisible(""), animationDelay * 1000
             );
         }, [visible]
     );
     useEffect(
         () => {
-
             set("", undefined, true);
         }, []
     );
+    const classTest = (str: string) => visible === str;
+
     return (
         visible ?
-            <div className={sc({"": true, next: visible === "next"}, className)}
+            <div className={sc({
+                "": true,
+                last: classTest("last"),
+                next: classTest("next"),
+                current: classTest("current"),
+                nextToCurrent: classTest("nextToCurrent")
+            }, className)}
                  style={{
                      ...style,
-                     position: visible === "current" ? "relative" : "absolute",
-                     animation: ` slides-fade-${visible === "current" ? "in" : "out"} 
-                     ${(animationDelay < delay && animationDelay || delay - 1)}s ${animationType}`
+                     animation: ` slides-fade-${visible === "nextToCurrent" ? "in" : visible === "last" && "out"} 
+                     ${animationDelay}s ${animationType}`
                  }}
                  {...rest} >
                 {children}

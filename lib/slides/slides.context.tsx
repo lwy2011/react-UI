@@ -30,18 +30,21 @@ const SlidesContextProvider: React.FunctionComponent<Props> = (props) => {
         return index < ids.length - 1 ? ids[index + 1] : ids[0];
     };
     const timer = () => setTimeout(
-        () => setCurrent(getNext(current)), props.delay * 1000
+        () => {
+            const next = getNext(current);
+            next && setCurrent(next);
+            console.log(current, 555, getNext(current), "current", ids);
+        }, props.delay * 1000
     );
     useEffect(
         () => {
-            lock && timer();
-            console.log(current);
+            timer();
         }, [current]
     );
     useEffect(
         () => {
-            lock && timer();
-        }, [lock]
+            timer();
+        }, [ids]
     );
     return (
         <Provider value={{current, ids, lock, set}}>
