@@ -1,6 +1,13 @@
-import React, {ChangeEvent, FormEvent, useReducer} from "react";
+import React, {
+    ChangeEvent, createContext,
+    FormEvent, ReactNode,
+    useContext,
+    useReducer
+} from "react";
 import Button from "../button/button";
 
+() => {
+};
 const initialState = {n: 0};
 const reducer = (state: { n: number }, action: { type: string, num: number }) => {
     const {type, num} = action;
@@ -26,6 +33,47 @@ const reducer1 = (state: { name: string, age: number }, action: { type: string, 
         throw new Error("action.type不存在！");
     }
 };
+
+//代替redux :
+const state = {name: "liu", book: "红日"};
+const reducerX = (state: { name: string, book: string }, action: { type: string, val: string }) => {
+    return {...state, [action.type]: action.val};
+};
+const Context = createContext({
+    state, dispatch: (obj: { type: any, val: string }) => {
+    }
+});
+const provider = (reducer: (state: any, action: { [propName: string]: any }) => any, initialState: any, childrenFn: () => ReactNode) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+    return <Context.Provider value={{state, dispatch}}>
+        {childrenFn()}
+    </Context.Provider>;
+};
+
+const User = () => {
+    const {state, dispatch} = useContext(Context);
+    const setName = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch({type: "name", val: e.target.value});
+    };
+    return <input type="text" value={state.name} onChange={setName}/>;
+};
+const Book = () => {
+    const {state, dispatch} = useContext(Context);
+    const setBook = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch({type: "book", val: e.target.value});
+    };
+    return <input type="text" value={state.book} onChange={setBook}/>;
+};
+
+const Redux = () => {
+    const childrenFn = () => {
+        return <div>
+            <Book/>
+            <User/>
+        </div>;
+    };
+    return provider(reducerX, state, childrenFn);
+};
 const UseState = () => {
     const lists = [
         "创建初始值initialState",
@@ -40,18 +88,6 @@ const UseState = () => {
     const multiply = () => {
         dispatch({type: "*", num: 2});
     };
-    //外部函数的补充代码，在主函数内注释，可以看到：
-    // const initialState = {n: 0};
-    // const reducer = (state: { n: number }, action: { type: string, num: number }) => {
-    //     const {type, num} = action;
-    //     if (type === "+") {
-    //         return {n: state.n + num};
-    //     } else if (type === "*") {
-    //         return {n: state.n * num};
-    //     } else {
-    //         throw new Error("unknown action");
-    //     }
-    // };
 
     const [formState, dispatch1] = useReducer(reducer1, initialState1);
     const {name, age} = formState;
@@ -83,8 +119,8 @@ const UseState = () => {
                 <p>
                     n={state.n}
                 </p>
-                <Button message={"+1"} onClick={add}></Button>
-                <Button message={"*2"} onClick={multiply}></Button>
+                <Button message={"+1"} onClick={add}/>
+                <Button message={"*2"} onClick={multiply}/>
             </div>
             <h4>
                 useReducer强力解耦，独立性强，是useState的升级版。
@@ -106,6 +142,8 @@ const UseState = () => {
                 <button type={"submit"}>submit</button>
                 <button type={"reset"}>reset</button>
             </form>
+            <h4>模拟redux</h4>
+            <Redux/>
         </div>
     );
 };
