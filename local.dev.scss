@@ -2,22 +2,23 @@
 @import "./lib/_helper.scss";
 
 .page {
-    width: 100vw;
-    font-size: $font;
-    @mixin padding {
-        padding: .7em;
-    };
-    background: #FFFBE5;
+  width: 100vw;
+  font-size: $font;
+  @mixin padding {
+    padding: .7em;
+  };
+  background: #FFFBE5;
+  min-height: 100vh;
 
-    > .yr-layout-header {
-        background: #656565;
-        color: $activeColor;
-        height: 4em;
-        position: relative;
-        padding: 0;
+  > .yr-layout-header {
+    background: #656565;
+    color: $activeColor;
+    height: 4em;
+    position: relative;
+    padding: 0;
 
-        > img {
-            height: 100%;
+    > img {
+      height: 100%;
         }
 
 

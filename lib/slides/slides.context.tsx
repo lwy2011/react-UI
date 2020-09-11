@@ -33,13 +33,13 @@ const SlidesContextProvider: React.FunctionComponent<Props> = (props) => {
     const timer = () => setTimeout(
         () => {
             setCurrent(next);
-            console.log(current, 555, getNext(current), ids, "current");
+            // console.log(current, 555, getNext(current), ids, "current");
         }, props.delay * 1000
     );
     useEffect(
         () => {
             next && timer();
-            console.log("current变得");
+            // console.log("current变得");
         }, [current]
     );
     useEffect(

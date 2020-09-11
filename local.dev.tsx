@@ -18,6 +18,8 @@ import TabsDemo from "./lib/tabs/tabs.demo";
 import PopoverDemo from "./lib/popover/popover.demo";
 import CascaderDemo from "./lib/cascader/cascader.demo";
 import SlidesDemo from "./lib/slides/slidesDemo";
+import UseState from "./lib/principle/useState.demo";
+import UseReducer from "./lib/principle/useReducer.demo";
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -29,7 +31,10 @@ interface componentNames {
     [key: string]: string
 }
 
-const firstTabs: string[] = ["入门", "组件"];
+const tabs: string[] = [
+    "入门",
+    "组件"
+];
 const names: componentNames = {
     icon: "svg图标",
     button: "按钮",
@@ -46,11 +51,18 @@ const names: componentNames = {
     cascader: "层级选择",
     slides: "无缝轮播"
 };
+const names1: string[] = [
+    "useState", "useReducer",
+];
+const dictionary = {
+    "入门": names1,
+    "组件": names
+};
 const RouterView: React.FunctionComponent = () => {
     const link: string = location.hash.replace("#/", "");
     const [tab, setTab] = useState(link);
-    const [firTab, setFirTab] = useState("组件");
-    const [firShow, setFirShow] = useState(true);
+    const [subTab, setSubTab] = useState("组件");
+    const [visible, setVisible] = useState(true);
     useEffect(() => {
         tab !== link && setTab(link);
     });
@@ -59,23 +71,23 @@ const RouterView: React.FunctionComponent = () => {
             <Layout>
                 <Aside>
                     {
-                        firstTabs.map(
+                        tabs.map(
                             val => <ul key={val}>
                                 <li>
                                     <header onClick={() => {
-                                        setFirTab(val);
-                                        setFirShow(!firShow);
+                                        setSubTab(val);
+                                        setVisible(!visible);
                                     }}
                                             className={
-                                                firTab === val ? "active" : ""
+                                                subTab === val ? "active" : ""
                                             }>
-                                        <Icon name={firTab === val && firShow ? "up" : "down"}/>
+                                        <Icon name={subTab === val && visible ? "up" : "down"}/>
                                         <span>{val}</span>
                                     </header>
                                 </li>
                                 {
-                                    firTab === "组件" && val === "组件" && firShow &&
-                                    Object.keys(names).map(
+                                    subTab === "组件" && visible && val === "组件" &&
+                                    Object.keys(dictionary[subTab]).map(
                                         key => <li key={key} onClick={() => setTab(key)}>
                                             <NavLink to={`/${key}`}
                                                      className={tab === key ? "active" : ""}>
@@ -84,28 +96,48 @@ const RouterView: React.FunctionComponent = () => {
                                         </li>
                                     )
                                 }
-
+                                {
+                                    subTab === "入门" && val === "入门" && visible &&
+                                    dictionary[subTab].map(
+                                        key => <li key={key} onClick={() => setTab(key)}>
+                                            <NavLink to={`/${key}`}
+                                                     className={tab === key ? "active" : ""}>
+                                                {key}
+                                            </NavLink>
+                                        </li>
+                                    )
+                                }
                             </ul>
                         )
                     }
                 </Aside>
                 <Content>
-                    <h3>{firTab}</h3>
+                    <h3>{subTab}</h3>
                     <h4>{tab}</h4>
-                    <Route path="/icon" component={IconDemo}/>
-                    <Route path="/button" component={ButtonDemo}/>
-                    <Route path="/dialog" component={DialogDemo}/>
-                    <Route path="/layout" component={LayoutExample}/>
-                    <Route path="/form" component={FormDemo}/>
-                    <Route path="/input" component={InputDemo}/>
-                    <Route path="/upload" component={FileInputDemo}/>
-                    <Route path="/scrollbar" component={ScrollBarDemo}/>
-                    <Route path="/grid" component={GridDemo}/>
-                    <Route path="/toast" component={ToastDemo}/>
-                    <Route path="/tabs" component={TabsDemo}/>
-                    <Route path="/popover" component={PopoverDemo}/>
-                    <Route path="/cascader" component={CascaderDemo}/>
-                    <Route path="/slides" component={SlidesDemo}/>
+                    {
+                        subTab === "组件" ?
+                            <>
+                                <Route path="/icon" component={IconDemo}/>
+                                <Route path="/button" component={ButtonDemo}/>
+                                <Route path="/dialog" component={DialogDemo}/>
+                                <Route path="/layout" component={LayoutExample}/>
+                                <Route path="/form" component={FormDemo}/>
+                                <Route path="/input" component={InputDemo}/>
+                                <Route path="/upload" component={FileInputDemo}/>
+                                <Route path="/scrollbar" component={ScrollBarDemo}/>
+                                <Route path="/grid" component={GridDemo}/>
+                                <Route path="/toast" component={ToastDemo}/>
+                                <Route path="/tabs" component={TabsDemo}/>
+                                <Route path="/popover" component={PopoverDemo}/>
+                                <Route path="/cascader" component={CascaderDemo}/>
+                                <Route path="/slides" component={SlidesDemo}/>
+                            </> :
+                            <>
+                                <Route path="/useState" component={UseState}/>
+                                <Route path="/useReducer" component={UseReducer}/>
+
+                            </>
+                    }
                 </Content>
             </Layout>
 
