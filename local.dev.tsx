@@ -21,6 +21,8 @@ import SlidesDemo from "./lib/slides/slidesDemo";
 import UseState from "./lib/principle/useState.demo";
 import UseReducer from "./lib/principle/useReducer.demo";
 import UseContext from "./lib/principle/useContext.demo";
+import UseEffectDemo from "./lib/principle/useEffect.demo";
+
 
 // import logo from './imgs/logo.png'
 // import Title from './imgs/title.jpg'
@@ -53,7 +55,7 @@ const names: componentNames = {
     slides: "无缝轮播"
 };
 const names1: string[] = [
-    "useState", "useReducer", "useContext",
+    "useState", "useReducer", "useContext", "useEffect",
 ];
 const dictionary = {
     "入门": names1,
@@ -137,6 +139,7 @@ const RouterView: React.FunctionComponent = () => {
                                 <Route path="/useState" component={UseState}/>
                                 <Route path="/useReducer" component={UseReducer}/>
                                 <Route path="/useContext" component={UseContext}/>
+                                <Route path="/useEffect" component={UseEffectDemo}/>
 
                             </>
                     }
