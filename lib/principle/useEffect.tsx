@@ -73,6 +73,9 @@ const UseEffect = () => {
             <h4>
                 加[x],x变，字体就会变大就会执行！
             </h4>
+            <p>
+                这种情况，didMount的时候，也会执行！比较麻烦的是跟didUpdate的时候合在了一起！需要引入新的变量来判断！
+            </p>
             <p style={{fontSize: y + "px"}}>
                 x变！涉及到两次更新，第一次是x,第二次是字体变大！
                 <button onClick={() => {
