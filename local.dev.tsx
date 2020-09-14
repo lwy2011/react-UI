@@ -24,6 +24,7 @@ import UseContext from "./lib/principle/useContext.demo";
 import UseEffectDemo from "./lib/principle/useEffect.demo";
 import UseMemoDemo from "./lib/principle/useMemo.demo";
 import UseRefDemo from "./lib/principle/useRef.demo";
+import ForwardRefDemo from "./lib/principle/forwardRef.demo";
 
 
 // import logo from './imgs/logo.png'
@@ -57,7 +58,8 @@ const names: componentNames = {
     slides: "无缝轮播"
 };
 const names1: string[] = [
-    "useState", "useReducer", "useContext", "useEffect", "useMemo", "useRef"
+    "useState", "useReducer", "useContext", "useEffect", "useMemo", "useRef",
+    "forwardRef"
 ];
 const dictionary = {
     "入门": names1,
@@ -144,6 +146,8 @@ const RouterView: React.FunctionComponent = () => {
                                 <Route path="/useEffect" component={UseEffectDemo}/>
                                 <Route path="/useMemo" component={UseMemoDemo}/>
                                 <Route path="/useRef" component={UseRefDemo}/>
+                                <Route path="/forwardRef" component={ForwardRefDemo}/>
+
                             </>
                     }
                 </Content>

@@ -25,6 +25,11 @@ const UseRef = () => {
     };
     useEffect(
         () => {
+            clearTimeout(ref.current);
+        }, []
+    );
+    useEffect(
+        () => {
             setTimer();   //初始化的时候的！
         }, [n]
     );
@@ -42,6 +47,7 @@ const UseRef = () => {
     );
     const ref2 = useRef(1);
     const [, setX] = useState();
+
     return (
         <div className={"yr-useState"}>
             <h4>
