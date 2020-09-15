@@ -84,15 +84,21 @@ const UseEffect = () => {
                 </button>
             </p>
             <h4>
+                函数参数的返回值，在声明周期更新或者结束前，会处理掉某些副作用！
+            </h4>
+            <p>
+                详情可以看看stale clotrue里的useEffect,return消除了计时器！
+                不仅仅是在willUnmount的时候。[xxx]这种监听器，return 一个消除副作用，
+                可以实现，更新xxx时
+                消除，在组件卸载时，也执行！
+            </p>
+            <h4>
                 useLayoutEffect 布局副作用
             </h4>
             <p>
                 它是在挂在之前即将渲染组件的DOM的时刻预留的操作api!很鸡肋！也有第二个参数，类同于useEffect。
                 记住，就是比useEffect更早执行就行了，那时候组件还即将渲染到页面上！
             </p>
-            <div style={{margin: "1em auto"}}>
-
-            </div>
         </div>
     );
 };

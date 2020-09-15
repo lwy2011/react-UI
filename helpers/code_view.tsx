@@ -19,7 +19,7 @@ const CodeView: React.FunctionComponent<Props> = props => {
 
     // console.log(codeVal, startStr[0], startStr.index, code.match(/<\/div>/),);
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     return (
         <React.Fragment>
             {props.children}
