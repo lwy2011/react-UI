@@ -25,6 +25,7 @@ import UseEffectDemo from "./lib/principle/useEffect.demo";
 import UseMemoDemo from "./lib/principle/useMemo.demo";
 import UseRefDemo from "./lib/principle/useRef.demo";
 import ForwardRefDemo from "./lib/principle/forwardRef.demo";
+import MyHookDemo from "./lib/principle/myHook.demo";
 
 
 // import logo from './imgs/logo.png'
@@ -59,7 +60,7 @@ const names: componentNames = {
 };
 const names1: string[] = [
     "useState", "useReducer", "useContext", "useEffect", "useMemo", "useRef",
-    "forwardRef"
+    "forwardRef", "myHooks"
 ];
 const dictionary = {
     "入门": names1,
@@ -147,6 +148,7 @@ const RouterView: React.FunctionComponent = () => {
                                 <Route path="/useMemo" component={UseMemoDemo}/>
                                 <Route path="/useRef" component={UseRefDemo}/>
                                 <Route path="/forwardRef" component={ForwardRefDemo}/>
+                                <Route path="/myHooks" component={MyHookDemo}/>
 
                             </>
                     }
