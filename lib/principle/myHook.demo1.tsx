@@ -34,7 +34,6 @@ const useM = () => {
         const copy = {...state};
         for (let key in action) {
             let val = action[key];
-            console.log(key);
             if (obj[key]) {
                 obj[key](val);
             } else {
