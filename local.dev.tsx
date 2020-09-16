@@ -27,6 +27,7 @@ import UseRefDemo from "./lib/principle/useRef.demo";
 import ForwardRefDemo from "./lib/principle/forwardRef.demo";
 import MyHookDemo from "./lib/principle/myHook.demo";
 import StaleClosureDemo from "./lib/principle/stale-closure.demo";
+import NavDemo from "./lib/nav/nav.demo";
 
 
 // import logo from './imgs/logo.png'
@@ -57,7 +58,8 @@ const names: componentNames = {
     upload: "上传",
     scrollbar: "滚动条",
     cascader: "层级选择",
-    slides: "无缝轮播"
+    slides: "无缝轮播",
+    nav: "导航条"
 };
 const names1: string[] = [
     "useState", "useReducer", "useContext", "useEffect", "useMemo", "useRef",
@@ -140,6 +142,7 @@ const RouterView: React.FunctionComponent = () => {
                                 <Route path="/popover" component={PopoverDemo}/>
                                 <Route path="/cascader" component={CascaderDemo}/>
                                 <Route path="/slides" component={SlidesDemo}/>
+                                <Route path='/nav' component={NavDemo}/>
                             </> :
                             <>
                                 <Route path="/useState" component={UseState}/>

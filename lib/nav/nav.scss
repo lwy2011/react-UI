@@ -1,0 +1,55 @@
+@import '../_helper.scss';
+
+.yr-nav {
+  border: 1px solid $disabledBorder;
+  display: inline-flex;
+  padding: 1em;
+  @mixin style1 {
+    cursor: pointer;
+    &:hover {
+      background: $mainColor;
+    }
+    &.active {
+      color: $blue;
+    }
+    padding: .5em 1em;
+  }
+
+  &-sub {
+    position: relative;
+
+    .yr-nav-sub-text {
+      @include style1;
+    }
+
+    &-popover {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+
+      .yr-nav-sub-text {
+        color: $disabledColor;
+        font-size: 14px;
+      }
+
+      position: absolute;
+      top: 100%;
+      min-width: 6em;
+      background: #fff;
+      box-shadow: 0 2px 2px 1px $disabledColor;
+
+      .yr-nav-sub-popover {
+        left: 100%;
+      }
+    }
+  }
+
+  &-item {
+    &-name {
+      @include style1;
+      padding: .5em 1em;
+    }
+  }
+}
