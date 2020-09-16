@@ -1,5 +1,6 @@
 @import '../_helper.scss';
 
+
 .yr-nav {
   border-bottom: 1px solid $disabledBorder;
   display: inline-flex;
@@ -27,6 +28,7 @@
 
       &.active {
         display: block;
+        opacity: 0;
       }
 
       .yr-nav-sub-text {
@@ -35,13 +37,14 @@
       }
 
       position: absolute;
-      top: 100%;
+      top: calc(100% + 1px);
       min-width: 6em;
       background: #fff;
-      box-shadow: 0 2px 2px 1px $disabledColor;
+      box-shadow: 0 2px 5px 2px $disabledColor;
 
       .yr-nav-sub-popover {
         left: 100%;
+        top: 0;
       }
     }
   }
