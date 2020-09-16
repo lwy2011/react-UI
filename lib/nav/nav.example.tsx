@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "./nav";
-
+import Icon from "../icon/icon";
+import "./example.scss";
 
 const Nav1 = () => {
     const data = [
@@ -19,7 +20,13 @@ const Nav1 = () => {
                 {
                     name: "沧州市"
                 }
-            ]
+            ],
+            slotFn: () => {
+                return <div className={"yr-nav-sub-name-slot"}>
+                    <Icon name={"down"}/>
+                    河北省
+                </div>;
+            }
         },
         {
             name: "山西省",

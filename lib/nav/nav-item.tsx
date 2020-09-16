@@ -5,16 +5,14 @@ import classes, {scopeClassName} from "../../helpers/classes";
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item,
     level: number,
-    slotFn?: (text: string) => React.FunctionComponent
 }
 
 const sc = scopeClassName("yr-nav-item");
 const NavItem = ({
-                     slotFn,
                      className, level,
                      data, ...rest
                  }: Props) => {
-    const {name} = data;
+    const {name, slotFn} = data;
     const {store, setStore} = useContext(Context);
     const set = () => {
         const arr = store.slice(0, level);
@@ -28,12 +26,12 @@ const NavItem = ({
         store[level] === name ? "active" : "";
 
     return <div {...rest} className={classes(className, sc())}>
-        <p onClick={set} className={classes(sc("name"), active())}>
+        <div onClick={set} className={classes(sc("name"), active())}>
             {
-                slotFn ? slotFn(name) :
+                slotFn ? slotFn() :
                     name
             }
-        </p>
+        </div>
     </div>;
 };
 

@@ -1,7 +1,7 @@
 @import '../_helper.scss';
 
 .yr-nav {
-  border: 1px solid $disabledBorder;
+  border-bottom: 1px solid $disabledBorder;
   display: inline-flex;
   padding: 1em;
   @mixin style1 {

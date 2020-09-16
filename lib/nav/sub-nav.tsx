@@ -6,15 +6,14 @@ import NavItem from "./nav-item";
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item,
     level: number,
-    slotFn?: (text: string) => React.FunctionComponent
 }
 
 const sc = scopeClassName("yr-nav-sub");
 const SubNav = ({
                     className, level, children,
-                    slotFn, data, ...rest
+                    data, ...rest
                 }: Props) => {
-    const {sub, name} = data;
+    const {sub, name, slotFn} = data;
     const {store, setStore} = useContext(Context);
     const set = () => {
         const arr = store.slice(0, level);
@@ -26,12 +25,12 @@ const SubNav = ({
     return <div {...rest}
                 className={classes(className, sc())}
     >
-        <p className={classes(sc("text"), active())} onClick={set}>
+        <div className={classes(sc("text"), active())} onClick={set}>
             {
-                slotFn ? slotFn(name) :
+                slotFn ? slotFn() :
                     name
             }
-        </p>
+        </div>
         {
             sub && <div className={classes(sc("popover"), active())}>
                 {

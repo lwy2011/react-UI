@@ -1,4 +1,4 @@
-import React, {HTMLAttributes, useState} from "react";
+import React, {HTMLAttributes, ReactNode, useState} from "react";
 import classes from "../../helpers/classes";
 import "./nav.scss";
 import SubNav from "./sub-nav";
@@ -6,7 +6,7 @@ import SubNav from "./sub-nav";
 export interface Item {
     name: string,
     sub?: Item[],
-
+    slotFn?: () => ReactNode
     [propName: string]: any
 }
 
