@@ -1,6 +1,7 @@
 @import '../_helper.scss';
 
 
+
 .yr-nav {
   border-bottom: 1px solid $disabledBorder;
   display: inline-flex;
@@ -12,6 +13,7 @@
     }
     &.active {
       color: $blue;
+
     }
     padding: .5em 1em;
   }
@@ -24,9 +26,20 @@
     }
 
     &-popover {
-      display: none;
-      &.active {
-        display: block;
+
+      &-content {
+        min-width: 6em;
+        background: #fff;
+        box-shadow: 0 2px 5px 2px $disabledColor;
+
+        &.fade-in1 {
+          opacity: 0;
+        }
+
+        &.fade-in2 {
+          opacity: 1;
+          height: 0;
+        }
       }
 
       .yr-nav-sub-text {
@@ -36,9 +49,6 @@
 
       position: absolute;
       top: calc(100% + 1px);
-      min-width: 6em;
-      background: #fff;
-      box-shadow: 0 2px 5px 2px $disabledColor;
 
       .yr-nav-sub-popover {
         left: 100%;
