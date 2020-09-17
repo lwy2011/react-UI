@@ -13,14 +13,12 @@ const NavItem = ({
                      data, ...rest
                  }: Props) => {
     const {name, slotFn} = data;
-    const {store, setStore} = useContext(Context);
+    const {store, setStore, setVisible} = useContext(Context);
     const set = () => {
         const arr = store.slice(0, level);
-        console.log(arr, name);
         arr.push(name);
-        console.log(arr, name);
-
         setStore(arr);
+        setVisible(false);
     };
     const active = () =>
         store[level] === name ? "active" : "";

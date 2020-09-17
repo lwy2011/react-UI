@@ -13,7 +13,8 @@ const sc = scopeClassName("yr-nav-sub");
 interface Props1 {
     sub: Item[],
     level: number,
-    visible?: string
+    visible?: boolean,
+    active?: string
 }
 
 const Content = (
@@ -31,7 +32,7 @@ const Content = (
 
 const Content1 = React.forwardRef(Content);
 
-const Popover = ({sub, level, visible}: Props1) => {
+const Popover = ({visible, sub, level, active}: Props1) => {
     const ref = useRef(document.body as HTMLDivElement);
     const fadeIn = (dom: HTMLDivElement, height: number) => {
         dom.classList.add("fade-in2");
@@ -50,7 +51,6 @@ const Popover = ({sub, level, visible}: Props1) => {
                 {height: 0, overflow: "hidden"}
             ], 200
         );
-        console.log("out", dom, height, visible);
     };
     useEffect(
         () => {
@@ -65,12 +65,12 @@ const Popover = ({sub, level, visible}: Props1) => {
     );
     useEffect(
         () => {
-            if (!visible) {
+            if (!active || !visible) {
                 const dom = ref.current;
                 const {height} = dom.getBoundingClientRect();
                 fadeOut(dom, height);
             }
-        }, [visible]
+        }, [active, visible]
     );
     return <div className={classes(sc("popover"))}>
         <Content1 level={level} sub={sub} ref={ref}/>
@@ -82,19 +82,20 @@ const SubNav = ({
                     data, ...rest
                 }: Props) => {
     const {sub, name, slotFn} = data;
-    const {store, setStore} = useContext(Context);
-    const [destroy, setDestroy] = useState(true);
+    const {store, setStore, visible, setVisible} = useContext(Context);
+    const [destroy, setDestroy] = useState(true); //延迟销毁，为了销毁动画！
+    const active =
+        store[level] === name ? "active" : "";
     const set = () => {
+        if (level === 0 && store[0] === name) return setVisible(true);
         const arr = store.slice(0, level);
         arr.push(name);
+        setVisible(true);
         setStore(arr);
     };
-    const visible =
-        store[level] === name ? "active" : "";
-
     useEffect(
         () => {
-            if (visible) {
+            if (active) {
                 setDestroy(false);
             } else {
                 setTimeout(
@@ -103,13 +104,24 @@ const SubNav = ({
                     }, 200
                 );
             }
+        }, [active]
+    );
+    useEffect(
+        () => {
+            setTimeout(
+                () => {
+                    setDestroy(
+                        visible ? !active : true  //解决初始化，所有的都弹出来的问题
+                    );
+                }, 200
+            );
         }, [visible]
     );
 
     return <div {...rest}
                 className={classes(className, sc())}
     >
-        <div className={classes(sc("text"), visible)} onClick={set}>
+        <div className={classes(sc("text"), active)} onClick={set}>
             {
                 slotFn ? slotFn() :
                     name
@@ -117,7 +129,7 @@ const SubNav = ({
         </div>
         {
             sub && !destroy &&
-            <Popover level={level} sub={sub} visible={visible}/>
+            <Popover level={level} sub={sub} active={active} visible={visible}/>
         }
     </div>;
 };
