@@ -25,10 +25,8 @@
 
     &-popover {
       display: none;
-
       &.active {
         display: block;
-        opacity: 0;
       }
 
       .yr-nav-sub-text {

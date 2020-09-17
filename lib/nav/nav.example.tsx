@@ -106,6 +106,13 @@ const Nav1 = () => {
     return <div style={{marginBottom: "20em"}}>
         <Nav data={data}>
         </Nav>
+        <p>
+            动画用了animate()，
+            查资料因为有
+            <a href="https://github.com/web-animations/web-animations-js" target={"_blank"}>
+                polyfill。
+            </a>
+        </p>
     </div>;
 };
 

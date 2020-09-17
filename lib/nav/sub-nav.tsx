@@ -43,11 +43,37 @@ const SubNav = ({
     };
     const active = () =>
         store[level] === name ? "active" : "";
+    const fadeIn = (dom: HTMLDivElement, height: number) => {
+        dom.animate(
+            [
+                {height: 0, overflow: "hidden"},
+                {height: height + "px", overflow: "hidden"}
+            ], {
+                duration: 300
+            }
+        );
+        dom.style.display = "block";  //为了后面的fadeout动画！
+    };
+    const fadeOut = (dom: HTMLDivElement, height: number) => {
+        dom.animate(
+            [
+                {opacity: 1, height: height + "px", overflow: "hidden"},
+                {opacity: 0, height: 0, overflow: "hidden"}
+            ], {
+                duration: 500
+            }
+        );
+        dom.style.display = "none";
+    };
     useEffect(
         () => {
-            if (!active()) return;
+
+        }, []
+    );
+    useEffect(
+        () => {
             const {height} = ref.current.getBoundingClientRect();
-            console.log(height);
+            active() ? fadeIn(ref.current, height) : fadeOut(ref.current, height);
         }, [active()]
     );
     return <div {...rest}
