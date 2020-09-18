@@ -26,7 +26,7 @@ const NavItem = ({
     return <div {...rest} className={classes(className, sc())}>
         <div onClick={set} className={classes(sc("name"), active())}>
             {
-                slotFn ? slotFn() :
+                slotFn ? slotFn(false) :
                     name
             }
         </div>

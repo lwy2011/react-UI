@@ -1,10 +1,12 @@
 import React, {useState} from "react";
-import Nav from "./nav";
+import Nav, {Item} from "./nav";
 import Icon from "../icon/icon";
-import "./example.scss";
+import "./nav.example.scss";
+
 
 const Nav1 = () => {
-    const data = [
+    const [data1, update] = useState(["d"]);
+    const data: Item[] = [
         {
             name: "天津市",
         },
@@ -30,9 +32,11 @@ const Nav1 = () => {
                     name: "沧州市3"
                 }
             ],
-            slotFn: () => {
+            slotFn: (visible) => {
+                //传递出来了popover的visible的值，用于对icon加动画的！
                 return <div className={"yr-nav-sub-name-slot"}>
-                    <Icon name={"down"}/>
+                    <Icon name={"down"}
+                          className={"yr-nav-sub-text-icon " + (visible ? "active" : "")}/>
                     河北省
                 </div>;
             }
@@ -112,7 +116,6 @@ const Nav1 = () => {
         },
         {name: "北京市"}
     ];
-    const [data1, update] = useState(["d"]);
     const updated = (data: string[]) => {
         update(data);
     };
@@ -167,6 +170,10 @@ const Nav1 = () => {
         </p>
         <p>
             hooks的痛点也有很多，从动画这里就显示了，太简陋了，而且如果预留一个组件destroy的控制api会更好。
+        </p>
+        <p>
+            对于nav，我原本考虑用css进行显示和隐藏，性能更好的。但是涉及到动画了，我更其倾向于
+            关联到组件的生命周期，这样更有意义的。如果只是display设置，那就简单了！
         </p>
     </div>;
 };

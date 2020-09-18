@@ -123,7 +123,7 @@ const SubNav = ({
     >
         <div className={classes(sc("text"), active)} onClick={set}>
             {
-                slotFn ? slotFn() :
+                slotFn ? slotFn(visible && Boolean(active)) :
                     name
             }
         </div>
