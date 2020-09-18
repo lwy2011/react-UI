@@ -7,12 +7,12 @@ export interface Item {
     name: string,
     sub?: Item[],
     slotFn?: () => ReactNode
-
     [propName: string]: any
 }
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-    data: Item[]
+    data: Item[],
+    updated?: (arr: string[]) => void
 }
 
 export const Context = React.createContext(
@@ -34,7 +34,7 @@ const Lists = ({data, className, ...rest}: Props,
     </div>;
 const NavBars = React.forwardRef(Lists);
 const Nav = ({
-                 className,
+                 className, updated,
                  data, ...rest
              }: Props) => {
     const [store, setStore] = useState<string[]>([]);
@@ -61,9 +61,9 @@ const Nav = ({
     );
     useEffect(
         () => {
-            console.log(store, visible);
-        }
-    );
+            updated && updated(store);
+        }, [store]
+    )
     return <Context.Provider value={{
         store,
         setStore: (val) => {
