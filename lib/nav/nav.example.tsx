@@ -35,9 +35,9 @@ const Nav1 = () => {
             slotFn: (visible) => {
                 //传递出来了popover的visible的值，用于对icon加动画的！预留给开发者自己定制！
                 return <div className={"yr-nav-sub-name-slot"}>
+                    河北省
                     <Icon name={"down"}
                           className={"yr-nav-sub-text-icon " + (visible ? "active" : "")}/>
-                    河北省
                 </div>;
             }
         },
