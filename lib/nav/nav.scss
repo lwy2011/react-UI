@@ -9,7 +9,7 @@
   @mixin style1 {
     cursor: pointer;
     &:hover {
-      background: $mainColor;
+      color: $mainColor;
     }
     &.active {
       color: $blue;
@@ -57,9 +57,48 @@
   }
 
   &-item {
+    &:hover {
+      background: #E6F6FF;
+    }
+
     &-name {
       @include style1;
       padding: .5em 1em;
+
+      &.active {
+        background: #E6F6FF;
+      }
+    }
+  }
+
+  &.horizontal {
+    flex-direction: column;
+    border-right: 1px solid $disabledColor;
+    border-bottom: none;
+    padding: 0;
+
+    .yr-nav-sub {
+      &-popover {
+        position: inherit;
+        left: 0;
+
+        &-content {
+          background: none;
+          box-shadow: none;
+        }
+
+        .yr-nav-sub-text {
+          text-indent: 1em;
+        }
+      }
+    }
+
+    .yr-nav-item-name {
+      text-indent: 1em;
+
+      &.active {
+        border-right: 1px solid $blue;
+      }
     }
   }
 }

@@ -12,7 +12,8 @@ export interface Item {
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item[],
-    updated?: (arr: string[]) => void
+    updated?: (arr: string[]) => void,
+    mode?: "vertical" | "horizontal"
 }
 
 export const Context = React.createContext(
@@ -20,12 +21,16 @@ export const Context = React.createContext(
         store: ["3"], setStore: (val: string[]) => {
         }, visible: true,
         setVisible: (val: boolean) => {
-        }
+        },
+        mode: "vertical"
     }
 );
-const Lists = ({data, className, ...rest}: Props,
+const Lists = ({
+                   data, className, mode,
+                   ...rest
+               }: Props,
                ref: RefObject<HTMLDivElement>) =>
-    <div className={classes(className, "yr-nav")} {...rest} ref={ref}>
+    <div className={classes(className, "yr-nav", mode)} {...rest} ref={ref}>
         {
             data.map(
                 item => <SubNav key={item.name} data={item} level={0}/>
@@ -72,7 +77,8 @@ const Nav = ({
         visible,
         setVisible: val => {
             setVisible(val);
-        }
+        },
+        mode: rest.mode || "vertical"
     }}>
         <NavBars data={data} className={className} ref={ref} {...rest}/>
     </Context.Provider>;

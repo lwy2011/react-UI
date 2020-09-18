@@ -82,7 +82,7 @@ const SubNav = ({
                     data, ...rest
                 }: Props) => {
     const {sub, name, slotFn} = data;
-    const {store, setStore, visible, setVisible} = useContext(Context);
+    const {store, setStore, visible, setVisible, mode} = useContext(Context);
     const [destroy, setDestroy] = useState(true); //延迟销毁，为了销毁动画！
     const active =
         store[level] === name ? "active" : "";
@@ -93,6 +93,8 @@ const SubNav = ({
         setVisible(true);
         setStore(arr);
     };
+    const style = mode === "horizontal" ? {textIndent: level * 8 + "px"} : {};
+
     useEffect(
         () => {
             if (active) {
@@ -121,7 +123,9 @@ const SubNav = ({
     return <div {...rest}
                 className={classes(className, sc())}
     >
-        <div className={classes(sc("text"), active)} onClick={set}>
+        <div className={classes(sc("text"), active)}
+             style={style}
+             onClick={set}>
             {
                 slotFn ? slotFn(visible && Boolean(active)) :
                     name

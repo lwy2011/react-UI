@@ -13,18 +13,19 @@ const NavItem = ({
                      data, ...rest
                  }: Props) => {
     const {name, slotFn} = data;
-    const {store, setStore, setVisible} = useContext(Context);
+    const {store, setStore, setVisible, mode} = useContext(Context);
     const set = () => {
         const arr = store.slice(0, level);
         arr.push(name);
         setStore(arr);
-        setVisible(false);
+        mode === "vertical" && setVisible(false);
     };
     const active = () =>
         store[level] === name ? "active" : "";
-
+    const style = mode === "horizontal" ? {textIndent: level * 8 + "px"} : {};
     return <div {...rest} className={classes(className, sc())}>
-        <div onClick={set} className={classes(sc("name"), active())}>
+        <div onClick={set} style={style}
+             className={classes(sc("name"), active())}>
             {
                 slotFn ? slotFn(false) :
                     name
