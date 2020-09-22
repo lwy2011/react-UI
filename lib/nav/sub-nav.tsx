@@ -14,9 +14,9 @@ const sc = scopeClassName("yr-nav-sub");
 interface Props1 {
     sub: Item[],
     level: number,
+    last: string,
     visible?: boolean,
     active?: string,
-    last: string
 }
 
 const Content = (
@@ -89,7 +89,7 @@ const SubNav = ({
                     last, className, level, children,
                     data, ...rest
                 }: Props) => {
-    const {sub, name, slotFn} = data;
+    const {sub, name, slotFn, disabled} = data;
     const {store, setStore, visible, setVisible, mode, multiple, store1} = useContext(Context);
     const [destroy, setDestroy] = useState(true); //延迟销毁，为了销毁动画！
     const [show, setShow] = useState(false);
@@ -111,6 +111,7 @@ const SubNav = ({
         copy[level] = obj;
     };
     const set = () => {
+        if (disabled) return;
         setVisible(true);
         setShow(!show);
         if (multiple) {
@@ -158,7 +159,7 @@ const SubNav = ({
     return <div {...rest}
                 className={classes(className, sc())}
     >
-        <div className={classes(sc("text"), active)}
+        <div className={classes(sc("text"), active, disabled ? "disabled" : "")}
              style={style}
              onClick={set}>
             {

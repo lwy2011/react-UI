@@ -20,8 +20,13 @@
   &-sub {
     position: relative;
 
-    .yr-nav-sub-text {
+    &-text {
       @include style1;
+
+      &.disabled {
+        color: $disabledColor;
+        cursor: not-allowed;
+      }
     }
 
     &-popover {
@@ -42,8 +47,14 @@
       }
 
       .yr-nav-sub-text {
-        color: $disabledColor;
+        @include style1;
+        color: $popoverBorder;
         font-size: 14px;
+
+        &.disabled {
+          color: $disabledColor;
+          cursor: not-allowed;
+        }
       }
 
       position: absolute;
@@ -57,16 +68,27 @@
   }
 
   &-item {
-    &:hover {
-      background: #E6F6FF;
-    }
+
 
     &-name {
       @include style1;
       padding: .5em 1em;
 
+      &:hover {
+        background: #E6F6FF;
+      }
+
       &.active {
         background: #E6F6FF;
+      }
+
+      &.disabled {
+        color: lighten($disabledColor, 10%);
+        cursor: not-allowed;
+
+        &:hover {
+          background: none;
+        }
       }
     }
   }

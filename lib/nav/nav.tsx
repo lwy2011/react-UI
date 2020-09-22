@@ -6,7 +6,9 @@ import SubNav from "./sub-nav";
 export interface Item {
     name: string,
     sub?: Item[],
-    slotFn?: (visible: boolean) => ReactNode
+    slotFn?: (visible: boolean) => ReactNode,
+    disabled?: boolean,
+
     [propName: string]: any
 }
 

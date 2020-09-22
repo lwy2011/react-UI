@@ -13,7 +13,7 @@ const NavItem = ({
                      className, level, last,
                      data, ...rest
                  }: Props) => {
-    const {name, slotFn} = data;
+    const {name, slotFn, disabled} = data;
     const {store, setStore, setVisible, mode, multiple} = useContext(Context);
     const singleSet = () => {
         const arr = store.slice(0, level);
@@ -22,6 +22,7 @@ const NavItem = ({
         mode === "vertical" && setVisible(false);
     };
     const set = () => {
+        if (disabled) return;
         if (multiple) {
 
         } else {
@@ -33,7 +34,7 @@ const NavItem = ({
     const style = mode === "horizontal" ? {textIndent: level * 8 + "px"} : {};
     return <div {...rest} className={classes(className, sc())}>
         <div onClick={set} style={style}
-             className={classes(sc("name"), active())}>
+             className={classes(sc("name"), active(), disabled ? "disabled" : "")}>
             {
                 slotFn ? slotFn(false) :
                     name

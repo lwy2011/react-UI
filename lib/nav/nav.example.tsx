@@ -8,7 +8,7 @@ const Nav1 = () => {
     const [data1, update] = useState(["d"]);
     const data: Item[] = [
         {
-            name: "天津市",
+            name: "天津市", disabled: true
         },
         {
             name: "河北省",
@@ -48,7 +48,7 @@ const Nav1 = () => {
                     name: "太原市",
                     sub: [
                         {
-                            name: "t1"
+                            name: "t1", disabled: true
                         },
                         {
                             name: "t2"
@@ -87,7 +87,8 @@ const Nav1 = () => {
                                 {
                                     name: "c23"
                                 }
-                            ]
+                            ],
+                            disabled: true
                         },
                         {
                             name: "d3"
