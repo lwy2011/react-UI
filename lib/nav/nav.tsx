@@ -16,7 +16,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     mode?: "vertical" | "horizontal",
     multiple?: boolean
 }
-
+type Store1 = Array<{ [k: string]: string }>
 export const Context = React.createContext(
     {
         store: ["3"],
@@ -26,7 +26,8 @@ export const Context = React.createContext(
         setVisible: (val: boolean) => {
         },
         mode: "vertical",
-        multiple: false
+        multiple: false,
+        store1: [] as Store1
     }
 );
 const Lists = ({
@@ -84,7 +85,8 @@ const Nav = ({
             setVisible(val);
         },
         mode: rest.mode || "vertical",
-        multiple: Boolean(multiple)
+        multiple: Boolean(multiple),
+        store1: []
     }}>
         <NavBars data={data} className={className} ref={ref} {...rest}/>
     </Context.Provider>;

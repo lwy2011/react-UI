@@ -6,6 +6,7 @@ import NavItem from "./nav-item";
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item,
     level: number,
+    last?: string
 }
 
 const sc = scopeClassName("yr-nav-sub");
@@ -14,25 +15,32 @@ interface Props1 {
     sub: Item[],
     level: number,
     visible?: boolean,
-    active?: string
+    active?: string,
+    last: string
 }
 
 const Content = (
-    {sub, level}: Props1,
+    {sub, level, last}: Props1,
     ref: RefObject<HTMLDivElement>) =>
     <div className={sc("popover-content", "fade-in1")} ref={ref}>
         {
             sub.map(
                 item => item.sub ?
-                    <SubNav data={item} key={item.name} level={level + 1}/> :
-                    <NavItem key={item.name} data={item} level={level + 1}/>
+                    <SubNav data={item} key={item.name} level={level + 1} last={last}/> :
+                    <NavItem key={item.name} data={item} level={level + 1} last={last}/>
             )
         }
     </div>;
 
 const Content1 = React.forwardRef(Content);
 
-const Popover = ({visible, sub, level, active}: Props1) => {
+const Popover = ({
+                     last,
+                     visible,
+                     sub,
+                     level,
+                     active
+                 }: Props1) => {
     const ref = useRef(document.body as HTMLDivElement);
     const fadeIn = (dom: HTMLDivElement, height: number) => {
         dom.classList.add("fade-in2");
@@ -73,28 +81,42 @@ const Popover = ({visible, sub, level, active}: Props1) => {
         }, [active, visible]
     );
     return <div className={classes(sc("popover"))}>
-        <Content1 level={level} sub={sub} ref={ref}/>
+        <Content1 level={level} sub={sub} ref={ref} last={last}/>
     </div>;
 };
 
 const SubNav = ({
-                    className, level, children,
+                    last, className, level, children,
                     data, ...rest
                 }: Props) => {
     const {sub, name, slotFn} = data;
-    const {store, setStore, visible, setVisible, mode} = useContext(Context);
+    const {store, setStore, visible, setVisible, mode, multiple, store1} = useContext(Context);
     const [destroy, setDestroy] = useState(true); //延迟销毁，为了销毁动画！
     const [show, setShow] = useState(false);
-    // const [start,setStart] =useState(true)
     const active =
         store[level] === name ? "active" : "";
-    const set = () => {
-        setVisible(true);
-        setShow(!show);
+    const singleSet = () => {
         if (store[level] !== name) {
             const arr = store.slice(0, level);
             arr.push(name);
             setStore(arr);
+        }
+    };
+    const multipleSet = () => {
+        const copy = [...store1];
+        const obj = copy[level] || {};    //{[name]:last}形式
+        if (!obj[name]) {
+            obj[name] = last || "";
+        }
+        copy[level] = obj;
+    };
+    const set = () => {
+        setVisible(true);
+        setShow(!show);
+        if (multiple) {
+            multipleSet();
+        } else {
+            singleSet();
         }
     };
     const style = mode === "horizontal" ? {textIndent: level * 8 + "px"} : {};
@@ -146,7 +168,11 @@ const SubNav = ({
         </div>
         {
             sub && !destroy &&
-            <Popover level={level} sub={sub} active={active} visible={show}/>
+            <Popover level={level}
+                     sub={sub}
+                     active={active}
+                     last={name}
+                     visible={show}/>
         }
     </div>;
 };

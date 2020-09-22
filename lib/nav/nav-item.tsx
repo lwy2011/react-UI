@@ -5,20 +5,28 @@ import classes, {scopeClassName} from "../../helpers/classes";
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item,
     level: number,
+    last: string
 }
 
 const sc = scopeClassName("yr-nav-item");
 const NavItem = ({
-                     className, level,
+                     className, level, last,
                      data, ...rest
                  }: Props) => {
     const {name, slotFn} = data;
-    const {store, setStore, setVisible, mode} = useContext(Context);
-    const set = () => {
+    const {store, setStore, setVisible, mode, multiple} = useContext(Context);
+    const singleSet = () => {
         const arr = store.slice(0, level);
         arr.push(name);
         setStore(arr);
         mode === "vertical" && setVisible(false);
+    };
+    const set = () => {
+        if (multiple) {
+
+        } else {
+            singleSet();
+        }
     };
     const active = () =>
         store[level] === name ? "active" : "";
