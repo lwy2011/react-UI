@@ -13,16 +13,20 @@ export interface Item {
 interface Props extends HTMLAttributes<HTMLDivElement> {
     data: Item[],
     updated?: (arr: string[]) => void,
-    mode?: "vertical" | "horizontal"
+    mode?: "vertical" | "horizontal",
+    multiple?: boolean
 }
 
 export const Context = React.createContext(
     {
-        store: ["3"], setStore: (val: string[]) => {
-        }, visible: true,
+        store: ["3"],
+        setStore: (val: string[]) => {
+        },
+        visible: true,
         setVisible: (val: boolean) => {
         },
-        mode: "vertical"
+        mode: "vertical",
+        multiple: false
     }
 );
 const Lists = ({
@@ -39,7 +43,8 @@ const Lists = ({
     </div>;
 const NavBars = React.forwardRef(Lists);
 const Nav = ({
-                 className, updated,
+                 multiple, className,
+                 updated,
                  data, ...rest
              }: Props) => {
     const [store, setStore] = useState<string[]>([]);
@@ -78,7 +83,8 @@ const Nav = ({
         setVisible: val => {
             setVisible(val);
         },
-        mode: rest.mode || "vertical"
+        mode: rest.mode || "vertical",
+        multiple: Boolean(multiple)
     }}>
         <NavBars data={data} className={className} ref={ref} {...rest}/>
     </Context.Provider>;

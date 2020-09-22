@@ -121,7 +121,7 @@ const Nav1 = () => {
     };
     return <div style={{marginBottom: "20em"}}>
         <p>
-            垂直nav。
+            垂直nav。是否垂直，api为mode，默认为垂直vertical，vertical | horizontal，两个可选值。
         </p>
         <p>
             selected : {JSON.stringify(data1)}

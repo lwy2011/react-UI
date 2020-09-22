@@ -84,41 +84,56 @@ const SubNav = ({
     const {sub, name, slotFn} = data;
     const {store, setStore, visible, setVisible, mode} = useContext(Context);
     const [destroy, setDestroy] = useState(true); //延迟销毁，为了销毁动画！
+    const [show, setShow] = useState(false);
+    // const [start,setStart] =useState(true)
     const active =
         store[level] === name ? "active" : "";
     const set = () => {
-        if (level === 0 && store[0] === name) return setVisible(true);
-        const arr = store.slice(0, level);
-        arr.push(name);
         setVisible(true);
-        setStore(arr);
+        setShow(!show);
+        if (store[level] !== name) {
+            const arr = store.slice(0, level);
+            arr.push(name);
+            setStore(arr);
+        }
     };
     const style = mode === "horizontal" ? {textIndent: level * 8 + "px"} : {};
 
     useEffect(
         () => {
-            if (active) {
-                setDestroy(false);
-            } else {
-                setTimeout(
-                    () => {
-                        setDestroy(true);
-                    }, 200
-                );
+            if (!active) {
+                setShow(false);
             }
         }, [active]
     );
     useEffect(
         () => {
-            setTimeout(
-                () => {
-                    setDestroy(
-                        visible ? !active : true  //解决初始化，所有的都弹出来的问题
-                    );
-                }, 200
-            );
+            if (show) {
+                setDestroy(false);
+            } else {
+                !destroy && setTimeout(   //这里是个坑！
+                    () => {
+                        setDestroy(true);
+                    }, 200
+                );
+            }
+        }, [show]
+    );
+    useEffect(
+        () => {
+            if (!visible && show) {
+                setShow(false);
+            }
         }, [visible]
     );
+    useEffect(
+        () => {
+            if (active) {
+                setShow(true);
+            }
+        }, []
+    );
+    console.log(show, destroy, name);
 
     return <div {...rest}
                 className={classes(className, sc())}
@@ -127,13 +142,13 @@ const SubNav = ({
              style={style}
              onClick={set}>
             {
-                slotFn ? slotFn(visible && Boolean(active)) :
+                slotFn ? slotFn(show) :
                     name
             }
         </div>
         {
             sub && !destroy &&
-            <Popover level={level} sub={sub} active={active} visible={visible}/>
+            <Popover level={level} sub={sub} active={active} visible={show}/>
         }
     </div>;
 };
