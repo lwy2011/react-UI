@@ -133,8 +133,6 @@ const SubNav = ({
             }
         }, []
     );
-    console.log(show, destroy, name);
-
     return <div {...rest}
                 className={classes(className, sc())}
     >

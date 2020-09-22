@@ -133,6 +133,26 @@ const Nav1 = () => {
             排版最难的问题是，每一层的文本都缩进多点少点，原本没想到是文本缩进，想了padding,margin,负margin,
             都觉得不对劲！做到这里的时候，才想起来了，这不支持多选，，，
         </p>
+        <h4>
+            增加点击sub nav可显示隐藏popover的功能踩坑！
+        </h4>
+        <p>
+            修改控制逻辑，新增show来成为唯一控制destroy的state，同时所有的其他逻辑都
+            通过show来间接操作destroy，实现popover。
+        </p>
+        <p>
+            useEffect做某个state的watcher的时候，对于didMount和didUpdate木有区分。
+            真的很不好！其实做监听的，就应该只负责didUpdate的时候！可是它在didMount的时候，也默认执行。
+            给这里的sub nav初始化时由active推出show造成了bug，源于show的监听器里，那段逻辑里有个
+            计时器！！它是异步改变show的，为了给销毁前的动画留时间。结果是，我在didMount的时候，用active
+            判断set show。刚set好，那个计时器又set回了之前的值了，，，
+        </p>
+        <p>
+            不用异步，才是根本！但是木有动画了！不得不给计时器加了条件！
+        </p>
+        <p>
+            多选，，，暂时没想好数据结构！
+        </p>
     </div>;
 };
 
